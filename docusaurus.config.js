@@ -19,9 +19,21 @@ module.exports = {
       items: [
         {
           type: 'doc',
-          docId: 'intro',
+          docId: 'docs/introduction',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Docs',
+        },
+        {
+          type: 'doc',
+          docId: 'api/index',
+          position: 'left',
+          label: 'API',
+        },
+        {
+          type: 'doc',
+          docId: 'cookbook/index',
+          position: 'left',
+          label: 'Cookbook',
         },
         // { to: '/blog', label: 'Blog', position: 'left' },
         {
