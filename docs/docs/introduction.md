@@ -23,7 +23,7 @@ type Shape = BaseShape & (Circle | Rect);
 4. 请求和响应都是明文，破解门槛太低，字符串加密方式有限且强度不够。
 5. 等等...
 
-我们已经无法找到一个能完美解决这些问题的现成框架，于是我们全新设计和创造了 **TSRPC**，从 4 年前开始。
+我们无法找到一个能完美解决这些问题的现成框架，于是我们全新设计和创造了 **TSRPC** 。
 
 ## 特性
 TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体验。
@@ -52,7 +52,7 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
 - 💻 **多终端支持**
   - NodeJS / 浏览器 / App / 小程序
 - ☎ **多协议支持**
-  - HTTP / WebSocket
+  - 同时支持 HTTP / WebSocket
 
 
 ## 兼容性
@@ -60,7 +60,7 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
 完全可以在 Server 端使用 TSRPC，同时兼容传统前端。
 
 - **兼容 JSON 和 Restful API 调用**
-  - 可自行使用 `XMLHttpRequest` 或其它 AJAX 框架调用接口（JSON）
+  - 可自行使用 `XMLHttpRequest` 或其它 AJAX 框架以 JSON 方式调用接口
 - **兼容纯 JavaScript 的项目使用**
   - 可在纯 JavaScript 项目中使用 TSRPC Client，也能享受类型检查和序列化特性
 

@@ -2,6 +2,13 @@
 sidebar_position: 1
 ---
 
-# 安装
+# 项目初始化
 
-Try amazing [Type System](development/type-system.md) of TSRPC.
+## 使用脚手架工具
+```shell
+npx create-tsrpc-app
+```
+
+## Server
+
+## Client
