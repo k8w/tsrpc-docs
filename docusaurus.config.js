@@ -1,8 +1,8 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'TSRPC',
-  tagline: 'TypeScript RPC Framework, with runtime type checking and binary serialization',
-  url: 'https://your-docusaurus-test-site.com',
+  tagline: 'TypeScript RPC Framework',
+  url: 'https://tsrpc.cn',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -13,7 +13,7 @@ module.exports = {
     navbar: {
       title: 'TSRPC',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'TSRPC',
         src: 'img/logo.svg',
       },
       items: [
@@ -23,9 +23,9 @@ module.exports = {
           position: 'left',
           label: 'Tutorial',
         },
-        { to: '/blog', label: 'Blog', position: 'left' },
+        // { to: '/blog', label: 'Blog', position: 'left' },
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/k8w/tsrpc',
           label: 'GitHub',
           position: 'right',
         },
@@ -74,7 +74,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} KingWorks, Inc. Built with Docusaurus.`,
     },
   },
   presets: [
@@ -85,13 +85,13 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+            'https://github.com/k8w/tsrpc-docs/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+            'https://github.com/k8w/tsrpc-docs/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
