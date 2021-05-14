@@ -4,7 +4,8 @@ sidebar_position: 2
 
 # 第一个 API
 
-API 本质上是一个异步函数，实现在 Server 端，可在 Client 端调用。
+API 本质上是一个在 Server 端实现，在 Client 端调用的**异步函数**。
+
 这个异步函数的输入参数，叫做请求 `Request`，输出叫做响应 `Response`。
 定义一对请求和响应的文件，叫做协议 `Protocol`。
 
@@ -44,13 +45,16 @@ export interface ResGetArticle {
 如你所见，TSRPC 使用原汁原味的 TypeScript 来定义协议，不需要额外的注释，同时还支持更多类型（例如 `Date` 、 `ArrayBuffer` 、 `Uint8Array` 等）
 
 ### 生成 ServiceProto
-`ServiceProto` 是 TSRPC 真正使用到的协议定义文件，不过大多数时间你都不需要关心，因为它是自动生成的。
-在 `backend` 目录，执行 `npm run proto` 即可生成。
+`ServiceProto` 是 TSRPC 真正的协议定义文件，执行以下命令来自动生成它。
 
 ```shell
 cd backend
 npm run proto
 ```
+
+:::warn
+wa
+:::
 
 ### 共享代码
 现在你看到一个 `proto.ts` 生成到了 `backend/src/shared/protocols` 目录下，这个就是协议定义的全部内容。
@@ -70,3 +74,5 @@ npm run sync
 :::
 
 至此，API 协议的定义、生成、同步，都完成了。
+
+## 实现 API
