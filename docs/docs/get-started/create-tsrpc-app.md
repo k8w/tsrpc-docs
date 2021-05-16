@@ -7,7 +7,7 @@ sidebar_position: 1
 ## 创建项目
 
 使用 `create-tsrpc-app` 工具，可以快速创建 TSRPC 项目。
-为方便演示，我们创建一个 Web 前端 + 后端的项目。
+为方便演示，我们创建一个 Web 前端 + 后端的全栈项目。
 
 ```shell
 npx create-tsrpc-app my-tsrpc-app --template web

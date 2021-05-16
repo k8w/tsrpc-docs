@@ -1,0 +1,50 @@
+---
+sidebar_position: 3
+---
+
+# WebSocket 实时服务
+
+WebSocket 实时服务一直是 Web 应用的重大挑战之一。
+
+## 实时 API
+TSRPC 本身的设计架构是协议无关的，这意味着在[上一节](the-first-api.md)中实现的 API 可以无缝运行在 WebSocket 协议之上。
+只需要将 `HttpServer` 和 `HttpClient` 替换为 `WebSocketServer` 和 `WebSocketClient` 即可。
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="server"
+  values={[
+    {label: 'Server', value: 'server'},
+    {label: 'Client', value: 'client'}
+  ]}>
+  <TabItem value="server">
+
+```ts
+WebSocket Server
+```
+
+  </TabItem>
+
+  <TabItem value="client">
+
+```ts
+WebSocket Client
+```
+
+  </TabItem>
+</Tabs>
+
+## 实时消息
+
+然而，在实时应用场景中，并非所有通讯都是 `API` 这样的 **请求/响应** 模型。
+例如实时公告、聊天室等场景，希望收到服务器的实时推送，而非发送请求轮询。
+
+为此，TSRPC 提供了另一种 **订阅/推送** 的模型：`Message`。
+
+### 定义消息
+
+### 发送消息
+
+### 监听消息
