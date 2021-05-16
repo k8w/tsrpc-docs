@@ -47,7 +47,7 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
       - [Indexed Access Types](https://www.typescriptlang.org/docs/handbook/2/indexed-access-types.html)
       - 等等
 - ⚡️ **高性能**
-  - 单 CPU 核 5000+ QPS 吞吐量，测试于 Macbook Air (M1, 2020)
+  - 单核单进程 5000+ QPS 吞吐量（测试于 Macbook Air M1, 2020)
   - 单元测试、压力测试、DevOps 方案齐备
 - 💻 **多终端支持**
   - NodeJS / 浏览器 / App / 小程序
@@ -59,8 +59,8 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
 
 完全可以在 Server 端使用 TSRPC，同时兼容传统前端。
 
-- **兼容传统 JSON 和 Restful API 调用**
-  - 可自行使用 `XMLHttpRequest` 或其它 AJAX 框架以 JSON 方式调用接口
+- **兼容 JSON 形式的 Restful API 调用**
+  - 可自行使用 `XMLHttpRequest`、`fetch` 或其它 AJAX 框架以 JSON 方式调用接口
 - **兼容纯 JavaScript 的项目使用**
   - 可在纯 JavaScript 项目中使用 TSRPC Client，也能享受类型检查和序列化特性
 
@@ -78,8 +78,8 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
 ## 开始学习
 
 虽然有诸多新鲜、令人激动的强大特性，
-但就像你能在 Github 上看到的那样，TSRPC 其实是一个已经开源超过 4 年的成熟框架。虽然一直没写文档，也没怎么推广，但我们已经使用它开发了若干个百万级DAU、千万级用户的项目，累计覆盖超过1亿+线上用户。
+但就像你能在 [Github](https://github.com/k8w/tsrpc) 上看到的那样，TSRPC 其实是一个已经开源超过 4 年的成熟框架。虽然一直没写文档，也没怎么推广，但我们已经使用它开发了若干个百万级DAU、千万级用户的项目，累计覆盖超过1亿+线上用户。
 
-对于这份文档的迟到感到抱歉，但希望能对你的工作有所帮助。
+对于这份文档的迟到感到抱歉，希望能对你的工作有所帮助。
 
-[开始学习 TSRPC](get-started/installation.md)
+[开始学习 TSRPC](get-started/create-tsrpc-app.md)

@@ -2,120 +2,170 @@
 sidebar_position: 2
 ---
 
-# 第一个 API
+# 实现第一个 API
 
-API 本质上是一个在 Server 端实现，在 Client 端调用的**异步函数**。
+在这一节中，我们将体验使用 TSRPC 快速实现一个 API 服务，并在浏览器中调用它。
 
-这个异步函数的输入参数叫做请求（ `Request` ），输出叫做响应（ `Response` ）。
-定义一对请求和响应的文件，叫做协议（ `Protocol` ）。
+本节内容的完整例子在：https://github.com/k8w/tsrpc-examples/my-first-api/
 
-要实现一个 API ，首先需要定义它的协议。
+## 初始化项目
+
+如[上一节](create-tsrpc-app.md)中讲到的，我们先初始化一个 Web 全栈项目：
+```
+npx create-tsrpc-app my-first-api --template web
+```
+
+创建好的项目里，已经包含了一个演示的 API 接口 `Test`，你可以先大概看看，然后我们从头开始实现一个全新的 API。
 
 ## 定义协议
+### 编写协议文件
+协议目录默认位于 `backend/src/shared/protocols` 目录下，协议文件的命名规则为 `Ptl${协议名}.ts`。
 
-### 命名规范
-
-所有协议均位于 `backend/src/shared/protocols` 目录下，该 `protocols` 目录称为**协议目录**。
-
-协议目录及其子目录下，所有命名符合 `Ptl*.ts` 的文件，均被视为**协议文件**，`*` 被解析为**协议名**，例如：
-
-| 协议文件路径 | 协议名 |
-| --- | --- |
-| `protocols/PtlGetData.ts` | `GetData` |
-| `protocols/user/PtlLogin.ts` | `Login` |
-
-:::note
-- 前缀 `Ptl` 代表 `Protocol` 的缩写。
-- 协议名仅取决于文件名，不受其所在路径影响。
-:::
-
-### 请求和响应
-一个协议文件对应一个 API 接口。故在协议文件内，必须存在 2 个 `export` 的类型定义：
-- 请求：`Req${协议名}`
-- 响应：`Res${协议名}`
-
-:::note
-- `Req` 是 `Request` 的缩写，`Res` 是 `Response` 的缩写。
-- 类型定义可以是 `interface`，也可以是 `type`。
-:::
-
-假设我们要实现一个接口 `HelloWorld`，则在协议目录下创建文件 `PtlHelloWorld.ts`，例子如下。
+例如我们想要实现一个名为 `HelloWorld` 的协议，则在该目录下创建文件 `PtlHelloWorld.ts`，然后分别定义请求类型 `ReqHelloWorld` 和 响应类型 `ResHelloWorld`，记得要加上 `export` 标记导出它们。
 
 ```ts title="backend/src/shared/protocols/PtlHelloWorld.ts"
+// 请求
 export interface ReqHelloWorld {
     name: string
 }
 
-export type ResHelloWorld = {
+// 响应
+export interface ResHelloWorld {
     reply: string,
     time: Date
 }
 ```
 
-如你所见，TSRPC 使用原汁原味的 TypeScript 来定义协议，不需要额外的注释，同时还支持更多类型（例如 `Date` 、 `ArrayBuffer` 、 `Uint8Array` 等）
+:::note
+- `Ptl` 代表 `Protocol` 的缩写。
+- `Req` 代表 `Request` 的缩写。
+- `Res` 代表 `Response` 的缩写。
+:::
 
 ### 生成 ServiceProto
-`ServiceProto` 是 TSRPC 真正的协议定义文件，执行以下命令来自动生成它。
-
+[`ServiceProto`](asdg) 是 TSRPC 框架运行时实际使用的协议定义文件，执行以下命令来生成：
 ```shell
 cd backend
 npm run proto
 ```
 
 :::tip
-TSRPC 基于 ServiceProto 工作，所以每当协议改动后，都应该重新执行此过程。
+每当协议文件修改后，都应该执行此命令重新生成。
 :::
 
+## 实现 API
+API 实现目录位于 `backend/src/api`，该目录下的文件与协议目录下的协议定义一一对应，只是将文件名前缀 `Ptl` 修改为 `Api`。项目模板里已经提供了便捷的命令行工具来自动生成，只需在协议定义完后执行：
+```shell
+cd backend
+npm run api
+```
+
+如此，API 文件就自动生成了。对于我们刚刚定义的协议 `PtlHelloWorld.ts`，对应生成的实现文件名为 `ApiHelloWorld.ts`，目录结构如下：
+```
+|- backend/src
+    |- shared/protocols         协议目录
+        |- PtlHelloWorld.ts     协议 HelloWorld 定义
+    |- api                      API 实现目录
+        |- ApiHelloWorld.ts     API HelloWorld 实现
+    |- index.ts                 后端程序入口
+```
+
+API 的实现就是一个异步函数，通过 `call.req` 来获取请求参数，通过 `call.succ(res)` 来返回响应，例如：
+
+```ts title="backend/src/api/ApiHelloWorld.ts"
+import { ApiCall } from "tsrpc";
+
+export async function ApiHelloWorld(call: ApiCall<ReqHelloWorld, ResHelloWorld>) {
+    call.succ({
+        reply: 'Hello, ' + call.req.name,
+        time: new Date()
+    })
+}
+```
+
+## 调用 API
+
 ### 共享代码
-现在你看到一个 `proto.ts` 生成到了 `backend/src/shared/protocols` 目录下，这个文件就是协议的全部内容。
-前端项目也需要这些文件来正常工作，以及获得更好的代码提示。
-所以，我们需要将协议目录 `protocols` 同步到前端项目。
 
-更进一步，你可能还有其它代码可以在前后端之间复用。例如表单验证规则、日期格式化方法等业务代码。因此我们设计了 `src/shared` 目录，它代表了所有在前后端之间共享的代码。有很多方式能实现共享和同步机制，我们默认采用手动同步的方式：
+要调用 客户端必须要有相同的协议定义文件，除此之外可能还有其它公共逻辑代码可以在前后端复用。
+为此，我们设计了 `src/shared` 这个目录。该目录下的内容总是在 `backend` 中编辑，然后同步到 `frontend` 中（只读）。
 
-1. `src/shared` 中的内容应当在 `backend` 中编辑，然后同步到 `frontend`（只读）。
-2. 在 `backend` 下执行 `npm run sync` 来手动完成同步。
+执行以下命令，来完成同步：
+
 ```shell
 cd backend
 npm run sync
 ```
 
+### 使用客户端
+
+使用 TSRPC 客户端，即可像调用本地异步函数那样调用远端 API，并享有全过程的代码提示和类型检测。
+它支持许多平台，由于我们创建的是浏览器 Web 项目，所以引用的是来自 `tsrpc-browser` 的浏览器版客户端。
+
+不同平台的客户端用法几乎都是一致的，修改前端代码 `frontend/src/index.ts` 来调用一下刚才的 `HelloWorld` 接口试试吧。
+
+```ts title="frontend/src/index.ts"
+import { HttpClient } from 'tsrpc-browser';
+
+// 创建一个 TSRPC Client
+let client = new HttpClient(serviceProto, {
+    server: 'http://127.0.0.1:3000'
+});
+
+// 像调用本地异步函数那样调用远端 API
+let ret = await client.callApi('HelloWorld', {
+    name: 'World'
+});
+console.log(ret);   // { isSucc: true, res: { reply: 'Hello, World' } }
+```
+
+## 测试一下
+
+在 `frontend` 和 `backend` 目录下分别执行以下命令，启动本地开发服务器：
+```shell
+npm run dev
+```
+
+服务启动后，用浏览器打开 http://127.0.0.1:8080 看看效果吧~
+
+## 自动类型检测
+
+TSRPC 自动对请求和响应进行类型检测，同时在编译时刻和运行时刻，同时在客户端和服务端。
+因此在编写 API 实现时，完全不需要关心类型安全问题。
+
+**例子：请求类型不合法，在编译时刻报错**
+```ts
+callApi('HelloWorld', {
+    name: 12345     // 类型错误
+})
+```
+
+即便我们跳过了 TypeScript 的编译时刻检查，TSRPC 框架也会在运行时刻进行校验。
+- 客户端先进行一次校验，将类型不合法的请求拦截在本地。
+- 服务端在执行 API 前还会做二次校验，确保进入执行阶段的 API 请求一定是类型合法的。
+
+**例子：请求类型不合法，被框架拦截**
+```ts
+callApi('HelloWorld', {
+    name: 12345
+} as any);  // as any 跳过 TypeScript 编译时刻检查
+
+// 请求被拦截，返回类型错误信息 {isSucc: false, err: ... }
+console.log(ret);   
+```
+
+## 二进制序列化
+
+在 Chrome 中打开开发者工具，进入 Network 面板抓包后可以发现，传输内容看起来像乱码一般，这是因为框架自动将传输内容序列化成了二进制编码。它比 JSON 有着更小的传输体积和更好的安全性。
+仍然看见一些明文是因为 TSRPC 并未对包体进行加密，开发者可以自行完成二进制编码的加密操作，我们在[后面的章节](sss.md)有所介绍。
+
+二进制序列化能获得更好的传输效能，但考虑到兼容性，TSRPC 也支持第三方客户端及传统 JSON 方式的调用方法，例如：
+```ts title="frontend/src/index.ts"
+fetch('http://127.0.0.1:3000/HelloWorld', {
+    ....
+})
+```
+
 :::tip
-你也可以使用软连接（Symlink）或其它工具，来实现自动同步。
+Server 选项设置为 `jsonEnabled: false` 可禁用对 JSON 的兼容，对安全性要求高的系统，强烈建议禁用。
 :::
-
-至此，API 协议的定义、生成、同步，都完成了。
-
-## 实现 API
-
-### 命名规范
-API 接口的入口文件均位于 `backend/src/api` 目录下，与协议目录下的协议文件一一对应，只是将前缀 `Ptl` 改为 `Api`。
-
-例如，协议目录文件结构如下：
-```
-|- backend/src/shared/protocols
-    |- user
-        |- PtlLogin.ts      协议 user/Login
-    |- PtlGetData.ts        协议 GetData
-    |- SomeOtherFile.ts     由于文件名非Ptl前缀，故不视为协议
-```
-
-则对应的 API 实现目录结构应为：
-```
-|- backend/src/api
-    |- user
-        |- ApiLogin.ts      协议 user/Login 的实现
-    |- ApiGetData.ts        协议 GetData 的实现
-```
-### 命名规范
-同**协议目录**一样，
-
-## 调用 API
-
-### 调用路径
-客户端根据**调用路径**来调用远端 API，调用路径为 `协议路径/协议名`，举例如下：
-
-| 协议文件路径 | 调用路径 |
-| --- | --- |
-| `协议目录/PtlGetData.ts` | `GetData` |
-| `协议目录/user/PtlLogin.ts` | `user/Login` |

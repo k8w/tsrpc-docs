@@ -41,10 +41,97 @@ WebSocket Client
 然而，在实时应用场景中，并非所有通讯都是 `API` 这样的 **请求/响应** 模型。
 例如实时公告、聊天室等场景，希望收到服务器的实时推送，而非发送请求轮询。
 
-为此，TSRPC 提供了另一种 **订阅/推送** 的模型：`Message`。
+为此，TSRPC 提供了另一种 **发布/订阅** 模型：消息（ `Message` ）。
+
+消息是 TSRPC 端到端通讯的最小单元。
+我们可以使用 TypeScript 定义一种消息类型，它可以在服务端和客户端之间**双向传递**，也享有自动类型检测和二进制序列化特性。
 
 ### 定义消息
 
+和 API 一样，消息的定义也存放在协议目录 `backend/src/shared/protocols` 下，文件命名规则为 `Msg${消息名}.ts`。
+然后在其中声明一个同名的类型并标记为 `export`，例如：
+
+```ts title="backend/src/shared/protocols/MsgChat.ts"
+export interface MsgChat {
+  name: string,
+  content: string
+}
+```
+
+跟 API 协议一样，新增或修改消息定义后，也应该重新生成 ServiceProto，然后同步到前端项目。
+```shell
+cd backend
+npm run proto
+npm run sync
+```
+
 ### 发送消息
 
+消息可以双向传递，即可以从 Server 发给 Client，也可以从 Client 发给 Server。
+
+#### Client 发送
+```ts
+client.sendMsg('Chat', {
+  name: 'k8w',
+  content: 'I really love TSRPC.'
+})
+```
+
+#### Server 发送
+Server 同时可能连接着多个 Client，活跃中的所有连接都在 `server.conns`。
+要给其中某个 Client 发送消息，可以使用 `conn.sendMsg` ，例如：
+```ts
+// 给第一个连接的 Client 发送消息
+server.conns[0].sendMsg('Chat', {
+  name: 'System',
+  content: 'You are the first connection.'
+})
+```
+
+:::note
+`conn` 是 `Connection` 的缩写。
+:::
+
+#### Server 广播
+
+要给所有 Client 发送消息，可以使用 `server.broadcastMsg()`，例如：
+```ts
+server.broadcastMsg('Chat', {
+  name: 'System',
+  content: 'This is a message to everyone.'
+})
+```
+
+相比逐个连接去 `sendMsg()`，`broadcastMsg()` 的好处在于，只执行一次序列化过程，减少 CPU 开销。
+
 ### 监听消息
+
+监听 / 解除监听消息在 Server 和 Client 类似，例子如下：
+
+<Tabs
+  defaultValue="server"
+  values={[
+    {label: 'Server', value: 'server'},
+    {label: 'Client', value: 'client'}
+  ]}>
+  <TabItem value="server">
+
+```ts
+WebSocket Server
+```
+
+  </TabItem>
+
+  <TabItem value="client">
+
+```ts
+WebSocket Client
+```
+
+  </TabItem>
+</Tabs>
+
+不同之处在于，由于 Server 同时可能连接着多个 Client，所以监听消息时收到的参数为 `call: MsgCall`。
+其中除了消息内容（ `call.msg` ）外，还包含Client 连接（ `call.conn` ）等信息。
+
+而 Client 由于只存在唯一的连接，故监听消息时，收到的参数即为消息本身：`msg: MsgXXXX`。
