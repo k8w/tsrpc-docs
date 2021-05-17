@@ -9,7 +9,7 @@ TSRPC 的二进制序列化特性，能显著减小包体，帮助实时服务�
 
 ## 实时 API
 TSRPC 本身的设计架构是协议无关的，这意味着在[上一节](the-first-api.md)中实现的 API 可以无缝运行在 WebSocket 协议之上。
-只需要将 `HttpServer` 和 `HttpClient` 替换为 `WebSocketServer` 和 `WebSocketClient` 即可。
+只需要将 `HttpServer` 替换为 `WebSocketServer`，将 `HttpClient` 替换为 `WebSocketClient` 即可。例如：
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
