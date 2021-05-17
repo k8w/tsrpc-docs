@@ -43,7 +43,8 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
     - 首个也是目前唯一支持 TypeScript 高级类型的二进制序列化算法，包括：
       - [Union Type](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types)
       - [Intersection Type](https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types)
-      - [Mapped Types](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html)
+      - [Pick Type](https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys)
+      - [Partial Type](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)
       - [Indexed Access Types](https://www.typescriptlang.org/docs/handbook/2/indexed-access-types.html)
       - 等等
 - ⚡️ **高性能**
@@ -54,7 +55,6 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
 - ☎ **多协议支持**
   - 同时支持 HTTP / WebSocket
 
-
 ## 兼容性
 
 完全可以在 Server 端使用 TSRPC，同时兼容传统前端。
@@ -63,6 +63,9 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
   - 可自行使用 `XMLHttpRequest`、`fetch` 或其它 AJAX 框架以 JSON 方式调用接口
 - **兼容纯 JavaScript 的项目使用**
   - 可在纯 JavaScript 项目中使用 TSRPC Client，也能享受类型检查和序列化特性
+- **兼容 Internet Explorer 8 浏览器**
+  - 客户端代码均以 `ES2015` 为编译目标
+  - 使用 Babel 等工具转换，可兼容至 IE8 浏览器
 
 <!-- ## 与其它框架的区别
 - ExpressJS / KoaJS
