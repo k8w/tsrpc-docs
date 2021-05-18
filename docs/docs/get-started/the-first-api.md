@@ -43,7 +43,7 @@ export interface ResHelloWorld {
 :::
 
 ### 生成 ServiceProto
-[`ServiceProto`](asdg) 是 TSRPC 框架运行时实际使用的协议定义文件，执行以下命令来生成：
+[`ServiceProto`](asdg) 是 TSRPC 框架运行时实际使用的协议数据格式，执行以下命令来自动生成：
 ```shell
 cd backend
 npm run proto
@@ -60,7 +60,7 @@ cd backend
 npm run api
 ```
 
-如此，API 文件就自动生成了。对于我们刚刚定义的协议 `PtlHelloWorld.ts`，对应生成的实现文件名为 `ApiHelloWorld.ts`，目录结构如下：
+如此，空白的 API 文件就自动生成了。对于我们刚刚定义的协议 `PtlHelloWorld.ts`，对应生成的实现文件名为 `ApiHelloWorld.ts`，目录结构如下：
 ```
 |- backend/src
     |- shared/protocols         协议目录
@@ -70,16 +70,26 @@ npm run api
     |- index.ts                 后端程序入口
 ```
 
-API 的实现就是一个异步函数，通过 `call.req` 来获取请求参数，通过 `call.succ(res)` 来返回响应，例如：
+API 的实现就是一个异步函数，输入输出是通过传入的 `call` 来实现的。
+- 通过 `call.req` 来获取请求参数（即协议中定义的 `ReqHelloWorld`，框架会确保此处类型一定合法）。
+- 通过 `call.succ(res)` 来返回响应（即协议中定义的 `ResHelloWorld`）。
+- 通过 `call.error('错误信息')` 来返回错误。
+
+例如：
 
 ```ts title="backend/src/api/ApiHelloWorld.ts"
 import { ApiCall } from "tsrpc";
 
 export async function ApiHelloWorld(call: ApiCall<ReqHelloWorld, ResHelloWorld>) {
-    call.succ({
-        reply: 'Hello, ' + call.req.name,
-        time: new Date()
-    })
+    if(call.req.name === 'World'){
+        call.succ({
+            reply: 'Hello, ' + call.req.name,
+            time: new Date()
+        });
+    }
+    else{
+        call.error('Invalid name');
+    }
 }
 ```
 
@@ -97,12 +107,11 @@ cd backend
 npm run sync
 ```
 
-### 使用客户端
+### 创建客户端
 
 使用 TSRPC 客户端，即可像调用本地异步函数那样调用远端 API，并享有全过程的代码提示和类型检测。
 它支持许多平台，由于我们创建的是浏览器 Web 项目，所以引用的是来自 `tsrpc-browser` 的浏览器版客户端。
-
-不同平台的客户端用法几乎都是一致的，修改前端代码 `frontend/src/index.ts` 来调用一下刚才的 `HelloWorld` 接口试试吧。
+例如：
 
 ```ts title="frontend/src/index.ts"
 import { HttpClient } from 'tsrpc-browser';
@@ -111,13 +120,51 @@ import { HttpClient } from 'tsrpc-browser';
 let client = new HttpClient(serviceProto, {
     server: 'http://127.0.0.1:3000'
 });
-
-// 像调用本地异步函数那样调用远端 API
-let ret = await client.callApi('HelloWorld', {
-    name: 'World'
-});
-console.log(ret);   // { isSucc: true, res: { reply: 'Hello, World' } }
 ```
+
+:::tip
+除浏览器外，TSRPC 客户端还支持 NodeJS、小程序、React Native 等平台，见[客户端列表](xxx.md)。
+:::
+
+### client.callApi
+
+不同平台的客户端用法几乎都是一致的：使用 `client.callApi()` 来调用远程 API。
+TSRPC 对于前端接入的体验是极致的。整个过程都有代码提示，完全不需要协议文档，也不必担心拼写错误带来的低级错误。
+
+> 图：代码编写体验
+
+### 处理错误和响应
+
+`callApi` 不总是顺利的，可能出现一些错误和异常，如网络错误、API 业务错误等。
+在 TSRPC 中，不管是什么类型的错误，都在一处统一处理。
+根据 `ret.isSucc` 来判断请求结果，成功则取响应 `ret.res`，失败则取错误 `ret.err`。
+
+```ts title="frontend/src/index.ts"
+async function onBtnClick(){
+    // 像调用本地异步函数那样调用远端 API
+    let ret = await client.callApi('HelloWorld', {
+        name: 'World'
+    });
+
+    // 未检测错误，res 可能为空
+    console.log(ret.res?.reply);
+
+    // 检测错误，进入异常分支
+    if(!ret.isSucc) {
+        alert('Error: ' + ret.err.message);
+        return;
+    }
+
+    // 已做错误保护，res 必定有值
+    alert('Success: ' + ret.res.reply);
+}
+
+document.getElementById('btn').onclick = onBtnClick;
+```
+
+:::tip
+TSRPC 的所有方法都不会抛出异常，因此总是无需 `promise.catch()`。
+:::
 
 ## 测试一下
 

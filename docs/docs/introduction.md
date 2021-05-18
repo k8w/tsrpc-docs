@@ -25,6 +25,60 @@ type Shape = BaseShape & (Circle | Rect);
 
 我们无法找到一个能完美解决这些问题的现成框架，于是我们全新设计和创造了 **TSRPC** 。
 
+## 概览
+
+一个名为 `Hello` 的协议，从定义、实现到浏览器调用。
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="protocols"
+  values={[
+    {label: '协议定义', value: 'protocols'},
+    {label: '服务端实现', value: 'server'},
+    {label: '客户端调用', value: 'client'},
+  ]}>
+  <TabItem value="protocols">
+
+```ts
+export interface ReqHello {
+  name: string;
+}
+
+export interface ResHello {
+  reply: string;
+}
+```
+
+  </TabItem>
+
+  <TabItem value="server">
+
+```ts
+import { ApiCall } from "tsrpc";
+
+export async function ApiHello(call: ApiCall<ReqHello, ResHello>) {
+  call.succ({
+    reply: 'Hello, ' + call.req.name
+  });
+}
+```
+
+  </TabItem>
+
+  <TabItem value="client">
+
+```ts
+let ret = await client.callApi('Hello', {
+    name: 'World'
+});
+console.log(ret); // { isSucc: true, res: { reply: 'Hello, World' } }
+```
+
+  </TabItem>
+</Tabs>
+
 ## 特性
 TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体验。
 

@@ -1,5 +1,6 @@
 ---
-sidebar_position: 1
+sidebar_position: 8
 ---
 
-# Amazing Type Systems
+# TSRPC 类型系统
+

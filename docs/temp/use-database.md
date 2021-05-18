@@ -2,15 +2,21 @@
 sidebar_position: 4
 ---
 
+- 工程化建议
+    - 启动流程
+    - 环境和配置
+    - 代码结构
+
 # 使用数据库
 
 ## 选择合适的数据库
 
-有很多合适的数据库可供你选择，但无论如何，我们推荐你将其与 TypeScript 的强类型结合使用。
-例如：
-- MongoDB
-- MySQL
-- Redis
+有很多合适的数据库可供你选择，常见的例如：
+- [MongoDB](https://mongodb.com)：纯 API 调用，无需学习 SQL，与 TypeScript 结合良好。
+- [MySQL](https://mysql.com)：经典老牌 SQL 数据库。
+- [Redis](https://redis.io)：内存型数据存储，适用于高速缓存等场景。
+
+相比于 SQL 数据库，我们更推荐 MongoDB 这样的 NoSQL 数据库，它更适合使用 TypeScript + NodeJS 进行代码优先的开发。
 
 ## 全局实例
 
