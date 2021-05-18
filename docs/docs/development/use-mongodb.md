@@ -1,8 +1,8 @@
 ---
-sidebar_position: 7
+sidebar_position: 7.1
 ---
 
-# 使用 MongoDB 的注意事项
+# 使用 MongoDB
 
 ## strictNullChecks
 
