@@ -17,8 +17,8 @@ import TabItem from '@theme/TabItem';
   defaultValue="protocols"
   values={[
     {label: '协议定义', value: 'protocols'},
-    {label: '服务端', value: 'server'},
-    {label: '浏览器', value: 'client'}
+    {label: '服务端实现', value: 'server'},
+    {label: '浏览器调用', value: 'client'}
   ]}>
   <TabItem value="protocols">
 
