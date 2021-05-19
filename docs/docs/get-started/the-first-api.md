@@ -21,16 +21,16 @@ npx create-tsrpc-app my-first-api --template web
 ### 编写协议文件
 协议目录默认位于 `backend/src/shared/protocols` 目录下，协议文件的命名规则为 `Ptl${协议名}.ts`。
 
-例如我们想要实现一个名为 `HelloWorld` 的协议，则在该目录下创建文件 `PtlHelloWorld.ts`，然后分别定义请求类型 `ReqHelloWorld` 和 响应类型 `ResHelloWorld`，记得要加上 `export` 标记导出它们。
+例如我们想要实现一个名为 `Hello` 的协议，则在该目录下创建文件 `PtlHello.ts`，然后分别定义请求类型 `ReqHello` 和 响应类型 `ResHello`，记得要加上 `export` 标记导出它们。
 
-```ts title="backend/src/shared/protocols/PtlHelloWorld.ts"
+```ts title="backend/src/shared/protocols/PtlHello.ts"
 // 请求
-export interface ReqHelloWorld {
+export interface ReqHello {
     name: string
 }
 
 // 响应
-export interface ResHelloWorld {
+export interface ResHello {
     reply: string,
     time: Date
 }
@@ -54,33 +54,41 @@ npm run proto
 :::
 
 ## 实现 API
+
+### 自动生成 API 文件
 API 实现目录位于 `backend/src/api`，该目录下的文件与协议目录下的协议定义一一对应，只是将文件名前缀 `Ptl` 修改为 `Api`。项目模板里已经提供了便捷的命令行工具来自动生成，只需在协议定义完后执行：
 ```shell
 cd backend
 npm run api
 ```
 
-如此，空白的 API 文件就自动生成了。对于我们刚刚定义的协议 `PtlHelloWorld.ts`，对应生成的实现文件名为 `ApiHelloWorld.ts`，目录结构如下：
+如此，空白的 API 文件就自动生成了。对于我们刚刚定义的协议 `PtlHello.ts`，对应生成的实现文件名为 `ApiHello.ts`，目录结构如下：
 ```
 |- backend/src
     |- shared/protocols         协议目录
-        |- PtlHelloWorld.ts     协议 HelloWorld 定义
+        |- PtlHello.ts     协议 Hello 定义
     |- api                      API 实现目录
-        |- ApiHelloWorld.ts     API HelloWorld 实现
+        |- ApiHello.ts     API Hello 实现
     |- index.ts                 后端程序入口
 ```
 
+:::tip
+已经存在的 API 文件不会被覆盖，可以随时增量生成。
+当然，手动生成也行，如果你想。
+:::
+
+### 请求和响应
 API 的实现就是一个异步函数，输入输出是通过传入的 `call` 来实现的。
-- 通过 `call.req` 来获取请求参数（即协议中定义的 `ReqHelloWorld`，框架会确保此处类型一定合法）。
-- 通过 `call.succ(res)` 来返回响应（即协议中定义的 `ResHelloWorld`）。
-- 通过 `call.error('错误信息')` 来返回错误。
+- 通过 `call.req` 来获取请求参数（即协议中定义的 `ReqHello`，框架会确保此处类型一定合法）。
+- 通过 `call.succ(res)` 来返回响应（即协议中定义的 `ResHello`）。
+- 通过 `call.error('可读的错误信息', { xxx: 'xxx' })` 来返回错误，第二个参数为额外的错误信息（如错误码），是选填的。
 
 例如：
 
-```ts title="backend/src/api/ApiHelloWorld.ts"
+```ts title="backend/src/api/ApiHello.ts"
 import { ApiCall } from "tsrpc";
 
-export async function ApiHelloWorld(call: ApiCall<ReqHelloWorld, ResHelloWorld>) {
+export async function ApiHello(call: ApiCall<ReqHello, ResHello>) {
     if(call.req.name === 'World'){
         call.succ({
             reply: 'Hello, ' + call.req.name,
@@ -142,7 +150,7 @@ TSRPC 对于前端接入的体验是极致的。整个过程都有代码提示�
 ```ts title="frontend/src/index.ts"
 async function onBtnClick(){
     // 像调用本地异步函数那样调用远端 API
-    let ret = await client.callApi('HelloWorld', {
+    let ret = await client.callApi('Hello', {
         name: 'World'
     });
 
@@ -182,7 +190,7 @@ TSRPC 自动对请求和响应进行类型检测，同时在编译时刻和运�
 
 **例子：请求类型不合法，在编译时刻报错**
 ```ts
-callApi('HelloWorld', {
+callApi('Hello', {
     name: 12345     // 类型错误
 })
 ```
@@ -193,7 +201,7 @@ callApi('HelloWorld', {
 
 **例子：请求类型不合法，被框架拦截**
 ```ts
-callApi('HelloWorld', {
+callApi('Hello', {
     name: 12345
 } as any);  // as any 跳过 TypeScript 编译时刻检查
 
@@ -208,7 +216,7 @@ console.log(ret);
 
 二进制序列化能获得更好的传输效能，但考虑到兼容性，TSRPC 也支持第三方客户端及传统 JSON 方式的调用方法，例如：
 ```ts title="frontend/src/index.ts"
-fetch('http://127.0.0.1:3000/HelloWorld', {
+fetch('http://127.0.0.1:3000/Hello', {
     ....
 })
 ```
