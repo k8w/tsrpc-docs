@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'TSRPC',
-  tagline: 'TypeScript RPC Framework',
+  tagline: 'TypeScript RPC Framework\nFor Web applications, WebSocket realtime applications, NodeJS micro services...',
   url: 'https://tsrpc.cn',
   baseUrl: '/',
   onBrokenLinks: 'throw',

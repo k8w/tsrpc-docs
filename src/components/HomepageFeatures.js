@@ -33,6 +33,34 @@ const FeatureList = [
       </>
     ),
   },
+  {
+    title: 'High Performance',
+    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    description: (
+      <>
+        5000+ QPS on single CPU<br />
+        MacBook Air M1, 2020
+      </>
+    ),
+  },
+  {
+    title: 'Multiple Protocols',
+    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    description: (
+      <>
+        Both support HTTP and WebSocket
+      </>
+    ),
+  },
+  {
+    title: 'Multiple Clients',
+    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    description: (
+      <>
+        Browser / Native / NodeJS / MiniApp
+      </>
+    ),
+  },
 ];
 
 function Feature({ Svg, title, description }) {
