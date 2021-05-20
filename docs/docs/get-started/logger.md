@@ -54,8 +54,8 @@ import TabItem from '@theme/TabItem';
   <TabItem value="server">
 
 ```ts
-let client = new HttpClient(serviceProto, {
-    logger: xxx
+let server = new HttpServer(serviceProto, {
+    logger: myLogger
 })
 ```
 
@@ -65,31 +65,54 @@ let client = new HttpClient(serviceProto, {
 
 ```ts
 let client = new HttpClient(serviceProto, {
-    logger: xxx
+    logger: myLogger
 })
 ```
 
   </TabItem>
 </Tabs>
 
-## API 日志
+## 服务端日志
 
-你的 API 代码中，可能也想输出一些日志。此时建议你使用 `call.logger` 而不是直接使用 `console`。
-如此，TSRPC 会在 API 日志的前面，自动加上一些前缀，例如时间、客户端的 IP 地址、调用的 API 路径等，
-这些都有助于你快速定位问题。
+在服务端，你应该尽量避免直接使用 `console`，而是使用 `Server`、`Connection`、`Call` 各自的 `logger`，例如：
 
-即便有一些公共代码，它们不直接在 API 实现内，但可能被 API 间接调用，也推荐你将 `logger` 作为参数传递过去。
-这并不会影响它在其它场景的兼容性，毕竟你可以传递 `console ` 作为一个合法的 `Logger`，例如：
+```ts
+server.logger.log('This is server-level log');
+conn.logger.log('This is connection-level log');
+call.logger.log('This is call-level log');  // call is ApiCall or MsgCall
+```
 
-```ts title="MoneyUtil.ts"
-export class MoneyUtil {
+如此，TSRPC 会在相应日志的前面，自动加上一些额外信息前缀，例如时间、IP 地址、调用的 API 路径等，
+这些都有助于你快速定位问题，如图：
 
-    static charge(username: string, amount: number, logger?: Logger){
-        logger?.log(`User ${username} charged ${amount} at ${new Date().format()})
+- **Server 级日志**
+> 图
+- **Connection 级日志**
+> 图
+- **Call 级日志**
+> 图
+
+:::note
+TSRPC Server 设计为 `Server` -> `Connection` -> `Call` 的三层结构，自上而下都是一对多的关系。
+（HTTP 短连接例外，它的 1 个 `Connection` 仅对应 1 个 `Call`）
+:::
+
+即便有一些公共代码，它们不直接出现在 API 实现代码内，但可能被 API 间接调用，也推荐你将 `logger` 作为参数传递过去。
+比如你有一个公共的支付方法 `PayUtil.pay`，有很多 API 会调用它进行支付，每次支付都会留下日志记录。
+当你发现流水记录出现问题时，你查阅这些日志，你一定想知道这些支付请求究竟是被哪个 API 发起的。
+此时，将 `ApiCall` 的 `logger` 传入，可就大有用处了。
+
+```ts
+export class PayUtil {
+    static pay(username: string, amount: number, productId: string, logger?: Logger){
+        logger?.log(`${username} payed ${amount} for product ${productId}.`)
     }
-
 }
 ```
+
+:::note
+这并不会影响它在其它项目的兼容性，毕竟你总是能传递 `console` 作为一个合法的 `Logger`。
+:::
 
 ## 例子
 
