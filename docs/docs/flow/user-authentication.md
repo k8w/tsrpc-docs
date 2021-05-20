@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# 权限验证
+# 单点登录和权限验证
 
 ## Flow 是什么？
 详情
