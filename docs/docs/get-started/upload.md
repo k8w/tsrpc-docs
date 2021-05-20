@@ -23,13 +23,13 @@ import TabItem from '@theme/TabItem';
   <TabItem value="protocols">
 
 ```ts
-export interface ReqUploadFile {
-  name: string,
-  data: ArrayBuffer
+export interface ReqUpload {
+  fileName: string,
+  fileData: ArrayBuffer
 }
 
-export interface ResUploadFile {
-  uri: string;
+export interface ResUpload {
+  url: string;
 }
 ```
 
@@ -39,10 +39,14 @@ export interface ResUploadFile {
 
 ```ts
 import { ApiCall } from "tsrpc";
+import fs from 'fs';
 
-export async function ApiUploadFile(call: ApiCall<ReqUploadFile, ResUploadFile>) {
+export async function ApiUpload(call: ApiCall<ReqUpload, ResUpload>) {
+  // 写入文件，又或者推送远端文件服务器什么的
+  fs.writeFileSync('uploads/' + call.req.fileName, call.req.fileData);
+
   call.succ({
-    reply: 'Upload, ' + call.req.name
+    url: 'https://xxx.com/uploads/' + call.req.fileName
   });
 }
 ```

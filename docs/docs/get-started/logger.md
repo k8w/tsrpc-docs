@@ -38,8 +38,8 @@ export interface Logger {
 显然，`console` 就是一个合法的 `Logger`。
 
 TSRPC 的所有 Server 和 Client 初始化时，都有一个 `logger` 参数，
-`Server` 默认是 `TerminalColorLogger` （一个会将日志带颜色输出到控制台的 `Logger`），`Client` 默认是 `console`。
-TSRPC 内部使用 `logger` 来输出所有日志。你可以修改初始化时的 `logger` 配置，从而实现定制日志输出流程。
+`Server` 默认是 `TerminalColorLogger` （会将日志带颜色输出到控制台），`Client` 默认是 `console`。
+TSRPC 使用 `logger` 来输出所有内部日志。你可以修改初始化时的 `logger` 配置，从而实现定制日志输出流程。
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -82,8 +82,8 @@ conn.logger.log('This is connection-level log');
 call.logger.log('This is call-level log');  // call is ApiCall or MsgCall
 ```
 
-如此，TSRPC 会在相应日志的前面，自动加上一些额外信息前缀，例如时间、IP 地址、调用的 API 路径等，
-这些都有助于你快速定位问题，如图：
+其中，`conn.logger` 会在 `server.logger` 的基础上增加额外前缀，例如 IP地址；
+`call.logger` 会在 `conn.logger` 的基础上增加额外前缀，例如 API 调用路径。
 
 - **Server 级日志**
 > 图
@@ -92,6 +92,13 @@ call.logger.log('This is call-level log');  // call is ApiCall or MsgCall
 - **Call 级日志**
 > 图
 
+基于父级 `Logger` 增加前缀，是通过 `tsrpc` 内置的 `PrefixLogger` 实现的。
+你也可以自行添加或修改这些前缀，例如将用户 ID 加入 `call.logger` 的前缀中：
+
+```ts
+call.logger.prefixs.push('UserID=XXXX');
+```
+
 :::note
 TSRPC Server 设计为 `Server` -> `Connection` -> `Call` 的三层结构，自上而下都是一对多的关系。
 （HTTP 短连接例外，它的 1 个 `Connection` 仅对应 1 个 `Call`）
@@ -99,19 +106,19 @@ TSRPC Server 设计为 `Server` -> `Connection` -> `Call` 的三层结构，自�
 
 即便有一些公共代码，它们不直接出现在 API 实现代码内，但可能被 API 间接调用，也推荐你将 `logger` 作为参数传递过去。
 比如你有一个公共的支付方法 `PayUtil.pay`，有很多 API 会调用它进行支付，每次支付都会留下日志记录。
-当你发现流水记录出现问题时，你查阅这些日志，你一定想知道这些支付请求究竟是被哪个 API 发起的。
+当出现账务问题时，你查阅这些日志，你一定想知道这些支付请求究竟是被哪个 API 发起的。
 此时，将 `ApiCall` 的 `logger` 传入，可就大有用处了。
 
 ```ts
 export class PayUtil {
     static pay(username: string, amount: number, productId: string, logger?: Logger){
-        logger?.log(`${username} payed ${amount} for product ${productId}.`)
+        logger?.log(`${username} payed ${amount} for product ${productId}`)
     }
 }
 ```
 
 :::note
-这并不会影响它在其它项目的兼容性，毕竟你总是能传递 `console` 作为一个合法的 `Logger`。
+这并不会影响它在其它项目 的兼容性，毕竟你总是能传递 `console` 作为一个合法的 `Logger`。
 :::
 
 ## 例子
