@@ -10,12 +10,14 @@ sidebar_position: 2
 
 ## 初始化项目
 
-如[上一节](create-tsrpc-app.md)中讲到的，我们先初始化一个 Web 全栈项目：
+我们先初始化一个 Web 全栈项目：
 ```
-npx create-tsrpc-app my-first-api --template web
+npx create-tsrpc-app my-first-api --presets browser
 ```
 
-创建好的项目里，已经包含了一个演示的 API 接口 `Test`，你可以先大概看看，然后我们从头开始实现一个全新的 API。
+然后删除自带的演示代码，即清空以下目录：
+- `backend/src/shared/protocols`
+- `backend/src/api`
 
 ## 定义协议
 ### 编写协议文件

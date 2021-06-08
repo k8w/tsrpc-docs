@@ -7,25 +7,23 @@ sidebar_position: 1
 ## 创建项目
 
 使用 `create-tsrpc-app` 工具，可以快速创建 TSRPC 项目。
-为方便演示，我们创建一个 Web 前端 + 后端的全栈项目。
 
 ```shell
-npx create-tsrpc-app my-tsrpc-app --template web
+npx create-tsrpc-app
 ```
 
-这将创建一个叫做 `my-tsrpc-app` 的目录，并在其中初始化一个 Web 应用项目结构。
+创建过程是交互式的，在菜单上选择相应的配置，即可轻松创建包含前后端的 TSRPC 全栈应用项目。
 
 :::note
-`create-tsrpc-app` 包含了很多开箱即用的全栈项目模板，可以通过 `--template` 参数来指定。你也可以省去 `--template` 参数，来创建一个纯粹的后端服务。[查看模板列表](a)
+可通过 `npx create-tsrpc-app --help` 查看更多帮助信息。
 :::
 
-## 目录结构
+## 全栈项目结构
 
-项目已经初始化好了，我们使用的是 `--template web` ，它包含 2 个项目：
-- backend：TSRPC 后端服务
-- frontend：Web 前端项目，未引入任何框架，仅用 WebPack 进行构建
+TSRPC 在前后端项目间共享协议定义等公共代码，来获得更好的代码提示和提高开发效率。
+通常，服务端项目被命名为 `backend`，客户端项目被命名为 `frontend`，它们都有一个共享代码目录 `src/shared`。共享目录在后端编辑，然后只读同步到前端，也可以使用 Symlink 来自动同步。
 
-目录结构释义如下：
+常见的目录结构如下：
 ```
 |- backend --------------------------- 后端项目
     |- src
@@ -39,10 +37,7 @@ npx create-tsrpc-app my-tsrpc-app --template web
         |- shared -------------------- 前后端共享代码（只读）
             |- protocols
         |- index.ts
-    |- index.html
 ```
-
-TSRPC 在前后端项目间共享协议定义等公共代码，来获得更好的代码提示和提高开发效率。
 
 ## 本地开发
 
@@ -58,7 +53,7 @@ cd frontend
 npm run dev
 ```
 
-前后端都启动了，打开 http://127.0.0.1:8080 看看效果吧~
+项目模板里已经自带了小例子，启动看看效果吧~
 
 ## 编译构建
 
