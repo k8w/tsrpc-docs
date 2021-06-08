@@ -6,6 +6,7 @@ sidebar_position: 3
 
 WebSocket 实时服务一直是 Web 应用的重大挑战之一。
 TSRPC 的二进制序列化特性，能显著减小包体，帮助实时服务提升传输效能。
+你可以通过 `npx create-tsrpc-app` 快速创建一个 WebSocket 实时聊天室项目。
 
 ## 实时 API
 TSRPC 本身的设计架构是协议无关的，这意味着在[上一节](the-first-api.md)中实现的 API 可以无缝运行在 WebSocket 协议之上。
@@ -23,7 +24,11 @@ import TabItem from '@theme/TabItem';
   <TabItem value="server">
 
 ```ts
-WebSocket Server
+import { WsServer } from 'tsrpc';
+
+const server = new WsServer(serviceProto, {
+    port: 3000
+});
 ```
 
   </TabItem>
@@ -31,7 +36,16 @@ WebSocket Server
   <TabItem value="client">
 
 ```ts
-WebSocket Client
+import { WsClient } from 'tsrpc-browser';
+
+const client = new WsClient(serviceProto, {
+    server: 'ws://127.0.0.1:3000',
+    logger: console
+});
+
+let ret = await client.callApi('Hello', { 
+  name: 'World'
+});
 ```
 
   </TabItem>
@@ -49,10 +63,10 @@ WebSocket Client
 
 ### 定义消息
 
-和 API 一样，消息的定义也存放在协议目录 `backend/src/shared/protocols` 下，文件命名规则为 `Msg${消息名}.ts`。
+和 API 一样，消息的定义也存放在协议目录 `backend/src/shared/protocols` 下，文件命名规则为 `Msg{消息名}.ts`。
 然后在其中声明一个同名的类型并标记为 `export`，例如：
 
-```ts title="backend/src/shared/protocols/MsgChat.ts"
+```ts title="MsgChat.ts"
 export interface MsgChat {
   name: string,
   content: string
@@ -74,7 +88,7 @@ npm run sync
 ```ts
 client.sendMsg('Chat', {
   name: 'k8w',
-  content: 'I really love TSRPC.'
+  content: 'I love TSRPC.'
 })
 ```
 
@@ -118,7 +132,13 @@ server.broadcastMsg('Chat', {
   <TabItem value="server">
 
 ```ts
-WebSocket Server
+// 监听（会返回传入的处理函数）
+let handler = server.listenMsg('Chat', call=>{
+  server.broadcastMsg('Chat', call.msg);
+});
+
+// 取消监听
+server.unlistenMsg('Chat', handler);
 ```
 
   </TabItem>
@@ -126,7 +146,13 @@ WebSocket Server
   <TabItem value="client">
 
 ```ts
-WebSocket Client
+// 监听（会返回传入的处理函数）
+let handler = client.listenMsg('Chat', msg=>{
+  console.log(msg.name, msg.content);
+});
+
+// 取消监听
+client.unlistenMsg('Chat', handler);
 ```
 
   </TabItem>

@@ -39,11 +39,11 @@ export interface ResUpload {
 
 ```ts
 import { ApiCall } from "tsrpc";
-import fs from 'fs';
+import fs from 'fs/promises';
 
 export async function ApiUpload(call: ApiCall<ReqUpload, ResUpload>) {
   // 写入文件，又或者推送远端文件服务器什么的
-  fs.writeFileSync('uploads/' + call.req.fileName, call.req.fileData);
+  await fs.writeFile('uploads/' + call.req.fileName, call.req.fileData);
 
   call.succ({
     url: 'https://xxx.com/uploads/' + call.req.fileName

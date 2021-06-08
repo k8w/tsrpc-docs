@@ -37,9 +37,9 @@ export interface Logger {
 跟 `console` 一样，我们定义了 4 种日志级别及其输出方法：`debug`、`log`、`warn`、`error`。
 显然，`console` 就是一个合法的 `Logger`。
 
-TSRPC 的所有 Server 和 Client 初始化时，都有一个 `logger` 参数，
-`Server` 默认是 `TerminalColorLogger` （会将日志带颜色输出到控制台），`Client` 默认是 `console`。
-TSRPC 使用 `logger` 来输出所有内部日志。你可以修改初始化时的 `logger` 配置，从而实现定制日志输出流程。
+TSRPC 的所有 Server 和 Client 初始化时，都有一个 `logger` 参数，TSRPC 使用它来输出所有内部日志。
+你可以修改初始化时的 `logger` 配置，从而实现定制日志输出流程。
+`Server` 默认是 `TerminalColorLogger` （会将日志带颜色、时间输出到控制台），`Client` 默认是 `undefined`（即不输出任何日志）。
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -154,7 +154,7 @@ let logger: Logger = {
 
 ```ts
 // 设定一个隐蔽的触发机关（例如借助 localStorage）
-let logger = localStorage.getItem('debug') === 'yes' ? console : null;
+let logger = localStorage.getItem('debug') === 'yes' ? console : undefined;
 
 let client = new HttpClient(serviceProto, {
     server: 'xxx',
@@ -163,5 +163,5 @@ let client = new HttpClient(serviceProto, {
 ```
 
 :::tip
-`logger` 对客户端来说可以为 `null` 或 `undefined`，此时所有日志将被隐藏。
+`logger` 对客户端来说可以为 `undefined`，此时所有日志将被隐藏。
 :::

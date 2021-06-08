@@ -55,11 +55,11 @@ npm run proto
 
 ## 实现 API
 
-### 自动生成实现
+### 生成 API 实现
 TSRPC 的 API 接口实现与协议定义是分离的，这是因为协议定义中包含着的类型信息，可以跨项目共享；而实现部分显然只能运行在 NodeJS 服务端。
 为了区分，协议定义统一命名为 `Ptl{接口名}.ts`，接口实现统一使用前缀 `Api{接口名}.ts`。
 
-接口实现位于 `backend/src/api`，实现与定义的文件一一对应，文件名前缀由 `Ptl` 替换为 `Api`。我们已经帮你准备好自动生成的工具，只需在上一步后接着执行：
+接口实现位于 `backend/src/api`，与协议定义一一对应，文件名前缀由 `Ptl` 替换为 `Api`。我们已经帮你准备好自动生成的工具，只需在上一步后接着执行：
 ```shell
 npm run api
 ```
@@ -127,9 +127,16 @@ import { HttpClient } from 'tsrpc-browser';
 
 // 创建一个 TSRPC Client
 let client = new HttpClient(serviceProto, {
-    server: 'http://127.0.0.1:3000'
+    server: 'http://127.0.0.1:3000',
+    logger: console
 });
 ```
+
+:::note
+设置 `logger: console` 可将 API 调用情况打印到控制台，便于调试。
+这是因为 TSRPC 的传输是二进制序列化的，所以你在开发者工具的网络面板中看到的将是一团乱码。
+你也可以在生产环境中省去这项配置，这样就没人知道你在干什么了😁。
+:::
 
 :::tip
 除浏览器外，TSRPC 客户端还支持 NodeJS、小程序、React Native 等平台，见[客户端列表](xxx.md)。
@@ -209,15 +216,41 @@ console.log(ret);
 ## 二进制序列化
 
 在 Chrome 中打开开发者工具，进入 Network 面板抓包后可以发现，传输内容看起来像乱码一般，这是因为框架自动将传输内容序列化成了二进制编码。它比 JSON 有着更小的传输体积和更好的安全性。
-仍然看见一些明文是因为 TSRPC 并未对包体进行加密，开发者可以自行完成二进制编码的加密操作，我们在[后面的章节](sss.md)有所介绍。
+仍然看见一些明文是因为 TSRPC 并未对包体进行加密或压缩，开发者可以自行完成二进制编码的加密和压缩，我们在[后面的章节](sss.md)有所介绍。
 
-二进制序列化能获得更好的传输效能，但考虑到兼容性，TSRPC 也支持第三方客户端及传统 JSON 方式的调用方法，例如：
-```ts title="frontend/src/index.ts"
+## 兼容模式
+二进制序列化能获得更好的传输效能，但考虑到兼容性，TSRPC 也支持 XMLHttpRequest、fetch 等传统 JSON 方式的调用方法。
+
+Server 端开启 `jsonEnabled` 选项：
+```ts
+const server = new HttpServer(serviceProto, {
+    ...
+    // 兼容 JSON 调用（POST）
+    jsonEnabled: true,
+    ...
+});
+```
+
+浏览器端即可通过 JSON 调用：
+```ts
 fetch('http://127.0.0.1:3000/Hello', {
-    ....
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        name: 'World'
+    })
 })
 ```
 
+调用规则为：
+- URL 为 `服务根路径/协议路径/接口名`
+- Method 为 `POST`，body 为 JSON 字符串
+- 需要包含 Header `Content-Type: application/json`
+
+`jsonEnabled` 默认关闭，对安全性要求高的系统，不建议启用（提高协议破解门槛）。
+
 :::tip
-Server 选项设置为 `jsonEnabled: false` 可禁用对 JSON 的兼容，对安全性要求高的系统，强烈建议禁用。
+JSON 兼容模式，不影响自动类型检测正常工作，它不但会自动检测已定义的字段，还会将未定义的多余字段自动剔除，确保类型绝对安全。
 :::
