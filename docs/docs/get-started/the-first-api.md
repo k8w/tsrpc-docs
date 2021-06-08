@@ -6,13 +6,13 @@ sidebar_position: 2
 
 在这一节中，我们将体验使用 TSRPC 快速实现一个 API 服务，并在浏览器中调用它。
 
-本节内容的完整例子在：https://github.com/k8w/tsrpc-examples/my-first-api/
+本节内容的完整例子在：https://github.com/k8w/tsrpc-examples/first-api/
 
 ## 初始化项目
 
 我们先初始化一个 Web 全栈项目：
 ```
-npx create-tsrpc-app my-first-api --presets browser
+npx create-tsrpc-app first-api --presets browser
 ```
 
 然后删除自带的演示代码，即清空以下目录：
@@ -21,17 +21,15 @@ npx create-tsrpc-app my-first-api --presets browser
 
 ## 定义协议
 ### 编写协议文件
-协议目录默认位于 `backend/src/shared/protocols` 目录下，协议文件的命名规则为 `Ptl${协议名}.ts`。
+协议目录默认位于 `backend/src/shared/protocols` 目录下，协议文件的命名规则为 `Ptl{接口名}.ts`。
 
 例如我们想要实现一个名为 `Hello` 的协议，则在该目录下创建文件 `PtlHello.ts`，然后分别定义请求类型 `ReqHello` 和 响应类型 `ResHello`，记得要加上 `export` 标记导出它们。
 
-```ts title="backend/src/shared/protocols/PtlHello.ts"
-// 请求
+```ts
 export interface ReqHello {
     name: string
 }
 
-// 响应
 export interface ResHello {
     reply: string,
     time: Date
@@ -45,45 +43,46 @@ export interface ResHello {
 :::
 
 ### 生成 ServiceProto
-[`ServiceProto`](asdg) 是 TSRPC 框架运行时实际使用的协议数据格式，执行以下命令来自动生成：
+[`ServiceProto`](asdg) 是 TSRPC 运行时实际使用的协议格式，执行以下命令来自动生成：
 ```shell
 cd backend
 npm run proto
 ```
 
 :::tip
-每当协议文件修改后，都应该执行此命令重新生成。
+每当协议修改后，都应该执行此命令重新生成。
 :::
 
 ## 实现 API
 
-### 自动生成 API 文件
-API 实现目录位于 `backend/src/api`，该目录下的文件与协议目录下的协议定义一一对应，只是将文件名前缀 `Ptl` 修改为 `Api`。项目模板里已经提供了便捷的命令行工具来自动生成，只需在协议定义完后执行：
+### 自动生成实现
+TSRPC 的 API 接口实现与协议定义是分离的，这是因为协议定义中包含着的类型信息，可以跨项目共享；而实现部分显然只能运行在 NodeJS 服务端。
+为了区分，协议定义统一命名为 `Ptl{接口名}.ts`，接口实现统一使用前缀 `Api{接口名}.ts`。
+
+接口实现位于 `backend/src/api`，实现与定义的文件一一对应，文件名前缀由 `Ptl` 替换为 `Api`。我们已经帮你准备好自动生成的工具，只需在上一步后接着执行：
 ```shell
-cd backend
 npm run api
 ```
 
 如此，空白的 API 文件就自动生成了。对于我们刚刚定义的协议 `PtlHello.ts`，对应生成的实现文件名为 `ApiHello.ts`，目录结构如下：
 ```
 |- backend/src
-    |- shared/protocols         协议目录
-        |- PtlHello.ts     协议 Hello 定义
-    |- api                      API 实现目录
-        |- ApiHello.ts     API Hello 实现
-    |- index.ts                 后端程序入口
+    |- shared/protocols
+        |- PtlHello.ts   接口 Hello 的定义
+    |- api
+        |- ApiHello.ts   接口 Hello 的实现
+    |- index.ts
 ```
 
 :::tip
-已经存在的 API 文件不会被覆盖，可以随时增量生成。
-当然，手动生成也行，如果你想。
+已经存在的 API 文件不会被覆盖或删除，可以随时增量生成。
 :::
 
 ### 请求和响应
-API 的实现就是一个异步函数，输入输出是通过传入的 `call` 来实现的。
-- 通过 `call.req` 来获取请求参数（即协议中定义的 `ReqHello`，框架会确保此处类型一定合法）。
-- 通过 `call.succ(res)` 来返回响应（即协议中定义的 `ResHello`）。
-- 通过 `call.error('可读的错误信息', { xxx: 'xxx' })` 来返回错误，第二个参数为额外的错误信息（如错误码），是选填的。
+API 的实现就是一个异步函数，对客户端的输入输出是通过传入的参数 `call` 来实现的。
+- 通过 `call.req` 来获取请求参数，即协议中定义的 `ReqHello`，框架会确保此处类型**一定合法**。
+- 通过 `call.succ(res)` 来返回响应，即协议中定义的 `ResHello`。
+- 通过 `call.error('可读的错误信息', { xxx: 'xxx' })` 来返回错误，第二个参数为想返回的额外字段，是选填的。
 
 例如：
 
@@ -136,7 +135,7 @@ let client = new HttpClient(serviceProto, {
 除浏览器外，TSRPC 客户端还支持 NodeJS、小程序、React Native 等平台，见[客户端列表](xxx.md)。
 :::
 
-### client.callApi
+### callApi
 
 不同平台的客户端用法几乎都是一致的：使用 `client.callApi()` 来调用远程 API。
 TSRPC 对于前端接入的体验是极致的。整个过程都有代码提示，完全不需要协议文档，也不必担心拼写错误带来的低级错误。
@@ -151,21 +150,17 @@ TSRPC 对于前端接入的体验是极致的。整个过程都有代码提示�
 
 ```ts title="frontend/src/index.ts"
 async function onBtnClick(){
-    // 像调用本地异步函数那样调用远端 API
     let ret = await client.callApi('Hello', {
         name: 'World'
     });
 
-    // 未检测错误，res 可能为空
-    console.log(ret.res?.reply);
-
-    // 检测错误，进入异常分支
+    // Error
     if(!ret.isSucc) {
         alert('Error: ' + ret.err.message);
         return;
     }
 
-    // 已做错误保护，res 必定有值
+    // Success
     alert('Success: ' + ret.res.reply);
 }
 
