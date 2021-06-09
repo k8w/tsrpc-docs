@@ -4,6 +4,10 @@ sidebar_position: 4
 
 # Server 服务端
 
+:::danger WIP
+此文档还在编写中…… 敬请期待。
+:::
+
 ## 三层结构
 - Server
 - Connection
@@ -11,10 +15,6 @@ sidebar_position: 4
 
 ## 启动流程
 - 准备好一切，再 `server.start()`
-
-:::danger WIP
-此文档还在编写中…… 敬请期待。
-:::
 
 ## 返回错误
 

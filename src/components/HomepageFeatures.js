@@ -8,56 +8,55 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        直接使用 TypeScript 的类型系统定义协议，
+        无需任何注释、Decorator、第三方语言。
       </>
     ),
   },
   {
-    title: 'Runtime Type Checking',
+    title: '运行时类型检测',
     Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        运行时 TypeScript 类型检测，输入输出总是类型安全，放心编写业务代码。
       </>
     ),
   },
   {
-    title: 'Binary Serialization',
+    title: '二进制序列化',
     Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        核心黑科技，将 TypeScript 类型直接序列化成二进制，甚至支持复杂的嵌套类型！
       </>
     ),
   },
   {
-    title: 'High Performance',
+    title: '多协议支持',
+    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    description: (
+      <>
+        同时支持 HTTP 和 WebSocket<br />
+        向后兼容传统 JSON API
+      </>
+    ),
+  },
+  {
+    title: '多平台客户端',
+    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    description: (
+      <>
+        浏览器 / 原生 / NodeJS / 微信小程序
+      </>
+    ),
+  },
+  {
+    title: '高性能',
     Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        5000+ QPS on single CPU<br />
+        单核 5000+ QPS<br />
         MacBook Air M1, 2020
-      </>
-    ),
-  },
-  {
-    title: 'Multiple Protocols',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        Both support HTTP and WebSocket
-      </>
-    ),
-  },
-  {
-    title: 'Multiple Clients',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Browser / Native / NodeJS / MiniApp
       </>
     ),
   },

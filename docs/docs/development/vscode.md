@@ -2,7 +2,7 @@
 sidebar_position: 7
 ---
 
-# 在 VS Code 中调试
+# VS Code 使用建议
 
 - 在 VS Code 中配置断点调试
 

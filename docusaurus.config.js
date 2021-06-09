@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'TSRPC',
-  tagline: 'TypeScript RPC Framework\nFor Web applications, WebSocket realtime applications, NodeJS micro services...',
+  tagline: 'TypeScript 的跨平台 RPC 框架，支持运行时类型检查和二进制序列化',
   url: 'https://tsrpc.cn',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -21,7 +21,7 @@ module.exports = {
           type: 'doc',
           docId: 'docs/introduction',
           position: 'left',
-          label: 'Docs',
+          label: '文档',
         },
         {
           type: 'doc',
@@ -33,7 +33,7 @@ module.exports = {
           type: 'doc',
           docId: 'cookbook/index',
           position: 'left',
-          label: 'Cookbook',
+          label: '例子',
         },
         // { to: '/blog', label: 'Blog', position: 'left' },
         {
@@ -98,6 +98,7 @@ module.exports = {
           // Please change this to your repo.
           editUrl:
             'https://github.com/k8w/tsrpc-docs/',
+          routeBasePath: '/'
         },
         blog: {
           showReadingTime: true,

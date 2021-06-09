@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## TSRPC是什么
 
-TSRPC 是一个面向 TypeScript 的 RPC 框架，适用于浏览器 Web 应用、WebSocket 实时应用、NodeJS 微服务等场景。
+TSRPC 是一个 TypeScript 的 RPC 框架，适用于浏览器 Web 应用、WebSocket 实时应用、NodeJS 微服务等场景。
 
 <!-- 现如今，正有越来越多的团队使用 TypeScript + NodeJS 开发后端服务。
 NodeJS 极大的降低了全栈开发的门槛，而 TypeScript 提供了史上最强大的类型检测系统。
@@ -84,7 +84,7 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
 
 - 🥤 **原汁原味 TypeScript**
   - 直接基于 TypeScript `type` 和 `interface` 定义协议
-  - 不需要额外注释，没有 Decorator，没有第三方 IDL 语言
+  - 不需要额外注释，不需要 Decorator，不需要第三方 IDL 语言
 - 👓 **自动类型检查**
   - 在编译时刻和运行时刻，自动进行输入输出的类型检查
   - 总是类型安全，放心编写业务代码
