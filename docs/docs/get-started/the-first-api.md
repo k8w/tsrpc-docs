@@ -43,7 +43,7 @@ export interface ResHello {
 :::
 
 ### 生成 ServiceProto
-[`ServiceProto`](asdg) 是 TSRPC 运行时实际使用的协议格式，执行以下命令来自动生成：
+[`ServiceProto`](../development/service-proto.md) 是 TSRPC 运行时实际使用的协议格式，执行以下命令来自动生成：
 ```shell
 cd backend
 npm run proto
@@ -216,7 +216,7 @@ console.log(ret);
 ## 二进制序列化
 
 在 Chrome 中打开开发者工具，进入 Network 面板抓包后可以发现，传输内容看起来像乱码一般，这是因为框架自动将传输内容序列化成了二进制编码。它比 JSON 有着更小的传输体积和更好的安全性。
-仍然看见一些明文是因为 TSRPC 并未对包体进行加密或压缩，开发者可以自行完成二进制编码的加密和压缩，我们在[后面的章节](sss.md)有所介绍。
+仍然看见一些明文是因为 TSRPC 并未对包体进行加密或压缩，开发者可以自行完成二进制编码的加密和压缩，我们在[后面的章节](../flow/transfer-encryption.md)有所介绍。
 
 ## 兼容模式
 二进制序列化能获得更好的传输效能，但考虑到兼容性，TSRPC 也支持 XMLHttpRequest、fetch 等传统 JSON 方式的调用方法。
