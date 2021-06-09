@@ -84,7 +84,7 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
 
 - 🥤 **原汁原味 TypeScript**
   - 直接基于 TypeScript `type` 和 `interface` 定义协议
-  - 不需要额外注释，不需要 Decorator，不需要第三方 IDL 语言
+  - 无需额外注释，无需 Decorator，无需第三方 IDL 语言
 - 👓 **自动类型检查**
   - 在编译时刻和运行时刻，自动进行输入输出的类型检查
   - 总是类型安全，放心编写业务代码
@@ -93,7 +93,7 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
   - 比 JSON 更多的数据类型：如 `Date`, `ArrayBuffer`, `Uint8Array` 等
   - 方便地实现二进制加密
 - 🔥 **史上最强大的 TypeScript 序列化算法**
-    - 不需要任何注解，直接实现将 TypeScript 源码中的类型定义序列化
+    - 无需任何注解，直接实现将 TypeScript 源码中的类型定义序列化
     - 首个也是目前唯一支持 TypeScript 高级类型的二进制序列化算法，包括：
       - [Union Type](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types)
       - [Intersection Type](https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types)
