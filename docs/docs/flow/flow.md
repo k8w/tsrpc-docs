@@ -197,11 +197,11 @@ export async function ApiXXX(call: MyCall<ReqXXX, ResXXX>){
 
 ## 例子
 通过灵活的 `Flow`，开发者可以实现很多特性，我们整理了一些常见的场景：
-- [实现 Session 和 Cookie 特性](xxx.md)
-- [用户登录和权限验证](xxx.md)
-- [基于二进制的传输加密](xxx.md)
-- [前端本地 Mock 测试](xxx.md)
-- [GET 接口、静态页面等自定义 HTTP 响应](xxx.md)
+- [实现 Session 和 Cookie 特性](#)
+- [用户登录和权限验证](#)
+- [基于二进制的传输加密](#)
+- [前端本地 Mock 测试](#)
+- [GET 接口、静态页面等自定义 HTTP 响应](#)
 
 <!-- - 触发事件：例如监听接收到 API 请求的事件，以便统计访问 QPS。
 - 转换数据：例如在发送二进制数据前加密，接收数据前解密。

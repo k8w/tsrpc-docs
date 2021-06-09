@@ -139,7 +139,7 @@ let client = new HttpClient(serviceProto, {
 :::
 
 :::tip
-除浏览器外，TSRPC 客户端还支持 NodeJS、小程序、React Native 等平台，见[客户端列表](xxx.md)。
+除浏览器外，TSRPC 客户端还支持 NodeJS、小程序、React Native 等平台，见[客户端列表](#)。
 :::
 
 ### callApi
