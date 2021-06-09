@@ -4,12 +4,12 @@ import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'TypeScript',
+    title: '原汁原味 TypeScript',
     Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        直接使用 TypeScript 的类型系统定义协议，
-        无需任何注释、Decorator、第三方语言。
+        直接使用 TypeScript 的类型系统定义协议<br />
+        无需任何注释、Decorator、第三方语言
       </>
     ),
   },
@@ -18,7 +18,8 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        运行时 TypeScript 类型检测，输入输出总是类型安全，放心编写业务代码。
+        运行时 TypeScript 类型检测<br />
+        自动检测输入输出，总是类型安全
       </>
     ),
   },
@@ -27,7 +28,8 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        核心黑科技，将 TypeScript 类型直接序列化成二进制，甚至支持复杂的嵌套类型！
+        TypeScript 类型直接序列化成二进制<br />
+        比 JSON 更小、更快、更多类型
       </>
     ),
   },
@@ -37,7 +39,7 @@ const FeatureList = [
     description: (
       <>
         同时支持 HTTP 和 WebSocket<br />
-        向后兼容传统 JSON API
+        向后兼容 Restful API
       </>
     ),
   },
