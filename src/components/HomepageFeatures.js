@@ -32,7 +32,7 @@ const FeatureList = [
     ),
   },
   {
-    title: '多协议支持',
+    title: '多协议',
     Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
@@ -42,7 +42,7 @@ const FeatureList = [
     ),
   },
   {
-    title: '多平台客户端',
+    title: '多平台',
     Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
