@@ -101,13 +101,14 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
       - [Partial Type](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)
       - [Indexed Access Types](https://www.typescriptlang.org/docs/handbook/2/indexed-access-types.html)
       - 等等
+- ☎ **多协议支持**
+  - 同时支持 HTTP / WebSocket
+- 💻 **多终端支持**
+  - NodeJS / 浏览器 / App / 小程序
 - ⚡️ **高性能**
   - 单核单进程 5000+ QPS 吞吐量（测试于 Macbook Air M1, 2020)
   - 单元测试、压力测试、DevOps 方案齐备
-- 💻 **多终端支持**
-  - NodeJS / 浏览器 / App / 小程序
-- ☎ **多协议支持**
-  - 同时支持 HTTP / WebSocket
+
 
 ## 兼容性
 
