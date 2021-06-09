@@ -118,7 +118,7 @@ export class PayUtil {
 ```
 
 :::note
-这并不会影响它在其它项目 的兼容性，毕竟你总是能传递 `console` 作为一个合法的 `Logger`。
+这并不会影响它在其它项目的兼容性，毕竟你总是能传递 `console` 作为一个合法的 `Logger`。
 :::
 
 ## 例子
@@ -157,11 +157,11 @@ let logger: Logger = {
 let logger = localStorage.getItem('debug') === 'yes' ? console : undefined;
 
 let client = new HttpClient(serviceProto, {
-    server: 'xxx',
+    server: 'http://127.0.0.1',
     logger: logger
 })
 ```
 
 :::tip
-`logger` 对客户端来说可以为 `undefined`，此时所有日志将被隐藏。
+客户端默认为 `logger: undefined`，此时所有客户端日志将被隐藏，这有利于提升破解门槛。
 :::

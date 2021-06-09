@@ -124,8 +124,8 @@ npm run sync
 
 ```ts title="frontend/src/index.ts"
 import { HttpClient } from 'tsrpc-browser';
+import { serviceProto } from './shared/protocols/serviceProto';
 
-// 创建一个 TSRPC Client
 let client = new HttpClient(serviceProto, {
     server: 'http://127.0.0.1:3000',
     logger: console
@@ -152,17 +152,17 @@ TSRPC 对于前端接入的体验是极致的。整个过程都有代码提示�
 ### 处理错误和响应
 
 `callApi` 不总是顺利的，可能出现一些错误和异常，如网络错误、API 业务错误等。
-在 TSRPC 中，不管是什么类型的错误，都在一处统一处理。
+在 TSRPC 中，不管是什么类型的错误（例如业务错误、网络错误、代码异常等），都在一处统一处理。
 根据 `ret.isSucc` 来判断请求结果，成功则取响应 `ret.res`，失败则取错误 `ret.err`。
 
 ```ts title="frontend/src/index.ts"
-async function onBtnClick(){
+async function test() {
     let ret = await client.callApi('Hello', {
         name: 'World'
     });
 
     // Error
-    if(!ret.isSucc) {
+    if (!ret.isSucc) {
         alert('Error: ' + ret.err.message);
         return;
     }
@@ -171,11 +171,11 @@ async function onBtnClick(){
     alert('Success: ' + ret.res.reply);
 }
 
-document.getElementById('btn').onclick = onBtnClick;
+window.onload = test;
 ```
 
 :::tip
-TSRPC 的所有方法都不会抛出异常，因此总是无需 `promise.catch()`。
+TSRPC 的所有方法都不会抛出异常，因此总是无需 `promise.catch()` 或 `try...catch...`。
 :::
 
 ## 测试一下

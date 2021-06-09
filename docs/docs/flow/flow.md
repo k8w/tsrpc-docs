@@ -12,7 +12,7 @@ sidebar_position: 1
 > 图 Flow 执行流程
 
 `Flow` 与管线类似，它由一组输入输出类型都相同的函数组成。
-我们把其中的每个函数称为 `FlowNode`，同步或异步皆可。与管线有一点区别的是，`FlowNode` 可以返回 `null` 或 `undefined` 来代表**中断流程**。
+我们把其中的每个函数称为 `FlowNode`，同步或异步皆可。与管线有一点区别的是，`FlowNode` 可以返回 `null | undefined` 来代表**中断流程**。
 每一个 `Flow` 和都有一个固定的数据类型 `<T>`，即它节点函数的输入和输出类型，定义如下：
 
 ```ts title="FlowNode 定义"
@@ -21,7 +21,7 @@ export type FlowNode<T> = (item: T) => FlowNodeReturn<T> | Promise<FlowNodeRetur
 ```
 
 `Flow` 就像一个 `FlowNode` 的数组，你可以通过 `flow.push(flowNode)` 来追加一个新节点。
-`Flow` 在执行时，将从第一个 `FlowNode` 开始执行（参数为原始输入参数），然后将上一个 `FlowNode` 的输出作为下一个 `FlowNode` 的输入，逐个执行；直到得到最后的输出或收到 `null` 或 `undefined` 而提前中断。
+`Flow` 在执行时，将从第一个 `FlowNode` 开始执行（参数为原始输入参数），然后将上一个 `FlowNode` 的输出作为下一个 `FlowNode` 的输入，逐个执行；直到得到最后的输出或收到 `null | undefined` 而提前中断。
 
 接下来就来看一下 `Flow` 在 TSRPC 中的具体使用方式。
 
@@ -42,12 +42,32 @@ TSRPC 为整个通讯过程制定了统一的工作流。
 ### Server Flows
 | 名称 | 作用 |
 | - | - |
-| asd | gdg |
+| postConnectFlow | 客户端连接后 |
+| postDisconnectFlow | 客户端断开连接后 |
+| preRecvBufferFlow | 处理收到的二进制数据前 |
+| preSendBufferFlow | 发送二进制数据前 |
+| preApiCallFlow | 执行 API 接口实现之前 |
+| preApiReturnFlow | API 接口返回结果（`call.succ`、`call.error`）之前 |
+| postApiReturnFlow | API 接口返回结果（`call.succ`、`call.error`）之后 |
+| postApiCallFlow | 执行 API 接口实现之后 |
+| preMsgCallFlow | 触发 Message 监听事件之前 |
+| postMsgCallFlow | 触发 Message 监听事件之后 |
+| preSendMsgFlow | 发送 Message 之前 |
+| postSendMsgFlow | 发送 Message 之后 |
 
 ### Client Flows
 | 名称 | 作用 |
 | - | - |
-| asd | gdg |
+| preCallApiFlow | 执行 `callApi` 之前 |
+| preApiReturnFlow | 将 `callApi` 的结果返回给调用方之前 |
+| postApiReturnFlow | 将 `callApi` 的结果返回给调用方之后 |
+| preSendMsgFlow | 执行 `sendMsg` 之前 |
+| postSendMsgFlow | 执行 `sendMsg` 之后 |
+| preSendBufferFlow | 向服务端发送任何二进制数据之前 |
+| preRecvBufferFlow | 处理服务端发来的任何二进制数据之前 |
+| preConnectFlow | 连接到服务端之前（仅 WebSocket） |
+| postConnectFlow | 连接到服务端之后（仅 WebSocket） |
+| postDisconnectFlow | 从服务端断开连接之后（仅 WebSocket） |
 
 想要控制工作流，向这些 `Flow` 中 `push` 你自己的 `FlowNode` 函数即可，例如一个实现简单的登录验证：
 
@@ -64,7 +84,7 @@ server.flows.preApiCallFlow.push(call => {
 ```
 
 ### 特别说明
-根据名称可以看出，TSRPC 的内置 `Flow` 分为两类，`Pre Flow` 和 `Post Flow`。当它们的 `FlowNode` 中途返回了 `null` 或 `undefined` 时，都会中断 `Flow` 后续节点的执行。但对于 TSRPC 工作流的影响，有所区别：
+根据名称可以看出，TSRPC 的内置 `Flow` 分为两类，`Pre Flow` 和 `Post Flow`。当它们的 `FlowNode` 中途返回了 `null | undefined` 时，都会中断 `Flow` 后续节点的执行。但对于 TSRPC 工作流的影响，有所区别：
 - 所有 `Pre Flow` 的中断，**会**中断后续的 TSRPC 工作流，例如 Client `preCallApiFlow` 中断，则会阻止 `callApi`。
 - 所有 `Post Flow` 的中断，**不会**中断后续的 TSRPC 工作流，例如 Server `postConnectFlow` 中断，**不会**阻止连接建立和后续的消息接收。
 
@@ -85,7 +105,7 @@ TSRPC 支持以如下的方式进行类型扩展：
 
 ```ts
 declare module 'tsrpc' {
-    export interface HttpConnection {
+    export interface BaseConnection {
         // 自定义的新字段
         connectedTime: number;
     }

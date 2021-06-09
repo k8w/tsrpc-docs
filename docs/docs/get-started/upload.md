@@ -24,12 +24,12 @@ import TabItem from '@theme/TabItem';
 
 ```ts
 export interface ReqUpload {
-  fileName: string,
-  fileData: ArrayBuffer
+    fileName: string,
+    fileData: Uint8Array
 }
 
 export interface ResUpload {
-  url: string;
+    url: string;
 }
 ```
 
@@ -46,7 +46,7 @@ export async function ApiUpload(call: ApiCall<ReqUpload, ResUpload>) {
   await fs.writeFile('uploads/' + call.req.fileName, call.req.fileData);
 
   call.succ({
-    url: 'https://xxx.com/uploads/' + call.req.fileName
+      url: 'http://127.0.0.1:3000/uploads/' + call.req.fileName
   });
 }
 ```
@@ -56,8 +56,23 @@ export async function ApiUpload(call: ApiCall<ReqUpload, ResUpload>) {
   <TabItem value="client">
 
 ```ts
-async function onBtnUpload(){
+async function upload(fileData: Uint8Array, fileName: string) {
+    // Upload
+    let ret = await client.callApi('Upload', {
+        fileData: fileData,
+        fileName: fileName
+    });
 
+    // Error
+    if (!ret.isSucc) {
+        alert(ret.err.message);
+        return;
+    }
+
+    // Succ
+    return {
+      url: ret.res.url
+    };
 }
 ```
 
