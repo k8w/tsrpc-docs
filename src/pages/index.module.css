@@ -36,6 +36,7 @@
   width: 8rem; */
   border-radius: 0.5rem;
   transition: all 0.1s;
+  word-break: keep-all;
 }
 
 .buttons a:hover {
