@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'TSRPC - TypeScript 跨平台 RPC 框架',
-  tagline: 'TypeScript 的跨平台 RPC 框架，支持运行时类型检查和二进制序列化',
+  tagline: 'TypeScript 的开源 RPC 框架\n强大的运行时 TS 类型检测、二进制序列化特性\n同时支持 HTTP 和 WebSocket',
   url: 'https://tsrpc.cn',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -42,8 +42,8 @@ module.exports = {
         },
         // { to: '/blog', label: 'Blog', position: 'left' },
         {
-          type: 'search',
-          position: 'right',
+          label: 'v3.0.0', // by default, show active/latest version label
+          position: 'right'
         },
         {
           href: 'https://github.com/k8w/tsrpc',
@@ -95,7 +95,7 @@ module.exports = {
       //     ],
       //   },
       // ],
-      copyright: `遵循 MIT 开源协议  Copyright © 2016-${new Date().getFullYear()} King Wang`,
+      copyright: `遵循 MIT 开源协议\nCopyright © 2016-${new Date().getFullYear()} King Wang`,
     },
   },
   presets: [
@@ -105,8 +105,8 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          // editUrl:
-          //   'https://github.com/k8w/tsrpc-docs/blob/main/',
+          editUrl:
+            'https://github.com/k8w/tsrpc-docs/blob/main/',
           routeBasePath: '/'
         },
         // blog: {

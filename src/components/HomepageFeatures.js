@@ -29,7 +29,7 @@ const FeatureList = [
     description: (
       <>
         TypeScript 类型直接序列化成二进制<br />
-        比 JSON 更小、更快、更多类型
+        比 JSON 更小、更快、支持更多类型
       </>
     ),
   },
@@ -57,8 +57,8 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        单核 5000+ QPS<br />
-        MacBook Air M1, 2020
+        单核 5000+ QPS (Macbook Air 2020)<br />
+        多个千万级 DAU 项目验证
       </>
     ),
   },

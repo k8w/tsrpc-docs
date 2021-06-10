@@ -10,6 +10,10 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: url(/img/hero_bg.svg) #FCFCFC;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  border-bottom: solid 4px #3178C6;
 }
 
 @media screen and (max-width: 966px) {
@@ -22,4 +26,75 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.buttons a {
+  margin: 0 10px;
+  font-size: 1.2em;
+  padding: 0.4rem 2rem;
+  /* text-align: center;
+  width: 8rem; */
+  border-radius: 0.5rem;
+  transition: all 0.1s;
+}
+
+.buttons a:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+.buttons .primary {
+  background: #3178C6;
+  color: #fff;
+  border: solid 2px #3178C6;
+}
+
+.buttons .primary:hover {
+  background: #5EA8E9;
+  border-color: #5EA8E9;
+}
+
+.buttons .normal {
+  color: #3178C6;
+  border: solid 2px #3178C6;
+}
+
+.buttons .normal:hover {
+  color: #88C1FF;
+  border-color: #88C1FF;
+}
+
+.logo {
+  height: 5.5rem;
+  margin-bottom: -0.5rem;
+  margin-right: 0.75rem;
+}
+
+.textLogo {
+  height: 4rem;
+}
+
+.subTitle {
+  color: #6A6A6A;
+  font-size: 1.2rem;
+  white-space: pre-line;
+  line-height: 1.5em;
+  margin: 2rem auto;
+  font-family: 'SiYuan-Thin';
+}
+
+@font-face {
+  font-family: 'SiYuan-Thin';
+  font-display: swap;
+  src: url('//at.alicdn.com/t/webfont_d3mycpcbf9s.eot');
+  /* IE9*/
+  src: url('//at.alicdn.com/t/webfont_d3mycpcbf9s.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('//at.alicdn.com/t/webfont_d3mycpcbf9s.woff2') format('woff2'),
+    url('//at.alicdn.com/t/webfont_d3mycpcbf9s.woff') format('woff'),
+    /* chrome、firefox */
+    url('//at.alicdn.com/t/webfont_d3mycpcbf9s.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('//at.alicdn.com/t/webfont_d3mycpcbf9s.svg#思源黑体-细') format('svg');
+  /* iOS 4.1- */
 }

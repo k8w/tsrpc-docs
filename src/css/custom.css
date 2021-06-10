@@ -46,6 +46,28 @@
   font-weight: bold;
 }
 
+.navbar__toggle {
+  color: white;
+}
+
+.navbar-sidebar .navbar-sidebar__items {
+  padding: 0;
+}
+
+.navbar-sidebar__items .menu__link {
+  color: white;
+  padding: 10px 20px;
+}
+
+.navbar-sidebar__items .navbar__link--active {
+  border: none !important;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.footer__copyright {
+  white-space: pre-line;
+}
+
 .docusaurus-highlight-code-line {
   background-color: rgb(72, 77, 91);
   display: block;
