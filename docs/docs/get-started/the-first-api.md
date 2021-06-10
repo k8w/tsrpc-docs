@@ -139,7 +139,10 @@ let client = new HttpClient(serviceProto, {
 :::
 
 :::tip
-除浏览器外，TSRPC 客户端还支持 NodeJS、小程序、React Native 等平台，见[客户端列表](#)。
+TSRPC 客户端支持多个平台，根据需要从不同的 NPM 包创建即可：
+- NodeJS：`tsrpc`
+- 浏览器、ReactNative：`tsrpc-browser`
+- 微信小程序：`tsrpc-miniapp`
 :::
 
 ### callApi
