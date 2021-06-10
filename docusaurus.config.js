@@ -105,8 +105,8 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/k8w/tsrpc-docs/blob/main/',
+          // editUrl:
+          //   'https://github.com/k8w/tsrpc-docs/blob/main/',
           routeBasePath: '/'
         },
         // blog: {

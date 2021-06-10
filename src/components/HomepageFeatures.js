@@ -5,7 +5,7 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: '原汁原味 TypeScript',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('../../static/img/feature_1.svg').default,
     description: (
       <>
         直接使用 TypeScript 的类型系统定义协议<br />
@@ -15,7 +15,7 @@ const FeatureList = [
   },
   {
     title: '运行时类型检测',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('../../static/img/feature_2.svg').default,
     description: (
       <>
         运行时 TypeScript 类型检测<br />
@@ -25,7 +25,7 @@ const FeatureList = [
   },
   {
     title: '二进制序列化',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('../../static/img/feature_3.svg').default,
     description: (
       <>
         TypeScript 类型直接序列化成二进制<br />
@@ -35,7 +35,7 @@ const FeatureList = [
   },
   {
     title: '多协议',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('../../static/img/feature_4.svg').default,
     description: (
       <>
         同时支持 HTTP 和 WebSocket<br />
@@ -45,7 +45,7 @@ const FeatureList = [
   },
   {
     title: '多平台',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('../../static/img/feature_5.svg').default,
     description: (
       <>
         浏览器 / 原生 / NodeJS / 微信小程序
@@ -54,7 +54,7 @@ const FeatureList = [
   },
   {
     title: '高性能',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('../../static/img/feature_6.svg').default,
     description: (
       <>
         单核 5000+ QPS (Macbook Air 2020)<br />
