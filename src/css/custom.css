@@ -7,14 +7,43 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: rgb(33, 175, 144);
-  --ifm-color-primary-darker: rgb(31, 165, 136);
-  --ifm-color-primary-darkest: rgb(26, 136, 112);
-  --ifm-color-primary-light: rgb(70, 203, 174);
-  --ifm-color-primary-lighter: rgb(102, 212, 189);
-  --ifm-color-primary-lightest: rgb(146, 224, 208);
+  --ifm-color-primary: #5EA8E9;
+  --ifm-color-success: #49BD6A;
+  --ifm-color-danger: #e26b6b;
+  /* --ifm-color-primary-dark: #3578E5;
+  --ifm-color-primary-darker: #3578E5;
+  --ifm-color-primary-darkest: #3578E5;
+  --ifm-color-primary-light: #3578E5;
+  --ifm-color-primary-lighter: #3578E5;
+  --ifm-color-primary-lightest: #3578E5; */
   --ifm-code-font-size: 95%;
+
+  /* NavBar */
+  --ifm-navbar-background-color: #3178C6;
+  --ifm-navbar-link-color: #fff;
+  --ifm-navbar-link-hover-color: #fff;
+}
+
+.navbar__title {
+  color: #fff;
+}
+
+.navbar__brand:hover {
+  opacity: 0.8;
+}
+
+.navbar__link {
+  border-bottom: 2px solid transparent;
+}
+
+.navbar__link:hover {
+  border-bottom-color: #3178C6;
+  background: #4385CF;
+}
+
+.navbar__link--active {
+  border-bottom: 2px solid #8ABBF3 !important;
+  font-weight: bold;
 }
 
 .docusaurus-highlight-code-line {

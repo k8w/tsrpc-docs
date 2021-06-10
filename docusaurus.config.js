@@ -1,6 +1,6 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'TSRPC',
+  title: 'TSRPC - TypeScript 跨平台 RPC 框架',
   tagline: 'TypeScript 的跨平台 RPC 框架，支持运行时类型检查和二进制序列化',
   url: 'https://tsrpc.cn',
   baseUrl: '/',
@@ -10,6 +10,11 @@ module.exports = {
   organizationName: 'k8w', // Usually your GitHub org/user name.
   projectName: 'tsrpc', // Usually your repo name.
   themeConfig: {
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: true,
+      respectPrefersColorScheme: true
+    },
     navbar: {
       title: 'TSRPC',
       logo: {
@@ -33,9 +38,13 @@ module.exports = {
           type: 'doc',
           docId: 'cookbook/index',
           position: 'left',
-          label: '例子',
+          label: '示例',
         },
         // { to: '/blog', label: 'Blog', position: 'left' },
+        {
+          type: 'search',
+          position: 'right',
+        },
         {
           href: 'https://github.com/k8w/tsrpc',
           label: 'GitHub',
@@ -45,48 +54,48 @@ module.exports = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Tutorial',
-              to: 'docs/introduction',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} KingWorks, Inc. Built with Docusaurus.`,
+      // links: [
+      //   {
+      //     title: 'Docs',
+      //     items: [
+      //       {
+      //         label: 'Tutorial',
+      //         to: 'docs/introduction',
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     title: 'Community',
+      //     items: [
+      //       {
+      //         label: 'Stack Overflow',
+      //         href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+      //       },
+      //       {
+      //         label: 'Discord',
+      //         href: 'https://discordapp.com/invite/docusaurus',
+      //       },
+      //       {
+      //         label: 'Twitter',
+      //         href: 'https://twitter.com/docusaurus',
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     title: 'More',
+      //     items: [
+      //       {
+      //         label: 'Blog',
+      //         to: '/blog',
+      //       },
+      //       {
+      //         label: 'GitHub',
+      //         href: 'https://github.com/facebook/docusaurus',
+      //       },
+      //     ],
+      //   },
+      // ],
+      copyright: `遵循 MIT 开源协议  Copyright © 2016-${new Date().getFullYear()} King Wang`,
     },
   },
   presets: [
@@ -100,12 +109,12 @@ module.exports = {
           //   'https://github.com/k8w/tsrpc-docs/blob/main/',
           routeBasePath: '/'
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          // editUrl:
-          //   'https://github.com/k8w/tsrpc-docs/blob/main/',
-        },
+        // blog: {
+        //   showReadingTime: true,
+        //   // Please change this to your repo.
+        //   // editUrl:
+        //   //   'https://github.com/k8w/tsrpc-docs/blob/main/',
+        // },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
