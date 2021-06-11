@@ -8,7 +8,7 @@ sidebar_position: 4
 
 因为 TSRPC 的协议本身支持 `ArrayBuffer`、`Uint8Array` 等二进制类型，所以你可以在浏览器中使用 [File API](https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsArrayBuffer) 读取文件二进制内容，然后按正常 `callApi` 的方式发送即可。
 
-完整的例子：https://github.com/k8w/tsrpc-examples/file-upload
+完整的例子：https://github.com/k8w/tsrpc-examples/tree/main/examples/file-upload
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

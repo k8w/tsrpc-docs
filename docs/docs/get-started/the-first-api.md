@@ -6,7 +6,7 @@ sidebar_position: 2
 
 在这一节中，我们将体验使用 TSRPC 快速实现一个 API 服务，并在浏览器中调用它。
 
-本节内容的完整例子在：https://github.com/k8w/tsrpc-examples/first-api/
+本节内容的完整例子在：https://github.com/k8w/tsrpc-examples/tree/main/examples/first-api
 
 ## 初始化项目
 

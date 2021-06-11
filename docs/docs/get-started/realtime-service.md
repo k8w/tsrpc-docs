@@ -162,3 +162,9 @@ client.unlistenMsg('Chat', handler);
 其中除了消息内容（ `call.msg` ）外，还包含Client 连接（ `call.conn` ）等信息。
 
 而 Client 由于只存在唯一的连接，故监听消息时，收到的参数即为消息本身：`msg: MsgXXXX`。
+
+## 例子：实时聊天室
+
+使用 `npx create-tsrpc-app` 创建一个带浏览器前端的 WebSocket 项目，里面已经自带了一个极简的聊天室的例子，你也可以在这里查看：
+
+https://github.com/k8w/tsrpc-examples/tree/main/examples/chatroom
