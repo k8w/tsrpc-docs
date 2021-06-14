@@ -8,9 +8,6 @@ sidebar_position: 2
 此文档还在编写中…… 敬请期待。
 :::
 
-例子：
-https://github.com/k8w/tsrpc-examples/tree/main/examples/session-and-cookie
-
 ## Cookie
 
 ### 概念
@@ -40,3 +37,6 @@ Session 指会话状态管理（如用户登录状态、购物车、游戏分数
 
 1. 服务端在新客户端访问时，生成一个 Session ID，通过 Cookie 传递。
 2. 服务端根据 Session ID 来存取 Session 数据，数据可以存储在内存或数据库中，取决于实际情况。
+
+## 完整例子
+https://github.com/k8w/tsrpc-examples/tree/main/examples/session-and-cookie
