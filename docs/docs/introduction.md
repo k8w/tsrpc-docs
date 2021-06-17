@@ -118,9 +118,9 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
   - 可自行使用 `XMLHttpRequest`、`fetch` 或其它 AJAX 框架以 JSON 方式调用接口
 - **兼容纯 JavaScript 的项目使用**
   - 可在纯 JavaScript 项目中使用 TSRPC Client，也能享受类型检查和序列化特性
-- **兼容 Internet Explorer 8 浏览器**
-  - 客户端代码均以 `ES5` 为编译目标
-  - 自行引入 `promise-polyfill`，则可兼容至 IE8 浏览器
+- **兼容 Internet Explorer 10 浏览器**
+  - 客户端代码均以 `ES5` 为编译目标，使用了少量 `ES2015` API
+  - 自行引入 `es6-shim`，则可兼容至最低 IE 10 浏览器
 
 <!-- ## 与其它框架的区别
 - ExpressJS / KoaJS
