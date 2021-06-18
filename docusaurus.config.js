@@ -13,7 +13,7 @@ module.exports = {
     colorMode: {
       defaultMode: 'light',
       disableSwitch: true,
-      respectPrefersColorScheme: true
+      respectPrefersColorScheme: false
     },
     navbar: {
       title: 'TSRPC',
