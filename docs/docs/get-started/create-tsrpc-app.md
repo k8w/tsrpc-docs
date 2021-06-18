@@ -15,7 +15,7 @@ npx create-tsrpc-app
 创建过程是交互式的，在菜单上选择相应的配置，即可轻松创建包含前后端的 TSRPC 全栈应用项目。
 
 :::note
-可通过 `npx create-tsrpc-app --help` 查看更多帮助信息。
+需要 NodeJS 12 以上，可通过 `npx create-tsrpc-app --help` 查看更多帮助信息。
 :::
 
 ## 全栈项目结构
