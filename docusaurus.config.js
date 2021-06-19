@@ -97,6 +97,11 @@ module.exports = {
       // ],
       copyright: `遵循 MIT 开源协议\nCopyright © 2016-${new Date().getFullYear()} King Wang`,
     },
+    googleAnalytics: {
+      trackingID: 'G-D8LMPPSZ18',
+      // Optional fields.
+      // anonymizeIP: true, // Should IPs be anonymized?
+    },
   },
   presets: [
     [
@@ -121,4 +126,7 @@ module.exports = {
       },
     ],
   ],
+  plugins: [
+    '@docusaurus/plugin-google-analytics'
+  ]
 };
