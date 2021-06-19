@@ -19,6 +19,27 @@ npx create-tsrpc-app first-api --presets browser
 - `backend/src/shared/protocols`
 - `backend/src/api`
 
+## 概念
+
+使用 TSRPC 开发 API 接口前，必须先了解几个重要的概念。
+- **API**
+    - API 接口就相当于一个实现在远端的异步函数，这个函数的输入参数叫做**请求（Request）**，返回值叫做**响应（Response）**。
+- **协议（Protocol）**
+    - 协议就是 API 接口的类型定义，包括它的请求类型和响应类型，也可以包含接口的其它配置信息（例如是否需要登录验证等）。
+- **API 实现**
+    - 实现指 API 接口的功能实现代码。
+- **服务端（Server）**
+    - API 接口的实现端，NodeJS 12 以上。
+- **客户端（Client）**
+    - API 接口的调用端，支持多个平台，例如：浏览器，APP，微信小程序，NodeJS等。
+
+所以实现一个后端 API 接口，只需要 3 个步骤：
+**定义协议 -> 实现功能 -> 客户端调用**。
+
+:::note
+TSRPC 将 API 的协议和实现分开的原因在于：协议部分前后端都能用到，可以被跨项目共享；而实现显然只存在于 NodeJS 服务端。
+:::
+
 ## 定义协议
 ### 编写协议文件
 协议目录默认位于 `backend/src/shared/protocols` 目录下，协议文件的命名规则为 `Ptl{接口名}.ts`。
@@ -36,10 +57,8 @@ export interface ResHello {
 }
 ```
 
-:::note
-- `Ptl` 代表 `Protocol` 的缩写。
-- `Req` 代表 `Request` 的缩写。
-- `Res` 代表 `Response` 的缩写。
+:::tip
+TSRPC 按照名称前缀来识别协议（Ptl）、请求（Req）、响应（Res），所以务必按照规定的方式命名。
 :::
 
 ### 生成 ServiceProto
@@ -55,7 +74,7 @@ npm run proto
 
 ## 实现 API
 
-### 生成 API 实现
+### 创建实现文件
 TSRPC 的 API 接口实现与协议定义是分离的，这是因为协议定义中包含着的类型信息，可以跨项目共享；而实现部分显然只能运行在 NodeJS 服务端。
 为了区分，协议定义统一命名为 `Ptl{接口名}.ts`，接口实现统一使用前缀 `Api{接口名}.ts`。
 
@@ -106,8 +125,8 @@ export async function ApiHello(call: ApiCall<ReqHello, ResHello>) {
 
 ### 共享代码
 
-要调用 客户端必须要有相同的协议定义文件，除此之外可能还有其它公共逻辑代码可以在前后端复用。
-为此，我们设计了 `src/shared` 这个目录。该目录下的内容总是在 `backend` 中编辑，然后同步到 `frontend` 中（只读）。
+要调用 API，客户端必须要有相同的协议定义文件，除此之外可能还有其它公共逻辑代码可以在前后端复用。
+为此，我们设计了 `src/shared` 这个目录。该目录下的内容总是在 `backend` 中编辑，然后只读同步到 `frontend` 中。
 
 执行以下命令，来完成同步：
 
@@ -116,10 +135,22 @@ cd backend
 npm run sync
 ```
 
-### 创建客户端
+:::note
+`shared` 目录在前端只读是为了防止前端的修改被后端的同步覆盖。如果你想在前端也能安全的修改 `shared` 目录下的内容，可以选择 `Symlink` 的自动同步方式。
+:::
+
+### 使用客户端
 
 使用 TSRPC 客户端，即可像调用本地异步函数那样调用远端 API，并享有全过程的代码提示和类型检测。
-它支持许多平台，由于我们创建的是浏览器 Web 项目，所以引用的是来自 `tsrpc-browser` 的浏览器版客户端。
+它支持许多平台，根据需要从不同的 NPM 包 `import { HttpClient }` 即可，其余的写法全部一样。
+
+| 客户端平台 | NPM 包 |
+| :-: | :-: |
+| 浏览器、React Native | tsrpc-browser |
+| 微信小程序 | tsrpc-miniapp |
+| NodeJS | tsrpc |
+
+由于我们创建的是浏览器 Web 项目，所以引用的是来自 `tsrpc-browser` 的浏览器版客户端。
 例如：
 
 ```ts title="frontend/src/index.ts"
@@ -138,28 +169,57 @@ let client = new HttpClient(serviceProto, {
 你也可以在生产环境中省去这项配置，这样就没人知道你在干什么了😁。
 :::
 
-:::tip
-TSRPC 客户端支持多个平台，根据需要从不同的 NPM 包创建即可：
-- NodeJS：`tsrpc`
-- 浏览器、ReactNative：`tsrpc-browser`
-- 微信小程序：`tsrpc-miniapp`
-:::
-
 ### callApi
 
-不同平台的客户端用法几乎都是一致的：使用 `client.callApi()` 来调用远程 API。
-TSRPC 对于前端接入的体验是极致的。整个过程都有代码提示，完全不需要协议文档，也不必担心拼写错误带来的低级错误。
+不同平台的客户端用法几乎都是一致的：使用 `client.callApi()` 来调用远程 API，就像在本地调用一个异步函数一样。
+TSRPC 对于前端接入的体验是极致的。全过程输入输出都有代码提示，甚至连 URL 都不需要记。完全不需要协议文档，也不必担心拼写错误带来的低级错误，从此可以告别前后端联调的痛苦体验。
 
 > 图：代码编写体验
 
+:::note
+`callApi` 的返回类型叫做 `ApiReturn`，所以常取名为 `ret`。
+:::
+
 ### 处理错误和响应
 
-`callApi` 不总是顺利的，可能出现一些错误和异常，如网络错误、API 业务错误等。
-在 TSRPC 中，不管是什么类型的错误（例如业务错误、网络错误、代码异常等），都在一处统一处理。
-根据 `ret.isSucc` 来判断请求结果，成功则取响应 `ret.res`，失败则取错误 `ret.err`。
+`callApi` 不总是成功的，可能出现一些错误。
+传统基于 `Promise` 或回调函数的方式存在一些隐患，这常常成为 BUG 的根源，例如：
 
+#### 一、 分散地处理各种错误
+
+例如如果你使用 `fetch`，通常有这些错误等着你处理：
+```js
+fetch(...)
+    .then(v=>{ 
+        1. HTTP 状态码报错
+        2. HTTP 状态码正常，但返回了业务报错（例如 “余额不足” “密码错误”）
+    })
+    .catch(e=>{ 
+        1. 网络错误
+        2. 代码报错
+    })
+```
+
+有非常多潜在的错误，它们分散在各个角落等着你处理。疏忽一处，就可能引发问题。
+
+#### 二、 忘记处理错误
+
+很多新手没有处理错误的提示，例如在上面的例子中，很多新手可能会忘记 `catch`。
+这点小小的疏忽可能造成很大的问题，例如一个常见的需求：“请求期间显示 Loading”。
+```js
+showLoading();   // 显示一个全屏 Loading
+let res = await fetch( ... );
+hideLoading();   // 隐藏 Loading
+```
+
+看起来很合理，但一旦发生网络错误，代码会抛出异常，则下面的 `hideLoading()` 不会执行。如此，界面上的 Loading 就永远不消失，通常被称为 “卡死了”。
+不要小看它，前端中有相当比例 “卡死” 的问题跟这有关！
+
+#### TSRPC 的解决之道
+
+先看例子：
 ```ts title="frontend/src/index.ts"
-async function test() {
+window.onload = async function () {
     let ret = await client.callApi('Hello', {
         name: 'World'
     });
@@ -173,13 +233,15 @@ async function test() {
     // Success
     alert('Success: ' + ret.res.reply);
 }
-
-window.onload = test;
 ```
 
-:::tip
-TSRPC 的所有方法都不会抛出异常，因此总是无需 `promise.catch()` 或 `try...catch...`。
-:::
+在 TSRPC 中：
+1. 所有方法都 **不会抛出异常**
+    - 因此总是 **无需** `catch()` 或 `try...catch...` ，规避了新手陷阱。
+2. 所有错误都 **只需在一处处理**
+    - 根据 `ret.isSucc` 判断成功与否，成功则取响应 `ret.res`，失败则取错误 `ret.err`（包含了错误类型和详情信息）。
+2. 通过 TypeScript 类型系统，巧妙的使你 **必须做错误检测**
+    - 如果你将上面错误处理部分的代码删去，或是删除处理错误后的 `return`，TypeScript 编译器会报错。
 
 ## 测试一下
 
