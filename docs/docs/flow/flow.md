@@ -93,10 +93,10 @@ server.flows.preApiCallFlow.push(call => {
 如上面所见，很多 `Flow` 中伴随着 `Connection` 或 `Call` 的传递。
 在这个过程中，我们可能会希望给它们增加一些额外的数据。
 例如：
-- 希望增加一个 `conn.connectedTime` 来记录连接建立时间
-- 在统一的 `Flow` 中解析登录态，然后将登录用户信息放在 `call.currentUser` 向后传递。
+- 给 `call` 增加一个 `call.currentUser`，用于向后传递从登录态解析出来的用户信息
+- 给 `conn` 增加一个 `conn.connectedTime` 来记录连接建立时间
 
-显然 TSRPC 本身不具备这些字段，直接使用它们会报错，所以需要先对 TSRPC 的已有类型进行扩展。
+TSRPC 本身不包含这些字段，直接使用它们会报错，所以需要先对 TSRPC 的已有类型进行扩展。
 TSRPC 支持以如下的方式进行类型扩展：
 
 ### 直接扩展 `tsrpc` 库的类型
