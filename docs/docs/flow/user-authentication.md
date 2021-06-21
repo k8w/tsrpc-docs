@@ -60,22 +60,34 @@ export const conf = {
 有了验证规则，以及验证所需的 Session 数据，使用 Flow 就可以实现接口的登录和权限的自动验证了。
 你可以根据实际需要决定是仅在服务端验证，还是在服务端和客户端进行双重验证。
 
-以下是服务端验证的例子：
+服务端：
 
 ```ts
 server.flows.preApiCallFlow.push(v => {
+    // 解析登录态
+    call.currentUser = await UserUtil.parseSSO(req.__ssoToken);
+    // 获取协议配置
     let conf = v.service.conf;
-    // Do something with conf...
+    // 若协议配置为需要登录，则阻止未登录的请求
+    if (conf?.needLogin && !call.currentUser) {
+        call.error('您还未登录', { code: 'NEED_LOGIN' });
+        return undefined;
+    }
 
     return v;
 })
 ```
 
+客户端：
 ```ts
 client.flows.preCallApiFlow.push(v => {
-    // Get conf
+    // 获取协议配置
     let conf = client.serviceMap.apiName2Service[v.apiName]!.conf;
-    // Do something with conf...
+    // 若协议配置为需要登录，则阻止未登录的请求
+    if (conf?.needLogin && !isLogined()) {
+        window.location = '跳转到登录页面';
+        return undefined;
+    }
 
     return v;
 })
@@ -83,7 +95,3 @@ client.flows.preCallApiFlow.push(v => {
 
 ## 完整例子
 https://github.com/k8w/tsrpc-examples/tree/main/examples/user-authentication
-
-:::danger WIP
-此文档还在编写中…… 敬请期待。
-:::

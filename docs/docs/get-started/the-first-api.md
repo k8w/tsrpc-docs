@@ -172,9 +172,13 @@ let client = new HttpClient(serviceProto, {
 ### callApi
 
 不同平台的客户端用法几乎都是一致的：使用 `client.callApi()` 来调用远程 API，就像在本地调用一个异步函数一样。
-TSRPC 对于前端接入的体验是极致的。全过程输入输出都有代码提示，甚至连 URL 都不需要记。完全不需要协议文档，也不必担心拼写错误带来的低级错误，从此可以告别前后端联调的痛苦体验。
+TSRPC 对于前端接入的体验是极致的。全过程输入输出都有代码提示，甚至连 URL 都不需要记，完全不需要协议文档。
 
-![代码编写体验](assets/coding-exp.gif)
+![代码编写体验](assets/code-hint.gif)
+
+也不必担心拼写错误带来的低级错误，TSRPC 会在编译时刻和运行时刻做双重类型检查，从此可以告别前后端联调的痛苦体验。
+
+![代码编写体验](assets/type-check.gif)
 
 :::note
 `callApi` 的返回类型叫做 `ApiReturn`，所以常取名为 `ret`。

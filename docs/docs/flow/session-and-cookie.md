@@ -4,10 +4,6 @@ sidebar_position: 2
 
 # 实现 Session 和 Cookie
 
-:::danger WIP
-此文档还在编写中…… 敬请期待。
-:::
-
 ## Cookie
 
 ### 概念
@@ -20,10 +16,46 @@ Cookie 是 HTTP 协议中的一个概念，你可以在 [MDN](https://developer.
 
 HTTP Cookie 的本质就是透传一组数据，这些数据可以在服务端设置，也可以在客户端设置。简单说来就是服务端发送回来的 Cookie 数据，客户端把它存储下来，等到下一次请求时继续带到参数中。
 
-所以实现思路就是使用 Flow 对服务端和客户端进行改造：
-1. 在所有请求和响应中加入公共字段，比如取名为 `__cookie`（可以通过基类继承）
-2. Server 返回 API 响应时，自动将 `__cookie` 设为请求传来的值（除非重设）
-3. Client 发送 API 请求时，自动将上一次返回的 `__cookie` 加入请求体中。上一次返回的 `__cookie` 应该被存储在了某处，例如 `localStorage`。
+#### 1. 给所有请求、响应增加公共的 `__cookie` 字段（通过基类继承）
+```ts
+export interface BaseRequest {
+    __cookie?: Cookie;
+}
+
+export interface BaseResponse {
+    __cookie?: Cookie;
+}
+
+export interface Cookie {
+    sessionId?: string,
+    [key: string]: any
+}
+```
+
+#### 2. 客户端收到服务端发送的 `__cookie` 后，将其存在 `localStorage` 中
+
+```ts
+client.flows.preApiReturnFlow.push(v => {
+    if (v.return.isSucc) {
+        if (v.return.res.__cookie) {
+            localStorage.setItem(CookieStorageKey, JSON.stringify(v.return.res.__cookie))
+        }
+    }
+
+    return v;
+})
+```
+
+#### 3. 客户端发送请求时，自动将本地存储的 `__cookie` 加入请求参数。
+```ts
+client.flows.preCallApiFlow.push(v => {
+    let cookieStr = localStorage.getItem(CookieStorageKey);
+    v.req.__cookie = cookieStr ? JSON.parse(cookieStr) : undefined;
+    return v;
+})
+```
+
+根据需要，还可以自行加入超时时间等其它逻辑。
 
 ## Session
 
