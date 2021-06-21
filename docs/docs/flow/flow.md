@@ -169,6 +169,14 @@ type MyCall<Req=any, Res=any> = ApiCall<Req, Res> & {
 
 然后在需要使用的地方，手动替换为自己的类型：
 
+- 在 API 实现中
+```ts
+export async function ApiXXX(call: MyCall<ReqXXX, ResXXX>){
+    // call.currentUser 变成合法字段
+    call.logger.log(call.currentUser.nickname);
+}
+```
+
 - 在 Flow 中
 ```ts
 server.flows.preApiCallFlow.push((conn: MyConnection) => {
@@ -181,14 +189,6 @@ server.flows.preApiCallFlow.push((call: MyCall) => {
         nickname: 'xxx'
     }
 })
-```
-
-- 在 API 实现中
-```ts
-export async function ApiXXX(call: MyCall<ReqXXX, ResXXX>){
-    // call.currentUser 变成合法字段
-    call.logger.log(call.currentUser.nickname);
-}
 ```
 
 ## 例子
