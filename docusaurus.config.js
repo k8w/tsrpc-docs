@@ -95,7 +95,7 @@ module.exports = {
       //     ],
       //   },
       // ],
-      copyright: `遵循 MIT 开源协议\nCopyright © 2016-${new Date().getFullYear()} King Wang`,
+      copyright: `遵循 MIT 开源协议\n欢迎加群交流（微信LoyalSun，请注明来意）\nCopyright © 2016-${new Date().getFullYear()} King Wang`,
     },
     gtag: {
       // You can also use your "G-" Measurement ID here.
