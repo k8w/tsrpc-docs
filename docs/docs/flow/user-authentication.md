@@ -60,7 +60,7 @@ export const conf = {
 有了验证规则，以及验证所需的 Session 数据，使用 Flow 就可以实现接口的登录和权限的自动验证了。
 你可以根据实际需要决定是仅在服务端验证，还是在服务端和客户端进行双重验证。
 
-服务端：
+**服务端：**
 
 ```ts
 server.flows.preApiCallFlow.push(v => {
@@ -78,7 +78,7 @@ server.flows.preApiCallFlow.push(v => {
 })
 ```
 
-客户端：
+**客户端：**
 ```ts
 client.flows.preCallApiFlow.push(v => {
     // 获取协议配置
