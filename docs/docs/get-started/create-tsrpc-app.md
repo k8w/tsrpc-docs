@@ -9,17 +9,17 @@ sidebar_position: 1
 使用 `create-tsrpc-app` 工具，可以快速创建 TSRPC 项目。
 
 ```shell
-npx create-tsrpc-app@*
+npx create-tsrpc-app@latest
 ```
 
 创建过程是交互式的，在菜单上选择相应的配置，即可轻松创建包含前后端的 TSRPC 全栈应用项目。
 
 :::note
-需要 NodeJS 12 以上，可通过 `npx create-tsrpc-app@* --help` 查看更多帮助信息。
+需要 NodeJS 12 以上，可通过 `npx create-tsrpc-app@latest --help` 查看更多帮助信息。
 :::
 
 :::tip
-记得不要忘记命令末尾的 `@*`，这使你总是能从最新版本的项目模板创建。
+记得不要忘记命令末尾的 `@latest`，这使你总是能从最新版本的项目模板创建。
 :::
 
 ## 全栈项目结构
