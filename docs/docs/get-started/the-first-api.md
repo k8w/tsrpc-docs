@@ -12,7 +12,7 @@ sidebar_position: 2
 
 我们先初始化一个 Web 全栈项目：
 ```
-npx create-tsrpc-app first-api --presets browser
+npx create-tsrpc-app@* first-api --presets browser
 ```
 
 然后删除自带的演示代码，即清空以下目录：
