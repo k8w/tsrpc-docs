@@ -229,8 +229,10 @@ type B = Omit<A, 'b' | 'c'>
 ```
 
 ### Overwrite Type
-这个是 TSBuffer 自行定义的工具类型，用于对 `interface` 的部分改写，例如：
+这个是 TSBuffer 自行定义的工具类型，用于对 `interface` 的部分改写，需要从 `tsrpc-proto` 引入，例如：
 ```ts
+import { Overwrite } from 'tsrpc-proto';
+
 interface A {
     a: string,
     b: number,
