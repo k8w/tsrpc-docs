@@ -62,7 +62,7 @@ TSRPC 按照名称前缀来识别协议（Ptl）、请求（Req）、响应（Re
 :::
 
 ### 生成 ServiceProto
-[`ServiceProto`](../development/service-proto.md) 是 TSRPC 运行时实际使用的协议格式，执行以下命令来自动生成：
+[`ServiceProto`](../server/service-proto.md) 是 TSRPC 运行时实际使用的协议格式，执行以下命令来自动生成：
 ```shell
 cd backend
 npm run proto
