@@ -6,7 +6,8 @@ sidebar_position: 1
 
 ## Server
 
-TSRPC Server 即为服务的实现和提供方，根据传输协议的不同，包含：
+TSRPC Server 即为服务的实现和提供方，运行于 NodeJS 12 以上版本。
+根据传输协议的不同，目前包含：
 - `HttpServer`：HTTP 短连接服务。
 - `WsServer`：WebSocket 长连接服务。
 
@@ -30,22 +31,26 @@ TSRPC 可以提供的服务叫做 `Service`，分为两种：
 TSRPC 从一开始就被设计为 **二进制** 和 **传输协议无关** 的，这意味着你可以方便的将其扩展到原生 TCP、UDP 等其它传输协议中。
 为了达到这一目的，TSRPC Server 设计为三层架构：
 
+![](assets/structure.svg)
+
 - **Server**：`Service` 的提供者
-    - 基类是 `BaseServer`，根据传输协议派生出 `HttpServer`、`WsServer` 等。
+    - 基类是 `BaseServer`，根据实际传输协议派生出 `HttpServer`、`WsServer` 等。
 - **Connection**：客户端与服务端的传输层连接，二进制的传输信道
-    - 基类是 `BaseConnection`，根据传输协议派生出 `HttpConnection`、`WsConection` 等。
+    - 基类是 `BaseConnection`，根据实际传输协议派生出 `HttpConnection`、`WsConection` 等。
     - 在长连接下，你可以调用该对象下的 `sendMsg()` 来直接向客户端发送消息。
 - **Call**：客户端发起的一次服务调用，包含了客户端发送来的所有信息
-    - 基类 `ApiCall` 代表对 `ApiService` 的调用，通过该对象来获取请求和返回响应。
-    - 基类 `MsgCall` 代表对 `MsgService` 的调用，通过该对象来获取 Message 内容。
+    - 基类 `ApiCall` 代表对 `ApiService` 的调用，通过该对象来获取请求和返回响应。根据实际传输协议派生出 `ApiCallHttp`、`ApiCallWs` 等。
+    - 基类 `MsgCall` 代表对 `MsgService` 的调用，通过该对象来获取 Message 内容。根据实际传输协议派生出 `MsgCallHttp`、`MsgCallWs` 等。
 
-它们的关系如图所示：
+了解它们的基类有助于你实现[类型扩展](../flow/flow#类型扩展)，你对基类扩展的所有类型，会对子类也生效。
 
-> 图：TSRPC 架构图 [TODO]
+通常，我们希望实现的 API 接口及其它功能是跨协议的，即又能运行在 HTTP 协议，也能运行在 WebSocket 协议。
+所以在 API 实现中，引用的不是 `ApiCallHttp` 或 `ApiCallWs`，而是它们协议无关的基类 `ApiCall`。
+如果你的接口，只工作在 WebSocket 平台，那么你可以改为引用 `ApiCallWs`，从而可以获得 WebSocket 专属的一些控制。`MsgCall`、`Connection` 同理。
 
-- 一个 `Server` 可以挂载多个 `Service`。
-- 一个 `Server` 可以同时有多个 `Connection`。
-- 一个 `Connection` 视其传输协议，可以有一个或多个 `Call`。例如HTTP 短连接只能承载单个 `Call`，而WebSocket 长连接可以同时收发多个 `Call`。
+:::tip
+一个 `Connection` 视其传输协议，可以有一个或多个 `Call`。例如HTTP 短连接只能承载单个 `Call`，而WebSocket 长连接可以同时收发多个 `Call`。
+:::
 
 ## 总结
 
