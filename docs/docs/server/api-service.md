@@ -91,7 +91,8 @@ export class TsrpcError {
 
 #### 错误类型
 
-服务端主动 `call.error` 返回的错误我们称之为业务错误，但除此之外，客户端在调用 API 的过程中还可能遇到很多其它错误。
+一般你在 API 中主动 `call.error` 返回的错误都是业务错误。
+但除此之外，客户端在调用 API 的过程中还可能遇到很多其它错误。
 例如网络错误、服务端代码报错导致的异常、客户端代码报错导致的异常等。
 所有这些错误，我们都将它们纳入 `TsrpcError`，通过 `type` 来区分它们，当你在使用 `call.error` 时，错误类型默认设置为 `TsrpcError.Type.ApiError`。
 
