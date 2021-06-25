@@ -85,12 +85,7 @@ call.logger.log('This is call-level log');  // call is ApiCall or MsgCall
 其中，`conn.logger` 会在 `server.logger` 的基础上增加额外前缀，例如 IP地址；
 `call.logger` 会在 `conn.logger` 的基础上增加额外前缀，例如 API 调用路径。
 
-- **Server 级日志**
-> 图
-- **Connection 级日志**
-> 图
-- **Call 级日志**
-> 图
+![](assets/log.png)
 
 基于父级 `Logger` 增加前缀，是通过 `tsrpc` 内置的 `PrefixLogger` 实现的。
 你也可以自行添加或修改这些前缀，例如将用户 ID 加入 `call.logger` 的前缀中：
