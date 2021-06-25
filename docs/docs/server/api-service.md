@@ -232,7 +232,7 @@ await server.autoImplementApi(path.resolve(__dirname, 'api'));
 
 `server.autoImplementApi` 即是将目标文件夹中的 API 实现自动挂载，规则是：
 - 根据协议目录下（`protocols`）的目录结构，查找所有 `PtlXXX.ts` 文件，在指定的 API 目录下，查找对应的文件（`Ptl` 前缀改为 `Api`）。
-    - 例如 `protocols/a/b/PtlCCC.ts` 对应 `api/a/b/ApiAAA.ts`。
+    - 例如 `protocols/a/b/c/PtlXXX.ts` 对应 `api/a/b/c/ApiXXX.ts`。
 - 然后在该文件下，查找与 `ApiXXX` 同名的导出函数，将该函数作为 `PtlXXX` 的实现对外提供服务，例如：
 ```ts
 export async function ApiXXX(call: ApiXXX<ReqXXX, ResXXX>) {
