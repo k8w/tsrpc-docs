@@ -20,11 +20,11 @@ sidebar_position: 2
 ### ServiceProto
 综上，TSRPC 在运行时有一套自己的协议和类型定义，这个定义格式被命名为 `ServiceProto`。
 通常来说，你不需要去了解这个格式的细节，因为它是通过[命令行工具](../full-stack/tsrpc-cli)自动生成的。
-如果你使用的是 `npx create-tsrpc-app@latest` 创建的项目，则生成命令已经内置在后端项目的 `npm run proto`。ServiceProto 会自动生成到 `.../protocols/serviceProto.ts`。
+如果你使用的是 `npx create-tsrpc-app@latest` 创建的项目，则生成命令已经内置在后端项目的 `npm run proto`。ServiceProto 会自动生成到 `protocols/serviceProto.ts`。
 
 ### 定义规则
 
-`tsrpc-cli` 完全通过 **名称** 来生成协议，这包括了文件名、类型名等。
+`tsrpc-cli` 完全通过 **名称** 来识别协议，这包括了文件名、类型名等。
 所以务必要严格按照 TSRPC 规定的名称前缀来命名，同你在[之前的文章](../get-started/the-first-api#编写协议文件)中看到过的，命名规则总结如下。
 
 #### API Service

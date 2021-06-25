@@ -4,28 +4,6 @@ sidebar_position: 1
 
 # 服务端架构
 
-## Server
-
-TSRPC Server 即为服务的实现和提供方，运行于 NodeJS 12 以上版本。
-根据传输协议的不同，目前包含：
-- `HttpServer`：HTTP 短连接服务。
-- `WsServer`：WebSocket 长连接服务。
-
-## Service
-
-TSRPC 可以提供的服务叫做 `Service`，分为两种：
-- `ApiService`：即 API 接口服务，基于请求 / 响应模式，只能由客户端发起请求，由服务端响应。
-- `MsgService`：即 Message 消息服务，基于发布 / 订阅模式，可以在客户端和服务端之间双向发送消息。
-
-:::note
-`MsgService` 的双向发送仅限于长连接（如 WebSocket）。
-:::
-
-:::tip
-它们的区别在于，`ApiService` 是保证可达的，无论服务端是否正确接收处理了消息，都会返回明确的响应或错误。
-而 `MsgService`，单条 Message 是单方向发送，不需要返回，所以不保证对方已收到和正确处理（类似 UDP）。
-:::
-
 ## 协议无关的三层架构
 
 TSRPC 从一开始就被设计为 **二进制** 和 **传输协议无关** 的，这意味着你可以方便的将其扩展到原生 TCP、UDP 等其它传输协议中。
@@ -50,6 +28,21 @@ TSRPC 从一开始就被设计为 **二进制** 和 **传输协议无关** 的�
 
 :::tip
 一个 `Connection` 视其传输协议，可以有一个或多个 `Call`。例如HTTP 短连接只能承载单个 `Call`，而WebSocket 长连接可以同时收发多个 `Call`。
+:::
+
+## Service
+
+TSRPC 可以提供的服务叫做 `Service`，分为两种：
+- `ApiService`：即 API 接口服务，基于请求 / 响应模式，只能由客户端发起请求，由服务端响应。
+- `MsgService`：即 Message 消息服务，基于发布 / 订阅模式，可以在客户端和服务端之间双向发送消息。
+
+:::note
+`MsgService` 的双向发送仅限于长连接（如 WebSocket）。
+:::
+
+:::tip
+它们的区别在于，`ApiService` 是保证可达的，无论服务端是否正确接收处理了消息，都会返回明确的响应或错误。
+而 `MsgService`，单条 Message 是单方向发送，不需要返回，所以不保证对方已收到和正确处理（类似 UDP）。
 :::
 
 ## 总结
