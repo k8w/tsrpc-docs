@@ -42,7 +42,7 @@ module.exports = {
         },
         // { to: '/blog', label: 'Blog', position: 'left' },
         {
-          label: 'v3.0.0', // by default, show active/latest version label
+          label: 'v3.0.4', // by default, show active/latest version label
           position: 'right'
         },
         {
