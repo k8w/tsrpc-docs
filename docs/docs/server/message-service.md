@@ -119,8 +119,7 @@ server.unlistenMsg('Chat', handler);
 2. 发送私信时，从 `server.conns` 中查找 `userId` 为目标值的连接，然后发送
 
 要实现这些，首先你需要给 Connection 扩展增加一个 `userId` 字段。
-你可以给基类 `BaseConnection` 扩展，也可以给 WebSocket 的 `WsConnection` 扩展。
-有[两种方式](../flow/flow#%E7%B1%BB%E5%9E%8B%E6%89%A9%E5%B1%95)，我们先选择简单的一种：
+通常来说，给基类 `BaseConnection` 扩展就可以。有[两种方式](../flow/flow#%E7%B1%BB%E5%9E%8B%E6%89%A9%E5%B1%95)，我们先选择简单的一种：
 
 ```ts
 declare module 'tsrpc' {
