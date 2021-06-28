@@ -19,6 +19,7 @@ NodeJS 极大的降低了全栈开发的门槛，而 TypeScript 提供了史上�
 ```ts
 export type ReqLogin = {
   type: 'password',
+  username: string,
   password: string
 } | {
   type: 'wechat',
