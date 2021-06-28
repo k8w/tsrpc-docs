@@ -19,8 +19,7 @@ NodeJS 极大的降低了全栈开发的门槛，而 TypeScript 提供了史上�
 ```ts
 // 用户注册接口 - 请求参数
 export interface ReqSignUp {
-  username: string,
-  password: string,
+  // ...
   // 用户来源
   from: { type: '老用户邀请', fromUserId: string }
     | { type: '推广链接', url: string }
