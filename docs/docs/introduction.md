@@ -17,10 +17,15 @@ NodeJS 极大的降低了全栈开发的门槛，而 TypeScript 提供了史上�
 2. 一些框架虽然实现了协议定义规范，但需要引入 [Decorator](https://www.typescriptlang.org/docs/handbook/decorators.html#decorators) 或第三方 IDL 语言。
 3. 一些框架虽然实现了类型校验，但无法支持 TypeScript 的高级类型，例如：
 ```ts
-// 用户来源渠道
-type UserSource = { type: '老用户邀请', fromUserId: string }
+// 用户信息
+interface UserInfo {
+  // 来源渠道
+  from: { type: '老用户邀请', fromUserId: string }
     | { type: '推广链接', url: string }
-    | { type: '直接进入' }
+    | { type: '直接进入' },
+  // 注册时间
+  createTime: Date
+}
 }
 ```
 4. JSON 支持的类型有限，例如不支持 `ArrayBuffer`，实现文件上传会非常麻烦。
