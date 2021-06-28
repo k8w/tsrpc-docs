@@ -15,15 +15,17 @@ NodeJS 极大的降低了全栈开发的门槛，而 TypeScript 提供了史上�
 目前，大多数项目仍在使用传统的 Restful API 进行前后端通信，这存在一些痛点。
 1. 依赖文档进行协议定义，前后端联调常被低级错误困扰（如字段名大小写错误，字段类型错误等）。
 2. 一些框架虽然实现了协议定义规范，但需要引入 [Decorator](https://www.typescriptlang.org/docs/handbook/decorators.html#decorators) 或第三方 IDL 语言。
-3. 一些框架虽然实现了类型校验，但无法支持 TypeScript 的高级类型，例如业务中常见的 [Union Type](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types)：
+3. 一些框架虽然实现了类型校验，但无法支持 TypeScript 的高级类型，例如：
 ```ts
-// 用户名密码登录
-export type LoginByPassword = { type: 'password', username: string, password: string }
-// 短信验证码登录
-export type LoginBySms = { type: 'sms', phone: string, smsCode: string }
-
-// 登录接口，请求参数定义
-export type ReqLogin = LoginByPassword | LoginBySms;
+// 用户注册接口 - 请求
+export interface ReqSignUp {
+  username: string,
+  password: string,
+  // 用户来源
+  from: { type: '老用户邀请', fromUserId: string }
+    | { type: '推广链接', url: string }
+    | { type: '直接进入' }
+}
 ```
 4. JSON 支持的类型有限，例如不支持 `ArrayBuffer`，实现文件上传会非常麻烦。
 5. 请求和响应都是明文，破解门槛太低，字符串加密方式有限且强度不够。
