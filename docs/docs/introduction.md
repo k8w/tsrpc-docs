@@ -26,7 +26,6 @@ interface UserInfo {
   // 注册时间
   createTime: Date
 }
-}
 ```
 4. JSON 支持的类型有限，例如不支持 `ArrayBuffer`，实现文件上传会非常麻烦。
 5. 请求和响应都是明文，破解门槛太低，字符串加密方式有限且强度不够。
