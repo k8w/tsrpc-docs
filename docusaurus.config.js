@@ -129,6 +129,9 @@ module.exports = {
   ],
   plugins: [
     function baiduTongJi(context, options) {
+      if (process.env.NODE_ENV !== 'production') {
+        return {};
+      }
       return {
         name: 'docusaurus-plugin-baidu-analytics',
         injectHtmlTags() {
