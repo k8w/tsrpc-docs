@@ -58,6 +58,13 @@ server.flows.preApiCallFlow.push(call => {
 
 ### 服务端 Flows
 
+通过 `server.flows` 获取，例如：
+```ts
+server.flows.preApiCallFlow.push(call=>{
+    // ...
+})
+```
+
 | 名称 | 作用 |
 | - | - |
 | postConnectFlow | 客户端连接后 |
@@ -74,6 +81,13 @@ server.flows.preApiCallFlow.push(call => {
 | postSendMsgFlow | 发送 Message 之后 |
 
 ### 客户端 Flows
+
+通过 `client.flows` 获取，例如：
+```ts
+client.flows.preCallApiFlow.push(v=>{
+    // ...
+})
+```
 
 | 名称 | 作用 |
 | - | - |
