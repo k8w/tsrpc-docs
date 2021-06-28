@@ -127,4 +127,27 @@ module.exports = {
       },
     ],
   ],
+  plugins: [
+    function baiduTongJi(context, options) {
+      return {
+        name: 'docusaurus-plugin-baidu-analytics',
+        injectHtmlTags() {
+          return {
+            headTags: [
+              {
+                tagName: 'script',
+                innerHTML: `var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?7a7860c000f3d668629961930969eef2";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();`,
+              },
+            ],
+          };
+        },
+      };
+    }
+  ]
 };
