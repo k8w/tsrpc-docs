@@ -53,7 +53,7 @@ client.flows.preCallApiFlow.push(v => {
 然后利用上面的方式，在 `callApi` 之前，如果发现有对应的 Mock API，则直接调用；否则才去真实请求后端接口。
 
 模拟后端，Mock API 请求：
-```ts title="mockApis.ts"
+```ts
 import { ApiReturn } from "tsrpc-browser";
 import { ServiceType } from "../shared/protocols/serviceProto";
 
@@ -63,6 +63,7 @@ const data: {
     time: Date
 }[] = [];
 
+// { 接口名: (req: 请求) => 响应 }
 export const mockApis: { [K in keyof ServiceType['api']]?: (req: ServiceType['api'][K]['req']) => ApiReturn<ServiceType['api'][K]['res']> } = {
     AddData: req => {
         let time = new Date();
@@ -83,6 +84,10 @@ export const mockApis: { [K in keyof ServiceType['api']]?: (req: ServiceType['ap
     }
 };
 ```
+
+:::note
+上面例子中 `mockApis` 的类型定义略显复杂，如果你对 TypeScript 不是非常熟悉，可以直接复制来用。
+:::
 
 客户端请求前判断有无 Mock API，若有则直接使用：
 ```ts
