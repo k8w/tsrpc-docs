@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# 使用 MongoDB
+# 使用数据库
 
 ## 数据库的选择
 
@@ -59,7 +59,13 @@ export interface Post {
 
 MongoDB 就是一个不错的选择。
 
-## MongoDB 入门
+:::note
+如果你只是运行一个轻量级的服务，[LowDB](https://github.com/typicode/lowdb) 也是一个不错的选择。
+:::
+
+## 使用 MongoDB
+
+这里我们拿 MongoDB 举例。
 
 如果你对 Mongo 还不熟悉，也可以看看官方提供的 [快速入门](https://docs.mongodb.com/manual/tutorial/getting-started/).
 
@@ -166,7 +172,6 @@ export class Global {
 
 ![](assets/global-collection.gif)
 
-## 实用建议
 ### 处理 ObjectID
 MongoDB 为所有记录自动创建了一个 `_id` 字段，类型为 `ObjectID`，这个类型引用自 `mongodb` NPM 包。
 所以前端是无法使用 `ObjectID` 类型的，在与前端通讯时需要转为字符串：
@@ -212,30 +217,7 @@ export type DbPost = Overwrite<Post, {
 
 如此，就可以最大限度避免类型冗余，针对后端的单独场景，使用 `Overwrite` 去进行少量字段改写。
 
-### 减少类型冗余
-
-CRUD 接口常见的场景是，对于数据表结构，只允许客户端发送有限的字段，其余字段由客户端来维护。
-利用 TypeScript 工具类型 `Pick`、`Omit`、`Partial`，你也可以在最小冗余的情况下定义它们，例如：
-
-```ts
-export interface ReqAddPost {
-    // 从 Post 中剔除指定的 4 个字段
-    newPost: Omit<Post, '_id' | 'create' | 'update' | 'visitedNum'>;
-}
-```
-
-```ts
-export interface ReqUpdatePost {
-    // { _id: string, title?: string, content?: string }
-    update: { _id: string } & Partial<Pick<Post, 'title' | 'content'>>;
-}
-```
-
-:::tip
-即便客户端发送了协议以外的额外字段，TSRPC 类型系统也会自动剔除它们，确保类型和字段的严格安全。
-:::
-
-## 有坑请注意
+### 有坑请注意
 TypeScript 默认工作在严格模式下，`null` 和 `undefined` 是有区别的。
 
 但 MongoDB 此处有坑，例如如果你：
@@ -268,6 +250,29 @@ TSRPC 是不会编码 undefined 的，即如果你从客户端发送 `{ value: u
 #### 2. 让 TSRPC 非严格校验 `null` 和 `undefined`
 即令 TSRPC 将 `null` 和 `undefined` 视为相同，与 `tsconfig` 中 `strictNullChecks: false` 的表现一致。
 只要你的业务不是将 `null` 和 `undefined` 严格区分对待，这么做是最简单的。
+
+## 减少类型冗余
+
+CRUD 接口常见的场景是，对于数据表结构，只允许客户端发送有限的字段，其余字段由客户端来维护。
+利用 TypeScript 工具类型 `Pick`、`Omit`、`Partial`，你也可以在最小冗余的情况下定义它们，例如：
+
+```ts
+export interface ReqAddPost {
+    // 从 Post 中剔除指定的 4 个字段
+    newPost: Omit<Post, '_id' | 'create' | 'update' | 'visitedNum'>;
+}
+```
+
+```ts
+export interface ReqUpdatePost {
+    // { _id: string, title?: string, content?: string }
+    update: { _id: string } & Partial<Pick<Post, 'title' | 'content'>>;
+}
+```
+
+:::tip
+即便客户端发送了协议以外的额外字段，TSRPC 类型系统也会自动剔除它们，确保类型和字段的严格安全。
+:::
 
 ## CRUD 的完整例子
 
