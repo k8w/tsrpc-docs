@@ -97,7 +97,7 @@ export class TsrpcError {
 例如网络错误、服务端代码报错导致的异常、客户端代码报错导致的异常等。
 所有这些错误，我们都将它们纳入 `TsrpcError`，通过 `type` 来区分它们，当你在使用 `call.error` 时，错误类型默认设置为 `TsrpcError.Type.ApiError`。
 
-所有错误类型定义如下，你可以使用 `TsrpcError.Type` 或 `TsrpcErrorType` 来使用这个枚举。
+所有错误类型定义如下，你可以使用 `TsrpcError.Type` 来使用这个枚举。
 
 ```ts
 export enum TsrpcErrorType {
