@@ -60,7 +60,7 @@ export interface Post {
 MongoDB 就是一个不错的选择。
 
 :::note
-如果你只是运行一个轻量级的服务，[LowDB](https://github.com/typicode/lowdb) 也是一个不错的选择。
+如果你只是开发一个本地单进程的轻量服务，[LowDB](https://github.com/typicode/lowdb) 也是一个不错的选择。
 :::
 
 ## 使用 MongoDB
