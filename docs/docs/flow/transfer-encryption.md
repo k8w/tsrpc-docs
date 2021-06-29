@@ -30,6 +30,7 @@ TSRPC 的传输是二进制的，因此加解密算法应当也是基于二进�
 ```ts title="shared/models/EncryptUtil"
 export class EncryptUtil {
 
+    // 加密
     static encrypt(buf: Uint8Array): Uint8Array {
         for (let i = 0; i < buf.length; ++i) {
             buf[i] -= 1;
@@ -37,6 +38,7 @@ export class EncryptUtil {
         return buf;
     }
 
+    // 解密
     static decrypt(buf: Uint8Array): Uint8Array {
         for (let i = 0; i < buf.length; ++i) {
             buf[i] += 1;
@@ -54,12 +56,12 @@ export class EncryptUtil {
 #### 服务端
 
 ```ts
-// Encrypt
+// 发送前加密
 server.flows.preSendBufferFlow.push(v => {
     v.buf = EncryptUtil.encrypt(v.buf);
     return v;
 });
-// Decrypt
+// 接收前解密
 server.flows.preRecvBufferFlow.push(v => {
     v.buf = EncryptUtil.decrypt(v.buf);
     return v;
@@ -69,12 +71,12 @@ server.flows.preRecvBufferFlow.push(v => {
 #### 客户端
 
 ```ts
-// Encrypt
+// 发送前加密
 client.flows.preSendBufferFlow.push(v => {
     v.buf = EncryptUtil.encrypt(v.buf);
     return v;
 });
-// Decrypt
+// 接收前解密
 client.flows.preRecvBufferFlow.push(v => {
     v.buf = EncryptUtil.decrypt(v.buf);
     return v;
@@ -83,10 +85,10 @@ client.flows.preRecvBufferFlow.push(v => {
 
 如此，传输过程就会自动使用 `EncryptUtil` 进行加解密了，打开浏览器就可以看到结果。
 
-加密前：
+**加密前：**
 ![](assets/before-encrypt.png)
 
-加密后：
+**加密后：**
 ![](assets/after-encrypt.png)
 
 这个例子的加密算法实现的非常简单，你可以自行实现更复杂的算法，返回一个全新的 `Uint8Array` 甚至改变长度都是可以的。

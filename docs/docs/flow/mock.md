@@ -18,9 +18,9 @@ sidebar_position: 5
 ## 实现
 
 在 TSRPC 实现 Mock 特性，需要依赖 `client.flows.preCallApiFlow`。
-这个 Flow 发生在实际调用 API 之前，它有一个名为 `return` 的参数，类型为 `callApi` 的返回即 `ApiReturn<Res>`。如果你在 `Flow` 函数内，给 `return` 字段赋值，即相当于提前返回了结果，则客户端实际不会去调用后端接口，而是直接使用该返回值，并且后续流程同真实调用了 API 完全一致。例如：
+这个 Flow 发生在实际调用 API 之前，它有一个名为 `return` 的参数，为 `callApi` 的返回类型即 `ApiReturn<Res>`。如果你在 `Flow` 函数内，给 `return` 字段赋值，即相当于提前返回了结果，则客户端实际 **不会** 去调用后端接口，而是直接返回该值，流程上与真实网络请求完全一致。例如：
 
-### 提前返回成功的响应
+#### 提前返回成功的响应
 ```ts
 client.flows.preCallApiFlow.push(v => {
     v.return = {
@@ -33,7 +33,7 @@ client.flows.preCallApiFlow.push(v => {
 })
 ```
 
-### 10% 的概率模拟网络错误
+#### 10% 的概率模拟网络错误
 ```ts
 client.flows.preCallApiFlow.push(v => {
     if(Math.random() < 0.1){
@@ -55,6 +55,8 @@ client.flows.preCallApiFlow.push(v => {
 
 模拟后端，Mock API 请求：
 ```ts
+// 模拟后端，Mock API 请求
+
 import { ApiReturn } from "tsrpc-browser";
 import { ServiceType } from "../shared/protocols/serviceProto";
 
@@ -65,7 +67,10 @@ const data: {
 }[] = [];
 
 // { 接口名: (req: 请求) => 响应 }
-export const mockApis: { [K in keyof ServiceType['api']]?: (req: ServiceType['api'][K]['req']) => ApiReturn<ServiceType['api'][K]['res']> } = {
+export const mockApis: {
+    [K in keyof ServiceType['api']]?: (req: ServiceType['api'][K]['req']) => ApiReturn<ServiceType['api'][K]['res']> | Promise<ApiReturn<ServiceType['api'][K]['res']>> 
+} = {
+    // 模拟后端接口
     AddData: req => {
         let time = new Date();
         data.unshift({ content: req.content, time: time })
@@ -75,7 +80,13 @@ export const mockApis: { [K in keyof ServiceType['api']]?: (req: ServiceType['ap
         }
     },
 
-    GetData: req => {
+    // 异步也可以
+    GetData: async req => {
+        // 模拟 500ms 延时
+        await new Promise(rs => {
+            setTimeout(rs, 500);
+        })
+
         return {
             isSucc: true,
             res: {
@@ -87,18 +98,18 @@ export const mockApis: { [K in keyof ServiceType['api']]?: (req: ServiceType['ap
 ```
 
 :::note
-上面例子中 `mockApis` 的类型定义略显复杂，如果你对 TypeScript 不是非常熟悉，可以直接复制来用。
+上面例子中 `mockApis` 的类型定义略显复杂，用到了 TypeScript 的 [Mapped Types](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html)。如果你对 TypeScript 不是非常熟悉，可以直接复制来用。
 :::
 
 客户端请求前判断有无 Mock API，若有则直接使用：
 ```ts
 // Client Mock
-client.flows.preCallApiFlow.push(v => {
+client.flows.preCallApiFlow.push(async v => {
     // 有对应的 MockAPI 则 Mock，否则请求真实后端
     let mockApi = mockApis[v.apiName];
     if (mockApi) {
         client.logger?.log('[MockReq]', v.apiName, v.req);
-        v.return = mockApi!(v.req as any);
+        v.return = await mockApi!(v.req as any);
         client.logger?.log('[MockRes]', v.apiName, v.return);
     }
 
