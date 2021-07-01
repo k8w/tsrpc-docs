@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'TSRPC - TypeScript 跨平台 RPC 框架',
-  tagline: 'TypeScript 的开源 RPC 框架\n强大的运行时 TS 类型检测、二进制序列化特性\n同时支持 HTTP 和 WebSocket',
+  tagline: '目前世界上唯一支持 TypeScript 复杂类型\n运行时自动检测和二进制序列化的\nTypeScript 开源 RPC 框架',
   url: 'https://tsrpc.cn',
   baseUrl: '/',
   onBrokenLinks: 'throw',
