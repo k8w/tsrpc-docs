@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # 介绍
 
-## TSRPC是什么
+## TSRPC 是什么
 
 TSRPC 是一个 TypeScript 的 RPC 框架，适用于浏览器 Web 应用、WebSocket 实时应用、NodeJS 微服务等场景。
 
