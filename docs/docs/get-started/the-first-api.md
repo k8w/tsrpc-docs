@@ -186,42 +186,25 @@ TSRPC 对于前端接入的体验是极致的。全过程输入输出都有代�
 
 ### 处理错误和响应
 
-`callApi` 不总是成功的，可能出现一些错误。
-传统基于 `Promise` 或回调函数的方式存在一些隐患，这常常成为 BUG 的根源，例如：
+`callApi` 不总是成功的，可能出现一些错误，例如网络错误、业务错误等。
+很多经验不足的程序员总是不记得处理错误，经常导致很多 “卡死” 的问题，例如：
 
-#### 一、 分散地处理各种错误
-
-例如如果你使用 `fetch`，通常有这些错误等着你处理：
 ```js
-fetch(...)
-    .then(v=>{ 
-        1. HTTP 状态码报错
-        2. HTTP 状态码正常，但返回了业务报错（例如 “余额不足” “密码错误”）
-    })
-    .catch(e=>{ 
-        1. 网络错误
-        2. 代码报错
-    })
-```
-
-有非常多潜在的错误，它们分散在各个角落等着你处理。疏忽一处，就可能引发问题。
-
-#### 二、 忘记处理错误
-
-很多新手没有处理错误的意识，例如在上面的例子中，可能会忘记 `catch`。
-这点小小的疏忽可能造成很大的问题，例如一个常见的需求：“请求期间显示 Loading”。
-```js
-showLoading();   // 显示一个全屏 Loading
+showLoading(); 
 let res = await fetch( ... );
-hideLoading();   // 隐藏 Loading
+hideLoading();
 ```
 
-乍一看没毛病，可一旦发生网络错误，`fetch` 会抛出异常，下面的 `hideLoading()` 不会执行。如此，界面上的 Loading 就永远不消失，通常被称为 “卡死了”。
-不要小看它，实际项目中有相当比例 “卡死” 的问题跟这有关！
+`fetch` 后忘记 `catch`，一旦遇到网络错误抛出异常，则 `hideLoading` 不会执行，Loading 永远不消失，表现为 “卡死”。
 
 #### TSRPC 的解决之道
+1. 所有方法都 **不会抛出异常**
+    - 因此总是 **无需** `catch()` 或 `try...catch...` ，规避了新手总是忘记 `catch` 的坑。
+2. 所有错误都 **只需在一处处理**
+    - 根据 `ret.isSucc` 判断成功与否，成功则取响应 `ret.res`，失败则取错误 `ret.err`（包含了错误类型和详情信息）。
+3. 通过 TypeScript 类型系统，巧妙的使你 **必须做错误检测**
+    - 如果将下面错误处理部分的代码删去，TypeScript 编译器会报错。
 
-先看例子：
 ```ts title="frontend/src/index.ts"
 window.onload = async function () {
     let ret = await client.callApi('Hello', {
@@ -238,14 +221,6 @@ window.onload = async function () {
     alert('Success: ' + ret.res.reply);
 }
 ```
-
-在 TSRPC 中：
-1. 所有方法都 **不会抛出异常**
-    - 因此总是 **无需** `catch()` 或 `try...catch...` ，规避了新手陷阱。
-2. 所有错误都 **只需在一处处理**
-    - 根据 `ret.isSucc` 判断成功与否，成功则取响应 `ret.res`，失败则取错误 `ret.err`（包含了错误类型和详情信息）。
-2. 通过 TypeScript 类型系统，巧妙的使你 **必须做错误检测**
-    - 如果你将上面错误处理部分的代码删去，或是删除处理错误后的 `return`，TypeScript 编译器会报错。
 
 ## 测试一下
 
