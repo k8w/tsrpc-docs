@@ -9,6 +9,7 @@ TSRPC 的二进制序列化特性，能显著减小包体，帮助实时服务�
 你可以通过 `npx create-tsrpc-app@latest` 快速创建一个 WebSocket 实时聊天室项目。
 
 ## 实时 API
+
 TSRPC 本身的设计架构是协议无关的，这意味着在[上一节](the-first-api.md)中实现的 API 可以无缝运行在 WebSocket 协议之上。
 只需要将 `HttpServer` 替换为 `WebSocketServer`，将 `HttpClient` 替换为 `WebSocketClient` 即可。例如：
 
@@ -16,19 +17,19 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 <Tabs
-  defaultValue="server"
-  values={[
-    {label: 'Server', value: 'server'},
-    {label: 'Client', value: 'client'}
-  ]}>
-  <TabItem value="server">
+defaultValue="server"
+values={[
+{label: 'Server', value: 'server'},
+{label: 'Client', value: 'client'}
+]}>
+<TabItem value="server">
 
 ```ts
-import { WsServer } from 'tsrpc';
+import { WsServer } from 'tsrpc'
 
 const server = new WsServer(serviceProto, {
-    port: 3000
-});
+  port: 3000,
+})
 ```
 
   </TabItem>
@@ -36,16 +37,16 @@ const server = new WsServer(serviceProto, {
   <TabItem value="client">
 
 ```ts
-import { WsClient } from 'tsrpc-browser';
+import { WsClient } from 'tsrpc-browser'
 
 const client = new WsClient(serviceProto, {
-    server: 'ws://127.0.0.1:3000',
-    logger: console
-});
+  server: 'ws://127.0.0.1:3000',
+  logger: console,
+})
 
-let ret = await client.callApi('Hello', { 
-  name: 'World'
-});
+let ret = await client.callApi('Hello', {
+  name: 'World',
+})
 ```
 
   </TabItem>
@@ -68,12 +69,13 @@ let ret = await client.callApi('Hello', {
 
 ```ts title="MsgChat.ts"
 export interface MsgChat {
-  name: string,
+  name: string
   content: string
 }
 ```
 
 跟 API 协议一样，新增或修改消息定义后，也应该重新生成 ServiceProto，然后同步到前端项目。
+
 ```shell
 cd backend
 npm run proto
@@ -85,21 +87,24 @@ npm run sync
 消息可以双向传递，即可以从 Server 发给 Client，也可以从 Client 发给 Server。
 
 #### Client 发送
+
 ```ts
 client.sendMsg('Chat', {
   name: 'k8w',
-  content: 'I love TSRPC.'
+  content: 'I love TSRPC.',
 })
 ```
 
 #### Server 发送
+
 Server 同时可能连接着多个 Client，活跃中的所有连接都在 `server.conns`。
 要给其中某个 Client 发送消息，可以使用 `conn.sendMsg` ，例如：
+
 ```ts
 // 给第一个连接的 Client 发送消息
 server.conns[0].sendMsg('Chat', {
   name: 'System',
-  content: 'You are the first connection.'
+  content: 'You are the first connection.',
 })
 ```
 
@@ -110,10 +115,11 @@ server.conns[0].sendMsg('Chat', {
 #### Server 广播
 
 要给所有 Client 发送消息，可以使用 `server.broadcastMsg()`，例如：
+
 ```ts
 server.broadcastMsg('Chat', {
   name: 'System',
-  content: 'This is a message to everyone.'
+  content: 'This is a message to everyone.',
 })
 ```
 
@@ -124,21 +130,21 @@ server.broadcastMsg('Chat', {
 监听 / 解除监听消息在 Server 和 Client 类似，例子如下：
 
 <Tabs
-  defaultValue="server"
-  values={[
-    {label: 'Server', value: 'server'},
-    {label: 'Client', value: 'client'}
-  ]}>
-  <TabItem value="server">
+defaultValue="server"
+values={[
+{label: 'Server', value: 'server'},
+{label: 'Client', value: 'client'}
+]}>
+<TabItem value="server">
 
 ```ts
 // 监听（会返回传入的处理函数）
-let handler = server.listenMsg('Chat', call=>{
-  server.broadcastMsg('Chat', call.msg);
-});
+let handler = server.listenMsg('Chat', (call) => {
+  server.broadcastMsg('Chat', call.msg)
+})
 
 // 取消监听
-server.unlistenMsg('Chat', handler);
+server.unlistenMsg('Chat', handler)
 ```
 
   </TabItem>
@@ -147,19 +153,19 @@ server.unlistenMsg('Chat', handler);
 
 ```ts
 // 监听（会返回传入的处理函数）
-let handler = client.listenMsg('Chat', msg=>{
-  console.log(msg.name, msg.content);
-});
+let handler = client.listenMsg('Chat', (msg) => {
+  console.log(msg.name, msg.content)
+})
 
 // 取消监听
-client.unlistenMsg('Chat', handler);
+client.unlistenMsg('Chat', handler)
 ```
 
   </TabItem>
 </Tabs>
 
 不同之处在于，由于 Server 同时可能连接着多个 Client，所以监听消息时收到的参数为 `call: MsgCall`。
-其中除了消息内容（ `call.msg` ）外，还包含Client 连接（ `call.conn` ）等信息。
+其中除了消息内容（ `call.msg` ）外，还包含 Client 连接（ `call.conn` ）等信息。
 
 而 Client 由于只存在唯一的连接，故监听消息时，收到的参数即为消息本身：`msg: MsgXXXX`。
 
