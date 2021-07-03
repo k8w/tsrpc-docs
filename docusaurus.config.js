@@ -1,19 +1,24 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'TSRPC - TypeScript 跨平台 RPC 框架',
-  tagline: '目前世界上唯一支持 TypeScript 复杂类型\n运行时自动检测和二进制序列化的\nTypeScript 开源 RPC 框架',
+  tagline:
+    '目前世界上唯一支持 TypeScript 复杂类型\n运行时自动检测和二进制序列化的\nTypeScript 开源 RPC 框架',
   url: 'https://tsrpc.cn',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'k8w', // Usually your GitHub org/user name.
   projectName: 'tsrpc', // Usually your repo name.
+  i18n: {
+    defaultLocale: 'zh-cn',
+    locales: ['zh-cn', 'en'],
+  },
   themeConfig: {
     colorMode: {
       defaultMode: 'light',
       disableSwitch: true,
-      respectPrefersColorScheme: false
+      respectPrefersColorScheme: false,
     },
     navbar: {
       title: 'TSRPC',
@@ -42,8 +47,12 @@ module.exports = {
         },
         // { to: '/blog', label: 'Blog', position: 'left' },
         {
+          type: 'localeDropdown',
+          position: 'right',
+        },
+        {
           label: 'v3.0.4', // by default, show active/latest version label
-          position: 'right'
+          position: 'right',
         },
         {
           href: 'https://github.com/k8w/tsrpc',
@@ -113,7 +122,7 @@ module.exports = {
           // Please change this to your repo.
           // editUrl:
           //   'https://github.com/k8w/tsrpc-docs/blob/main/',
-          routeBasePath: '/'
+          routeBasePath: '/',
         },
         // blog: {
         //   showReadingTime: true,
@@ -130,7 +139,7 @@ module.exports = {
   plugins: [
     function baiduTongJi(context, options) {
       if (process.env.NODE_ENV !== 'production') {
-        return {};
+        return {}
       }
       return {
         name: 'docusaurus-plugin-baidu-analytics',
@@ -148,9 +157,9 @@ module.exports = {
 })();`,
               },
             ],
-          };
+          }
         },
-      };
-    }
-  ]
-};
+      }
+    },
+  ],
+}
