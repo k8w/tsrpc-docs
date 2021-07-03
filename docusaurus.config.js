@@ -9,6 +9,10 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'k8w', // Usually your GitHub org/user name.
   projectName: 'tsrpc', // Usually your repo name.
+  i18n: {
+    defaultLocale: 'zh-cn',
+    locales: ['en', 'zh-cn'],
+  },
   themeConfig: {
     colorMode: {
       defaultMode: 'light',
@@ -41,6 +45,10 @@ module.exports = {
           label: '示例',
         },
         // { to: '/blog', label: 'Blog', position: 'left' },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
         {
           label: 'v3.0.4', // by default, show active/latest version label
           position: 'right'
