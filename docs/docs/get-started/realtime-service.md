@@ -93,19 +93,15 @@ client.sendMsg('Chat', {
 ```
 
 #### Server 发送
-Server 同时可能连接着多个 Client，活跃中的所有连接都在 `server.conns`。
+Server 同时可能连接着多个 Client，活跃中的所有连接都在 `server.connections`。
 要给其中某个 Client 发送消息，可以使用 `conn.sendMsg` ，例如：
 ```ts
 // 给第一个连接的 Client 发送消息
-server.conns[0].sendMsg('Chat', {
+server.connections[0].sendMsg('Chat', {
   name: 'System',
   content: 'You are the first connection.'
 })
 ```
-
-:::note
-`conn` 是 `Connection` 的缩写。
-:::
 
 #### Server 广播
 

@@ -104,7 +104,7 @@ server.unlistenMsg('Chat', handler);
 
 所以对于服务端而言，发送消息前首先得知道要发给谁，因此就需要将目标 Connection 给找出来。一般来说有两种方式：
 
-1. 从 `server.conns` 中筛选
+1. 从 `server.connections` 中筛选
 2. 自行存储维护目标 Connection
 
 举两个例子来说明。
@@ -116,7 +116,7 @@ server.unlistenMsg('Chat', handler);
 如果我们需要增加一个私信功能该怎么办呢？例如 A 指定将消息发送给 B，只有 B 能收到这条消息。思路可以是这样：
 
 1. 在进入聊天室前增加登录流程，用户登录后会给当前连接标记一个 `userId`。
-2. 发送私信时，从 `server.conns` 中查找 `userId` 为目标值的连接，然后发送
+2. 发送私信时，从 `server.connections` 中查找 `userId` 为目标值的连接，然后发送
 
 要实现这些，首先你需要给 Connection 扩展增加一个 `userId` 字段。
 通常来说，给基类 `BaseConnection` 扩展就可以。有[两种方式](../flow/flow#%E7%B1%BB%E5%9E%8B%E6%89%A9%E5%B1%95)，我们先选择简单的一种：
@@ -146,7 +146,7 @@ export async function ApiLogin(call: ApiCall<ReqLogin, ResLogin>){
 
 则需要发送私信时，即可：
 ```ts
-let conn = server.conns.find(v=>v.userId==='目标 User ID');
+let conn = server.connections.find(v=>v.userId==='目标 User ID');
 if(conn){
     conn.sendMsg('消息名', {
         // ...
@@ -197,4 +197,4 @@ server.listen('Chat', (call: MsgChat)=>{
 })
 ```
 
-相比上一种方法，这种方式将 Connection 保存在业务逻辑中，避免了每次都去遍历 `server.conns`。
+相比上一种方法，这种方式将 Connection 保存在业务逻辑中，避免了每次都去遍历 `server.connections`。
