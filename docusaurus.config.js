@@ -95,7 +95,7 @@ module.exports = {
       //     ],
       //   },
       // ],
-      copyright: `遵循 MIT 开源协议\n欢迎加群交流（微信LoyalSun，请注明来意）\nCopyright © 2016-${new Date().getFullYear()} King Wang 粤ICP备17160324号`,
+      copyright: `欢迎加群交流（微信 <b style="color: orange">LoyalSun</b>，请注明来意） <br/>遵循 MIT 开源协议 &nbsp;&nbsp; Copyright © 2016-${new Date().getFullYear()} King Wang &nbsp;&nbsp; <a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备17160324号</a>`,
     },
     gtag: {
       // You can also use your "G-" Measurement ID here.
