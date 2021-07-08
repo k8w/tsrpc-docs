@@ -8,13 +8,13 @@ const FeatureList = [
     Svg: require('../../static/img/feature_1.svg').default,
     description: (
       <>
-        直接使用 TypeScript 的类型系统定义协议<br />
+        直接使用 TypeScript 的类型定义协议<br />
         无需任何注释、Decorator、第三方语言
       </>
     ),
   },
   {
-    title: '运行时类型检测',
+    title: '类型自动检测',
     Svg: require('../../static/img/feature_2.svg').default,
     description: (
       <>
@@ -29,7 +29,7 @@ const FeatureList = [
     description: (
       <>
         TypeScript 类型直接序列化成二进制<br />
-        比 JSON 更小、更快、支持更多类型
+        包体更小、类型更多、天然防破解
       </>
     ),
   },
@@ -39,7 +39,7 @@ const FeatureList = [
     description: (
       <>
         同时支持 HTTP 和 WebSocket<br />
-        向后兼容 Restful API
+        兼容 HTTP / JSON 调用
       </>
     ),
   },
@@ -48,7 +48,8 @@ const FeatureList = [
     Svg: require('../../static/img/feature_5.svg').default,
     description: (
       <>
-        浏览器 / 原生 / NodeJS / 微信小程序
+        浏览器 / 原生 / NodeJS / 微信小程序<br />
+        支持 Serverless 云函数部署
       </>
     ),
   },
