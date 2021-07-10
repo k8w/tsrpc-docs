@@ -14,7 +14,7 @@ const FeatureList = [
     ),
   },
   {
-    title: '类型自动检测',
+    title: '运行时类型检测',
     Svg: require('../../static/img/feature_2.svg').default,
     description: (
       <>
@@ -28,8 +28,8 @@ const FeatureList = [
     Svg: require('../../static/img/feature_3.svg').default,
     description: (
       <>
-        TypeScript 类型直接序列化成二进制<br />
-        包体更小、类型更多、天然防破解
+        包体更小、更易加密、天然防破解<br />
+        支持传输 ArrayBuffer / Date 等更多类型
       </>
     ),
   },

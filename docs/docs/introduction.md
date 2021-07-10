@@ -149,3 +149,7 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
 对于这份文档的迟到感到抱歉，希望能对你的工作有所帮助。
 
 [开始学习 TSRPC](get-started/create-tsrpc-app.md)
+
+:::note 扫码加入微信交流群 （请注明来意）
+![](assets/wechat.png)
+:::
