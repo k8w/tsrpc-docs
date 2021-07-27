@@ -38,7 +38,9 @@ export default function Home() {
   return (
     <Layout
       // title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      description="TSRPC 是一个 TypeScript 的 RPC 框架。世界上唯一支持 TypeScript 复杂类型运行时检测和二进制序列化的 RPC 框架，同时支持 HTTP 和 WebSocket。"
+      keywords='TSRPC,TypeScript,WebSocket框架,TypeScript NodeJS,TypeScript RPC,NodeJS,Node,WebSocket,NodeJS框架,gRPC,NestJS,Thrift,socketIO,protobuf,后端框架,后台框架,TypeScript序列化,TypeScript运行时,k8w'
+    >
       <HomepageHeader />
       <main>
         <HomepageFeatures />

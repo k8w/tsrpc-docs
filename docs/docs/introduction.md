@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+description: TSRPC 是一个 TypeScript 的 RPC 框架，适用于浏览器 Web 应用、WebSocket 实时应用、NodeJS 微服务等场景。目前，大多数项目仍在使用传统的 Restful API 进行前后端通信，这存在一些痛点...
 ---
 
 # 介绍

@@ -1,5 +1,6 @@
 ---
 sidebar_position: 5
+description: 根据实际情况，有很多数据库可以选择。但多数情况下，为了最大程度的利用 TypeScript 类型特性，我们推荐你使用支持 JSON的数据库。为什么这么说呢？
 ---
 
 # 使用数据库

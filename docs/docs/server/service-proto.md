@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+description: 众所周知，TypeScript 的类型检测仅发生在编译时刻，这是因为类型信息（如 `type`、`interface`）会在编译时刻被抹除。而 TSRPC 竟然能在运行时刻也检测这些被抹除的类型信息？况且 TypeScript 编译器有大几 MB，而 TSRPC 才几十 KB。其实，这是因为...
 ---
 
 # 协议和运行原理

@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+description: TSRPC 从一开始就被设计为二进制和传输协议无关的，这意味着你可以方便的将其扩展到原生 TCP、UDP 等其它传输协议中。为了达到这一目的，TSRPC Server 设计为三层架构...
 ---
 
 # 服务端架构
