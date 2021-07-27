@@ -1,5 +1,14 @@
 ---
 sidebar_position: 2
+description: 在这一节中，我们将体验使用 TSRPC 快速实现一个 API 服务，并在浏览器中调用它。API 接口就相当于一个实现在远端的异步函数...
+keywords:
+  - TSRPC
+  - TypeScript NodeJS
+  - TypeScript RPC
+  - TSRPC API
+  - expressJS
+  - koa
+  - nestjs
 ---
 
 # 实现第一个 API

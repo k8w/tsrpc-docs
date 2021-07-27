@@ -1,5 +1,13 @@
 ---
 sidebar_position: 3
+description: WebSocket 实时服务一直是 Web 应用的重大挑战之一。TSRPC 的二进制序列化特性，能显著减小包体，帮助实时服务提升传输效能。你可以通过 npx create-tsrpc-app@latest 快速创建一个 WebSocket 实时聊天室项目。
+keywords:
+  - TSRPC
+  - WebSocket
+  - TypeScript WebSocket
+  - 实时服务
+  - WebSocket 框架
+  - TSRPC WebSocket
 ---
 
 # WebSocket 实时服务

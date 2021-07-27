@@ -1,5 +1,17 @@
 ---
 sidebar_position: 1
+description: 使用 create-tsrpc-app 工具，可以快速创建 TSRPC 项目。创建过程是交互式的，在菜单上选择相应的配置，即可轻松创建包含前后端的 TSRPC 全栈应用项目。
+keywords:
+  - TSRPC
+  - create-tsrpc-app
+  - create tsrpc app
+  - 全栈项目
+  - TypeScript RPC
+  - TypeScript NodeJS
+  - TypeScript 全栈
+  - TypeScript NodeJS
+  - 全栈开发
+  - 全栈工程师
 ---
 
 # 创建 TSRPC 应用
