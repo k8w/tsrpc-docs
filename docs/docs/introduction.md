@@ -1,17 +1,24 @@
 ---
 sidebar_position: 1
-description: TSRPC 是一个 TypeScript 的 RPC 框架，适用于浏览器 Web 应用、WebSocket 实时应用、NodeJS 微服务等场景。目前，大多数项目仍在使用传统的 Restful API 进行前后端通信，这存在一些痛点...
+description: TSRPC 是领先的 TypeScript 的 RPC 框架，适用于浏览器 Web 应用、WebSocket 实时应用、NodeJS 微服务等场景。目前，大多数项目仍在使用传统的 Restful API 进行前后端通信，这存在一些痛点...
+keywords:
+  - TSRPC
+  - TS RPC
+  - TypeScript RPC
+  - io-ts
+  - ts websocket
+  - ts nodejs
+  - TS 类型检测
+  - TS 全栈
+  - nestjs
+  - grpc
 ---
 
 # 介绍
 
 ## TSRPC 是什么
 
-TSRPC 是一个 TypeScript 的 RPC 框架，适用于浏览器 Web 应用、WebSocket 实时应用、NodeJS 微服务等场景。
-
-<!-- 现如今，正有越来越多的团队使用 TypeScript + NodeJS 开发后端服务。
-NodeJS 极大的降低了全栈开发的门槛，而 TypeScript 提供了史上最强大的类型检测系统。
-在前后端之间共享逻辑代码和类型定义，极大的提升了开发效率。 -->
+TSRPC 是领先的 TypeScript RPC 开源框架，适用于浏览器 Web 应用、WebSocket 实时应用、NodeJS 微服务等场景。
 
 目前，大多数项目仍在使用传统的 Restful API 进行前后端通信，这存在一些痛点。
 1. 依赖文档进行协议定义，前后端联调常被低级错误困扰（如字段名大小写错误，字段类型错误等）。
@@ -130,17 +137,6 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
   - 可在纯 JavaScript 项目中使用 TSRPC Client，也能享受类型检查和序列化特性
 - **兼容 Internet Explorer 10 浏览器**
   - 浏览器端兼容至 IE 10 ，Chrome 30
-
-<!-- ## 与其它框架的区别
-- ExpressJS / KoaJS
-  - 不支持 WebSocket
-  - 没有强类型
-- SocketIO
-  - 没有强类型
-  - 不支持 HTTP
-- gRPC
-  - 必须依赖第三方 IDL 语言（Protobuf）
-  - 类型特性不如 TypeScript 强大 -->
 
 ## 开始学习
 

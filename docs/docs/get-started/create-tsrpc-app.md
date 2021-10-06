@@ -2,16 +2,21 @@
 sidebar_position: 1
 description: 使用 create-tsrpc-app 工具，可以快速创建 TSRPC 项目。创建过程是交互式的，在菜单上选择相应的配置，即可轻松创建包含前后端的 TSRPC 全栈应用项目。
 keywords:
-  - TSRPC
   - create-tsrpc-app
   - create tsrpc app
-  - 全栈项目
+  - TSRPC
+  - TS RPC
   - TypeScript RPC
-  - TypeScript NodeJS
-  - TypeScript 全栈
-  - TypeScript NodeJS
-  - 全栈开发
+  - io-ts
+  - ts websocket
+  - ts nodejs
+  - TS 类型检测
+  - TS 全栈
+  - nestjs
+  - grpc
   - 全栈工程师
+  - 全栈项目
+  - 全栈开发
 ---
 
 # 创建 TSRPC 应用
@@ -38,32 +43,35 @@ npx create-tsrpc-app@latest
 
 ## 全栈项目结构
 
-TSRPC 在前后端项目间共享协议定义等公共代码，来获得更好的代码提示和提高开发效率。
-通常，服务端项目被命名为 `backend`，客户端项目被命名为 `frontend`，它们都有一个共享代码目录 `src/shared`。共享目录在后端编辑，然后只读同步到前端，也可以使用 Symlink 来自动同步。
+服务端项目被命名为 `backend`，客户端项目被命名为 `frontend`，常见的目录结构如下：
 
-常见的目录结构如下：
 ```
 |- backend --------------------------- 后端项目
     |- src
-        |- shared -------------------- 前后端共享代码（同步至前端）
+        |- shared -------------------- 前后端共享代码
             |- protocols ------------- 协议定义
         |- api ----------------------- API 实现
         index.ts
+    |- tsrpc.config.ts --------------- TSRPC 项目配置文件
 
 |- frontend -------------------------- 前端项目
     |- src
-        |- shared -------------------- 前后端共享代码（只读）
+        |- shared -------------------- 前后端共享代码（Symlink）
             |- protocols
         |- index.ts
 ```
 
-:::tip
-`frontend` 和 `backend` 是两个完全独立的项目，可以放在同一个代码仓库中，也可以分散在两个独立的代码仓库。
+TSRPC 会在前后端项目中共享一些跨项目复用的代码，例如协议定义、公共类型和业务逻辑等。共享代码统一存放于前后端项目的 `src/shared` 目录下，`shared` 目录下的内容会在前后端项目间自动同步。
+
+`backend/tsrpc.config.ts` 为项目配置文件，可修改相关项目配置。
+
+:::note
+前后端项目默认通过 Symlink 来共享代码，也可以在 `tsrpc.config.ts` 中修改为自动复制文件的方式。
 :::
 
-## 本地开发
+## 运行
 
-前端和后端项目，均在各自的目录通过 `npm run dev` 运行本地开发服务。
+在前端和后端项目下运行 `npm run dev` 即可启动本地服务。
 
 ```shell
 cd backend
@@ -77,9 +85,12 @@ npm run dev
 
 项目模板里已经自带了小例子，启动看看效果吧~
 
-## 编译构建
+该命令会持续监听项目文件，当发生变化时，自动更新和重启服务。随便改几行代码保存，试试看有什么变化吧。
 
-同理，在各自的目录通过 `npm run build` 编译构建，默认输出到 `dist` 目录。
+## 构建
+
+在前端和后端项目下运行 `npm run build` 即可执行构建。
+
 ```shell
 cd backend
 npm run build
@@ -89,3 +100,7 @@ npm run build
 cd frontend
 npm run build
 ```
+
+构建完成后的制品将输出到 `dist` 目录下，可直接用于部署。
+- `frontend/dist` 可以直接复制到 CDN 或文件服务器
+- `backend/dist` 可复制到线上 NodeJS 环境，`npm install` 后执行 `node index.js` 即可启动
