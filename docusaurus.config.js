@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'TSRPC - TypeScript 跨平台 RPC 框架',
-  tagline: '目前世界上唯一支持 TypeScript 复杂类型\n运行时自动检测和二进制序列化的\nTypeScript 开源 RPC 框架',
+  tagline: '领先的 TypeScript RPC 开源框架\n比 JSON 更强大，类型安全，支持二进制\n全栈架构，前后端无感连接',
   url: 'https://tsrpc.cn',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -17,10 +17,10 @@ module.exports = {
     },
     navbar: {
       title: 'TSRPC',
-      logo: {
-        alt: 'TSRPC',
-        src: 'img/logo.svg',
-      },
+      // logo: {
+      //   alt: 'TSRPC',
+      //   src: 'img/logo.svg',
+      // },
       items: [
         {
           type: 'doc',

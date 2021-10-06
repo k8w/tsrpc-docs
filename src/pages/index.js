@@ -12,7 +12,7 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <h1 className={"hero__title " + styles.title}>
-          <img src="/img/logo.svg" className={styles.logo} />
+          {/* <img src="/img/logo.svg" className={styles.logo} /> */}
           <img src="/img/text_logo.svg" className={styles.textLogo} />
         </h1>
         <p className={"hero__subtitle " + styles.subTitle}>{siteConfig.tagline}</p>
@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <Layout
       // title={`Hello from ${siteConfig.title}`}
-      description="TSRPC 是一个 TypeScript 的 RPC 框架。世界上唯一支持 TypeScript 复杂类型运行时检测和二进制序列化的 RPC 框架，同时支持 HTTP 和 WebSocket。"
+      description="TSRPC 是领先的 TypeScript RPC 开源框架。世界上唯一支持 TypeScript 复杂类型运行时检测和二进制序列化的 RPC 框架，同时支持 HTTP 和 WebSocket。"
       keywords='TSRPC,TypeScript,WebSocket框架,TypeScript NodeJS,TypeScript RPC,NodeJS,Node,WebSocket,NodeJS框架,gRPC,NestJS,Thrift,socketIO,protobuf,后端框架,后台框架,TypeScript序列化,TypeScript运行时,k8w'
     >
       <HomepageHeader />
