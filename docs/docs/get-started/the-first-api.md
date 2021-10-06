@@ -1,19 +1,28 @@
 ---
 sidebar_position: 2
-description: 在这一节中，我们将体验使用 TSRPC 快速实现一个 API 服务，并在浏览器中调用它。API 接口就相当于一个实现在远端的异步函数...
+description: 体验使用 TSRPC 快速实现一个 API 接口，并在浏览器中调用它。API 接口就相当于一个实现在远端的异步函数，基于 TSRPC 传输协议无关的设计，调用远端接口就像调用本地函数一样简单，并且永远无需考虑处理异常。
 keywords:
   - TSRPC
-  - TypeScript NodeJS
+  - TS RPC
   - TypeScript RPC
-  - TSRPC API
-  - expressJS
-  - koa
+  - tsrpc api
+  - api接口
+  - restful api
+  - json api
+  - io-ts
+  - ts nodejs
+  - ts api
   - nestjs
+  - grpc
+  - 全栈工程师
+  - 全栈项目
+  - 全栈开发
+  - tsrpc ptl
 ---
 
-# 实现第一个 API
+# 实现 API 接口
 
-在这一节中，我们将体验使用 TSRPC 快速实现一个 API 服务，并在浏览器中调用它。
+在这一节中，我们将体验使用 TSRPC 快速实现一个 API 接口，并在浏览器中调用它。
 
 本节内容的完整例子在：https://github.com/k8w/tsrpc-examples/tree/main/examples/first-api
 
@@ -24,19 +33,18 @@ keywords:
 npx create-tsrpc-app@latest first-api --presets browser
 ```
 
-然后删除自带的演示代码，即清空以下目录：
-- `backend/src/shared/protocols`
-- `backend/src/api`
+如你所见，创建好的项目中已经自带了一个简单应用和几个接口。
+先运行 `npm run dev` 来启动本地服务。
 
 ## 概念
 
 使用 TSRPC 开发 API 接口前，必须先了解几个重要的概念。
-- **API**
+- **API 接口**
     - API 接口就相当于一个实现在远端的异步函数，这个函数的输入参数叫做**请求（Request）**，返回值叫做**响应（Response）**。
 - **协议（Protocol）**
-    - 协议就是 API 接口的类型定义，包括它的请求类型和响应类型，也可以包含接口的其它配置信息（例如是否需要登录验证等）。
-- **API 实现**
-    - 实现指 API 接口的功能实现代码。
+    - 协议就是 API 接口的类型定义，包括它的请求类型和响应类型，也可以包含接口的其它配置信息（例如接口需要的角色权限等）。
+- **实现（Implementation）**
+    - 通常就是一个异步方法，接受请求并返回响应，实现 API 接口的具体功能。
 - **服务端（Server）**
     - API 接口的实现端，NodeJS 12 以上。
 - **客户端（Client）**
@@ -46,11 +54,11 @@ npx create-tsrpc-app@latest first-api --presets browser
 **定义协议 -> 服务端实现 -> 客户端调用**。
 
 :::note
-TSRPC 将 API 的协议和实现分开的原因在于：协议部分前后端都能用到，可以被跨项目共享；而实现显然只存在于 NodeJS 服务端。
+TSRPC 的协议和实现是分开在不同文件的，这样设计是因为：协议在前后端都能用到，可以跨项目共享；而实现函数显然只存在于 NodeJS 服务端。
 :::
 
 ## 定义协议
-### 编写协议文件
+<!-- ### 编写协议文件 -->
 协议目录默认位于 `backend/src/shared/protocols` 目录下，协议文件的命名规则为 `Ptl{接口名}.ts`。
 
 例如我们想要实现一个名为 `Hello` 的协议，则在该目录下创建文件 `PtlHello.ts`，然后分别定义请求类型 `ReqHello` 和 响应类型 `ResHello`，记得要加上 `export` 标记导出它们。
@@ -70,7 +78,7 @@ export interface ResHello {
 TSRPC 按照名称前缀来识别协议（Ptl）、请求（Req）、响应（Res），所以务必按照规定的方式命名。
 :::
 
-### 生成 ServiceProto
+<!-- ### 生成 ServiceProto
 [`ServiceProto`](../server/service-proto.md) 是 TSRPC 运行时实际使用的协议格式，执行以下命令来自动生成：
 ```shell
 cd backend
@@ -79,20 +87,15 @@ npm run proto
 
 :::tip
 每当协议修改后，都应该执行此命令重新生成。
-:::
+::: -->
 
 ## 实现 API
 
-### 创建实现文件
-TSRPC 的 API 接口实现与协议定义是分离的，这是因为协议定义中包含着的类型信息，可以跨项目共享；而实现部分显然只能运行在 NodeJS 服务端。
-为了区分，协议定义统一命名为 `Ptl{接口名}.ts`，接口实现统一使用前缀 `Api{接口名}.ts`。
+### 实现函数
+在后端项目运行 `npm run dev` 期间，当你创建新的接口协议后，会自动在 `backend/src/api` 目录下创建对应的实现函数。实现函数与协议定义一一对应，但文件名前缀由 `Ptl` 替换为 `Api`。
 
-接口实现位于 `backend/src/api`，与协议定义一一对应，文件名前缀由 `Ptl` 替换为 `Api`。我们已经帮你准备好自动生成的工具，只需在上一步后接着执行：
-```shell
-npm run api
-```
+例如我们刚刚定义好的协议 `PtlHello.ts`，实现函数文件名为 `ApiHello.ts`，应该已经自动创建好了，目录结构如下：
 
-如此，空白的 API 文件就自动生成了。对于我们刚刚定义的协议 `PtlHello.ts`，对应生成的实现文件名为 `ApiHello.ts`，目录结构如下：
 ```
 |- backend/src
     |- shared/protocols
@@ -102,8 +105,11 @@ npm run api
     |- index.ts
 ```
 
+跟协议一样，实现函数也是通过名称来识别的，统一使用前缀 `Api{接口名}.ts`。
+实现函数与协议一一对应，并应当保持相同的目录结构。例如 `protocols/a/b/PtlTest.ts` 应当对应 `api/a/b/ApiTest.ts`。
+
 :::tip
-已经存在的 API 文件不会被覆盖或删除，可以随时增量生成。
+自动创建 API 实现函数，不会覆盖或删除已存在的文件。
 :::
 
 ### 请求和响应
@@ -135,17 +141,11 @@ export async function ApiHello(call: ApiCall<ReqHello, ResHello>) {
 ### 共享代码
 
 要调用 API，客户端必须要有相同的协议定义文件，除此之外可能还有其它公共逻辑代码可以在前后端复用。
-为此，我们设计了 `src/shared` 这个目录。该目录下的内容总是在 `backend` 中编辑，然后只读同步到 `frontend` 中。
-
-执行以下命令，来完成同步：
-
-```shell
-cd backend
-npm run sync
-```
+为此，我们设计了 `src/shared` 这个目录，该目录下的内容总是在 `backend` 和 `frontend` 中保持同步。
+无需额外操作，在 `npm run dev` 期间，同步会自动完成。
 
 :::note
-`shared` 目录在前端只读是为了防止前端的修改被后端的同步覆盖。如果你想在前端也能安全的修改 `shared` 目录下的内容，可以选择 `Symlink` 的自动同步方式。
+`shared` 目录默认通过 Symlink 的方式同步，也可以在 `tsrpc.config.ts` 中修改为复制文件副本的方式。
 :::
 
 ### 使用客户端

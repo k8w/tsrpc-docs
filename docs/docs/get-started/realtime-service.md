@@ -81,13 +81,6 @@ export interface MsgChat {
 }
 ```
 
-跟 API 协议一样，新增或修改消息定义后，也应该重新生成 ServiceProto，然后同步到前端项目。
-```shell
-cd backend
-npm run proto
-npm run sync
-```
-
 ### 发送消息
 
 消息可以双向传递，即可以从 Server 发给 Client，也可以从 Client 发给 Server。
