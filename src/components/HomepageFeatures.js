@@ -28,8 +28,8 @@ const FeatureList = [
     Svg: require('../../static/img/feature_3.svg').default,
     description: (
       <>
-        包体更小、更易加密、天然防破解<br />
-        支持传输 ArrayBuffer / Date 等更多类型
+        支持传输 ArrayBuffer / Date 等更多类型<br/>
+        包体更小、更易加密、天然防破解        
       </>
     ),
   },
@@ -39,7 +39,7 @@ const FeatureList = [
     description: (
       <>
         同时支持 HTTP 和 WebSocket<br />
-        兼容 HTTP / JSON 调用
+        兼容 HTTP JSON 调用
       </>
     ),
   },
@@ -48,7 +48,7 @@ const FeatureList = [
     Svg: require('../../static/img/feature_5.svg').default,
     description: (
       <>
-        浏览器 / 原生 / NodeJS / 微信小程序<br />
+        浏览器 / 小程序 / App / NodeJS<br />
         支持 Serverless 云函数部署
       </>
     ),
