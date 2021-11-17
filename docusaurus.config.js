@@ -26,12 +26,6 @@ module.exports = {
           type: 'doc',
           docId: 'docs/introduction',
           position: 'left',
-          label: '教程',
-        },
-        {
-          type: 'doc',
-          docId: 'docs/server/structure',
-          position: 'left',
           label: '文档',
         },
         // {
