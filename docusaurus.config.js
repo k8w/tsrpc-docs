@@ -26,20 +26,26 @@ module.exports = {
           type: 'doc',
           docId: 'docs/introduction',
           position: 'left',
+          label: '教程',
+        },
+        {
+          type: 'doc',
+          docId: 'docs/server/structure',
+          position: 'left',
           label: '文档',
         },
-        {
-          type: 'doc',
-          docId: 'api/index',
-          position: 'left',
-          label: 'API',
-        },
-        {
-          type: 'doc',
-          docId: 'cookbook/index',
-          position: 'left',
-          label: '示例',
-        },
+        // {
+        //   type: 'doc',
+        //   docId: 'api/index',
+        //   position: 'left',
+        //   label: 'API',
+        // },
+        // {
+        //   type: 'doc',
+        //   docId: 'cookbook/index',
+        //   position: 'left',
+        //   label: '示例',
+        // },
         // { to: '/blog', label: 'Blog', position: 'left' },
         {
           label: 'v3.2', // by default, show active/latest version label
