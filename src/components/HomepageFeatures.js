@@ -5,57 +5,87 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: '原汁原味 TypeScript',
-    Svg: require('../../static/img/feature_1.svg').default,
+    Svg: require('../../static/img/ts.svg').default,
     description: (
       <>
         直接使用 TypeScript 的类型定义协议<br />
-        无需任何注释、Decorator、第三方语言
+        无需装饰器、注解、第三方语言
       </>
     ),
   },
   {
-    title: '运行时类型检测',
-    Svg: require('../../static/img/feature_2.svg').default,
+    title: '类型安全',
+    Svg: require('../../static/img/type-safe.svg').default,
     description: (
       <>
-        运行时 TypeScript 类型检测<br />
-        自动检测输入输出，总是类型安全
+        编译时刻 + 运行时刻 双重检测<br />
+        自动参数校验，总是类型安全
       </>
     ),
   },
   {
-    title: '二进制序列化',
-    Svg: require('../../static/img/feature_3.svg').default,
+    title: '比 JSON 更强大',
+    Svg: require('../../static/img/json-plus.svg').default,
     description: (
       <>
-        支持传输 ArrayBuffer / Date 等更多类型<br/>
-        包体更小、更易加密、天然防破解        
+        支持在 JSON 中传输更多数据类型<br />
+        例如 ArrayBuffer、Date、ObjectId
+      </>
+    ),
+  },
+  {
+    title: '支持二进制传输',
+    Svg: require('../../static/img/tsbuffer.svg').default,
+    description: (
+      <>
+        可将 TypeScript 类型直接编码为二进制<br />
+        包体更小、更易加密、天然防破解
+      </>
+    ),
+  },
+  {
+    title: '支持 Serverless',
+    Svg: require('../../static/img/serverless.svg').default,
+    description: (
+      <>
+        同时支持 Serverless 云函数和容器化部署<br />
+        兼容阿里云、腾讯云、AWS 标准
+      </>
+    ),
+  },
+  {
+    title: '一键生成接口文档',
+    Svg: require('../../static/img/api-doc.svg').default,
+    description: (
+      <>
+        Swagger / OpenAPI 格式<br />
+        及 Markdown 格式
       </>
     ),
   },
   {
     title: '多协议',
-    Svg: require('../../static/img/feature_4.svg').default,
+    Svg: require('../../static/img/multi-protocols.svg').default,
     description: (
       <>
         同时支持 HTTP 和 WebSocket<br />
-        兼容 HTTP JSON 调用
+        传输协议无关的架构，轻松扩展至任意信道
       </>
     ),
   },
   {
-    title: '多平台',
-    Svg: require('../../static/img/feature_5.svg').default,
+    title: '跨平台',
+    Svg: require('../../static/img/multi-platforms.svg').default,
     description: (
       <>
-        浏览器 / 小程序 / App / NodeJS<br />
-        支持 Serverless 云函数部署
+        浏览器 / 小程序 / App / NodeJS 多平台支持<br />
+        兼容 HTTP JSON API 调用
       </>
     ),
   },
   {
     title: '高性能',
-    Svg: require('../../static/img/feature_6.svg').default,
+    Svg: require('../../static/img/high-performance.svg').default,
     description: (
       <>
         单核 5000+ QPS (Macbook Air 2020)<br />
