@@ -24,7 +24,7 @@ const FeatureList = [
     ),
   },
   {
-    title: '比 JSON 更强大',
+    title: '更强的 JSON',
     Svg: require('../../static/img/json-plus.svg').default,
     description: (
       <>
@@ -79,7 +79,7 @@ const FeatureList = [
     description: (
       <>
         浏览器 / 小程序 / App / NodeJS 多平台支持<br />
-        兼容 HTTP JSON API 调用
+        兼容 Restful API 调用
       </>
     ),
   },

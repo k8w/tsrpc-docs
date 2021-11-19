@@ -23,10 +23,15 @@ keywords:
 
 ## 创建项目
 
-使用 `create-tsrpc-app` 工具，可以快速创建 TSRPC 项目。
+使用 `create-tsrpc-app` 脚手架工具，可以快速创建 TSRPC 项目：
 
 ```shell
 npx create-tsrpc-app@latest
+```
+
+如果你使用 `yarn`，也可以通过：
+```shell
+yarn create tsrpc-app
 ```
 
 创建过程是交互式的，在菜单上选择相应的配置，即可轻松创建包含前后端的 TSRPC 全栈应用项目。
@@ -35,10 +40,6 @@ npx create-tsrpc-app@latest
 
 :::note
 需要 NodeJS 12 以上，可通过 `npx create-tsrpc-app@latest --help` 查看更多帮助信息。
-:::
-
-:::tip
-记得不要忘记命令末尾的 `@latest`，这使你总是能从最新版本的项目模板创建。
 :::
 
 ## 全栈项目结构
@@ -68,6 +69,7 @@ TSRPC 会在前后端项目中共享一些跨项目复用的代码，例如协�
 ## 运行
 
 在前端和后端项目下运行 `npm run dev` 即可启动本地服务。
+项目模板里已经自带了小例子，启动看看效果吧~
 
 ```shell
 cd backend
@@ -79,12 +81,10 @@ cd frontend
 npm run dev
 ```
 
-项目模板里已经自带了小例子，启动看看效果吧~
-
-该命令会持续监听项目文件，当发生变化时，自动更新和重启服务。随便改几行代码保存，试试看有什么变化吧。
+该命令会持续监听项目文件，当代码发生变化时，自动更新和重启服务。随便改几行代码保存，试试看有什么变化吧。
 
 :::tip
-建议总是先启动后端，再启动前端。
+建议你总是先启动后端，再启动前端。
 :::
 
 ## 构建
@@ -102,5 +102,5 @@ npm run build
 ```
 
 构建完成后的制品将输出到 `dist` 目录下，可直接用于部署。
-- `frontend/dist` 可以直接复制到 CDN 或文件服务器
-- `backend/dist` 可复制到线上 NodeJS 环境，`npm install` 后执行 `node index.js` 即可启动
+- 前端 `frontend/dist` 直接复制到 CDN 或文件服务器即可。
+- 后端 `backend/dist` 可复制到线上机器或 Serverless 云函数平台部署，具体请查阅 [部署指南](/docs/deployment/index) 。
