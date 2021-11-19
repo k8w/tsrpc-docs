@@ -100,12 +100,6 @@ export interface ReqHello {
 export interface ResHello {
   reply: string;
 }
-
-/** 协议的自定义配置 */
-export const conf = {
-  /** 例如：角色权限需求 */
-  needRoles: ['管理员']
-}
 ```
 
   </TabItem>
