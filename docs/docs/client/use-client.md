@@ -6,7 +6,7 @@ sidebar_position: 2
 
 ## 创建客户端
 
-首先，根据 [运行平台](supported-platforms) 和服务端协议，创建 `HttpClient` 或 `WsClient`。
+首先，根据 [运行平台](install) 和服务端协议，创建 `HttpClient` 或 `WsClient`。
 客户端支持并发请求，所以通常你只需要在全局创建和维护唯一的客户端实例即可，例如：
 
 ```ts title="apiClient.ts"

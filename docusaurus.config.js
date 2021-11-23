@@ -28,6 +28,16 @@ module.exports = {
           position: 'left',
           label: '文档',
         },
+        {
+          href: '/docs/server/structure',
+          position: 'left',
+          label: '服务端',
+        },
+        {
+          href: '/docs/client/install',
+          position: 'left',
+          label: '客户端',
+        },
         // {
         //   type: 'doc',
         //   docId: 'api/index',

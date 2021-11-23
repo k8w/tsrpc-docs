@@ -2,17 +2,17 @@
 sidebar_position: 1
 ---
 
-# 支持的平台列表
+# 安装
 
-## 总览
+## 通过 NPM 使用
 
 TSRPC 客户端支持许多平台，根据需要从不同的 NPM 包引入 `HttpClient` 或 `WsClient` 即可，不同平台间的是 API 一致的。
 
 | 客户端平台 | NPM 包 |
 | :-: | :-: |
 | 浏览器、React Native | tsrpc-browser |
-| 微信小程序 | tsrpc-miniapp |
-| NodeJS | tsrpc |
+| 小程序（微信、抖音、QQ 等） | tsrpc-miniapp |
+| NodeJS（如后端微服务互调） | tsrpc |
 
 例如在浏览器项目下使用，则对应 `tsrpc-browser` 这个库，首先安装它：
 
@@ -44,7 +44,7 @@ const client2 = new WsClient(serviceProto, {
 
 例如你在使用 [uni-app](https://uniapp.dcloud.io/) 或 [Taro](https://taro.aotu.io/) 这样的跨平台前端框架实现一个需要同时支持多端（例如浏览器 + 微信小程序 + Android App + iOS App）的应用。
 那么你需要根据实际运行的平台，来选择对应的客户端库。
-由于 TSRPC 的 API 在不同平台的库之间是重名的，所以你需要在 `import` 时手动 `as` 为一个别名，例如：
+由于 TSRPC 的 API 在不同平台的库之间是 **重名** 的，所以你需要在 `import` 时手动 `as` 为一个 **别名**，例如：
 
 ```ts
 import { HttpClient as HttpClientBrowser } from 'tsrpc-browser';
