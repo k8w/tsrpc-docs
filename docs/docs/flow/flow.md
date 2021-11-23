@@ -69,8 +69,8 @@ server.flows.preApiCallFlow.push(call=>{
 | - | - |
 | postConnectFlow | 客户端连接后 |
 | postDisconnectFlow | 客户端断开连接后 |
-| preRecvBufferFlow | 处理收到的二进制数据前 |
-| preSendBufferFlow | 发送二进制数据前 |
+| preRecvDataFlow | 处理收到的数据前 |
+| preSendDataFlow | 发送数据前 |
 | preApiCallFlow | 执行 API 接口实现之前 |
 | preApiReturnFlow | API 接口返回结果（`call.succ`、`call.error`）之前 |
 | postApiReturnFlow | API 接口返回结果（`call.succ`、`call.error`）之后 |
@@ -96,8 +96,8 @@ client.flows.preCallApiFlow.push(v=>{
 | postApiReturnFlow | 将 `callApi` 的结果返回给调用方之后 |
 | preSendMsgFlow | 执行 `sendMsg` 之前 |
 | postSendMsgFlow | 执行 `sendMsg` 之后 |
-| preSendBufferFlow | 向服务端发送任何二进制数据之前 |
-| preRecvBufferFlow | 处理服务端发来的任何二进制数据之前 |
+| preSendDataFlow | 向服务端发送任何数据之前 |
+| preRecvDataFlow | 处理服务端发来的任何数据之前 |
 | preConnectFlow | 连接到服务端之前（仅 WebSocket） |
 | postConnectFlow | 连接到服务端之后（仅 WebSocket） |
 | postDisconnectFlow | 从服务端断开连接之后（仅 WebSocket） |
