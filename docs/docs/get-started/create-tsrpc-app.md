@@ -27,10 +27,7 @@ keywords:
 
 ```shell
 npx create-tsrpc-app@latest
-```
-
-如果你使用 `yarn`，也可以通过：
-```shell
+# 或者
 yarn create tsrpc-app
 ```
 
@@ -104,3 +101,18 @@ npm run build
 构建完成后的制品将输出到 `dist` 目录下，可直接用于部署。
 - 前端 `frontend/dist` 直接复制到 CDN 或文件服务器即可。
 - 后端 `backend/dist` 可复制到线上机器或 Serverless 云函数平台部署，具体请查阅 [部署指南](/docs/deployment/index) 。
+
+## 生成接口文档
+
+在后端项目下运行 `npm run doc` 即可生成接口文档。
+
+```shell
+cd backend
+npm run doc
+```
+
+- 默认生成到 `backend/docs`，也可在 `tsrpc.config.ts` 中修改相关配置。
+- 将生成 3 个文件，对应 3 种格式，可根据实际需要选用。
+    - `openapi.json` Swagger / OpenAPI 3.0 格式
+    - `tsapi.json` TSAPI 格式 
+    - `tsapi.md` Markdown 格式

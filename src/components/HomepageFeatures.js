@@ -18,8 +18,8 @@ const FeatureList = [
     Svg: require('../../static/img/type-safe.svg').default,
     description: (
       <>
-        编译时刻 + 运行时刻 双重检测<br />
-        自动参数校验，总是类型安全
+        开发时全程代码提示，避免低级错误<br />
+        运行时自动参数校验，总是类型安全
       </>
     ),
   },
@@ -28,8 +28,8 @@ const FeatureList = [
     Svg: require('../../static/img/json-plus.svg').default,
     description: (
       <>
-        支持在 JSON 中传输更多数据类型<br />
-        例如 ArrayBuffer、Date、ObjectId
+        在 JSON 中传输更多数据类型<br />
+        如 ArrayBuffer、Date、ObjectId
       </>
     ),
   },
@@ -39,7 +39,7 @@ const FeatureList = [
     description: (
       <>
         可将 TypeScript 类型直接编码为二进制<br />
-        包体更小、更易加密、天然防破解
+        包体更小、更易加密、无需 Protobuf
       </>
     ),
   },

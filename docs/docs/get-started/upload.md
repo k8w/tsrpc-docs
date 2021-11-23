@@ -73,19 +73,19 @@ export async function ApiUpload(call: ApiCall<ReqUpload, ResUpload>) {
 
 ```ts
 async function upload(fileData: Uint8Array, fileName: string) {
-    // Upload
+    // 像普通接口一样调用
     let ret = await client.callApi('Upload', {
         fileData: fileData,
         fileName: fileName
     });
 
-    // Error
+    // 错误处理
     if (!ret.isSucc) {
         alert(ret.err.message);
         return;
     }
 
-    // Succ
+    // 成功
     return {
       url: ret.res.url
     };

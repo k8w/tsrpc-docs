@@ -46,14 +46,14 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
   - 无需装饰器、注解、第三方语言
   - 支持 TypeScript 高级类型，如 [Union Types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types)、[Intersection Types](https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types)、[Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html) 等。
 - 👓 **类型安全**
-  - 编译时刻 + 运行时刻 双重检测
-  - 自动参数校验，总是类型安全
+  - 开发时全程代码提示，避免低级错误
+  - 运行时自动参数校验，总是类型安全
 - 🔥 **更强的 JSON**
   - 支持在 JSON 中传输更多数据类型
   - 例如 `ArrayBuffer`、`Date`、`ObjectId`
 - 💾 **支持二进制传输**
   - 可将 TypeScript 类型直接编码为二进制
-  - 包体更小、更易加密、天然防破解
+  - 包体更小、更易加密、无需 Protobuf
 - 🔥 **支持 Serverless**
   - 同时支持 Serverless 云函数和容器化部署
   - 兼容阿里云、腾讯云、AWS 标准
@@ -72,64 +72,54 @@ TSRPC 具有一些前所未有的强大特性，给您带来极致的开发体�
 
 ## 概览
 
-API 接口本质上是一个服务端实现、客户端调用的异步函数。<br/>
-因此，编写一个接口主要分为 3 步：
-**定义协议** -> **服务端实现** -> **客户端调用**
+API 接口本质上是一个服务端实现、客户端调用的异步函数，
+编写一个接口主要分为 3 步。
 
-以下是一个名为 `Hello` 的接口的简单示例。
+**1. 定义协议**
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+接口的输入参数叫做 **请求**，返回值叫做 **响应**，定义协议就是定义这两个数据类型。
 
-<Tabs
-  defaultValue="protocols"
-  values={[
-    {label: '定义协议', value: 'protocols'},
-    {label: '服务端实现', value: 'server'},
-    {label: '客户端调用', value: 'client'},
-  ]}>
-  <TabItem value="protocols">
+```ts
+import { ObjectId } from 'mongodb';
 
-```ts title="PtlHello.ts（跨端共享）"
-/** 请求 */
-export interface ReqHello {
-  name: string;
+// 请求
+export interface ReqSendMsg {
+  msg: { type: '文字', data: string } | { type: '语音', data: Uint8Array };
 }
 
-/** 响应 */
-export interface ResHello {
-  reply: string;
+// 响应
+export interface ResSendMsg {
+  msgId: ObjectId,
+  createTime: Date
 }
 ```
 
-  </TabItem>
+利用 TSRPC 的强大特性，使用条件类型、发送二进制数据、处理 `ObjectId` `Date` 类型转换都不再是问题。
 
-  <TabItem value="server">
+**2. 服务端实现**
 
-```ts title="ApiHello.ts（后端）"
-import { ApiCall } from "tsrpc";
+服务端的实现就是一个简单的异步函数，框架会确保输入和输出的类型安全，非法请求将被自动拦截。
 
-export async function ApiHello(call: ApiCall<ReqHello, ResHello>) {
-  // 返回成功响应
-  call.succ({
-    reply: 'Hello, ' + call.req.name
-  });
+```ts
+export async function ApiSendMsg(call: ApiCall<ReqSendMsg, ResSendMsg>) {
+    // 写入数据库
+    let createTime = new Date();
+    let opInsert = await db.collection('Message').insertOne({ ...call.req, createTime: createTime })
+
+    // 返回响应
+    call.succ({
+        msgId: opInsert.insertedId,
+        createTime: createTime
+    })
 }
 ```
 
-  </TabItem>
+**3. 客户端调用**
 
-  <TabItem value="client">
+客户端调用远端接口，就像调用本地异步函数一样简单，全程享有代码提示和类型检查。
 
-```ts title="前端"
-let ret = await client.callApi('Hello', {
-    name: 'World'
-});
-console.log(ret); // { isSucc: true, res: { reply: 'Hello, World' } }
-```
+![全程代码提示](get-started/assets/code-hint.gif)
 
-  </TabItem>
-</Tabs>
 
 ## 开始学习
 

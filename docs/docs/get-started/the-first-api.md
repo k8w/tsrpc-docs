@@ -150,14 +150,15 @@ export async function ApiHello(call: ApiCall<ReqHello, ResHello>) {
 
 ### 使用客户端
 
+你可以像过去一样使用 `XMLHttpRequest` 或 `fetch` 发起 HTTP 请求，但更推荐你使用 TSRPC 提供的客户端。
 使用 TSRPC 客户端，即可像调用本地异步函数那样调用远端 API，并享有全过程的代码提示和类型检测。
-它支持许多平台，根据需要从不同的 NPM 包 `import { HttpClient }` 即可，其余的写法全部一样。
+它支持许多平台，根据需要安装对应平台的 NPM 包使用即可，不同平台的 API 是完全一致的。
 
 | 客户端平台 | NPM 包 |
 | :-: | :-: |
 | 浏览器、React Native | tsrpc-browser |
-| 微信小程序 | tsrpc-miniapp |
-| NodeJS | tsrpc |
+| 小程序（微信、抖音、QQ 等） | tsrpc-miniapp |
+| NodeJS（如后端微服务互调） | tsrpc |
 
 由于我们创建的是浏览器 Web 项目，所以引用的是来自 `tsrpc-browser` 的浏览器版客户端。
 例如：
@@ -168,15 +169,10 @@ import { serviceProto } from './shared/protocols/serviceProto';
 
 let client = new HttpClient(serviceProto, {
     server: 'http://127.0.0.1:3000',
+    json: true,
     logger: console
 });
 ```
-
-:::note
-设置 `logger: console` 可将 API 调用情况打印到控制台，便于调试。
-这是因为 TSRPC 的传输是二进制序列化的，所以你在开发者工具的网络面板中看到的将是一团乱码。
-你也可以在生产环境中省去这项配置，这样就没人知道你在干什么了😁。
-:::
 
 ### callApi
 
@@ -240,23 +236,30 @@ npm run dev
 
 服务启动后，用浏览器打开 http://127.0.0.1:8080 看看效果吧~
 
-## 自动类型检测
+## 类型安全
 
-TSRPC 自动对请求和响应进行类型检测，同时在编译时刻和运行时刻，同时在客户端和服务端。
-因此在编写 API 实现时，完全不需要关心类型安全问题。
+TSRPC 会确保接口的输入和输出总是类型安全的，可以放心编写业务代码。
 
-**例子：请求类型不合法，在编译时刻报错**
+- 对协议中的已定义字段，自动进行类型检测，对不合法的请求自动拦截。
+- 对协议中的未定义字段，自动进行剔除，确保字段和协议严格匹配。
+
+检测时机双重保险，同时工作在：
+- 编译时刻 + 运行时刻
+- 客户端 + 服务端
+
+**例子：类型不合法，编译时刻报错**
 ```ts
 callApi('Hello', {
-    name: 12345     // 类型错误
+    name: 12345     // 编译时刻，提示类型错误
 })
 ```
+
+**例子：类型不合法，运行时刻拦截**
 
 即便我们跳过了 TypeScript 的编译时刻检查，TSRPC 框架也会在运行时刻进行校验。
 - 客户端先进行一次校验，将类型不合法的请求拦截在本地。
 - 服务端在执行 API 前还会做二次校验，确保进入执行阶段的 API 请求一定是类型合法的。
 
-**例子：请求类型不合法，被框架拦截**
 ```ts
 callApi('Hello', {
     name: 12345
@@ -266,20 +269,62 @@ callApi('Hello', {
 console.log(ret);   
 ```
 
-## 二进制序列化
+**例子：自动剔除非法字段**
 
-在 Chrome 中打开开发者工具，进入 Network 面板抓包后可以发现，传输内容看起来像乱码一般，这是因为框架自动将传输内容序列化成了二进制编码。它比 JSON 有着更小的传输体积和更好的安全性。
-仍然看见一些明文是因为 TSRPC 并未对包体进行加密或压缩，开发者可以自行完成二进制编码的加密和压缩，我们在[后面的章节](../flow/transfer-encryption.md)有所介绍。
+协议定义之外的非法字段不会引起错误，但会被自动剔除。
 
-## 向后兼容 Restful API
-二进制序列化能获得更好的传输效能，但考虑到兼容性，TSRPC 也支持 XMLHttpRequest、fetch 等传统 JSON 方式的调用方法。
+```ts
+// 正常请求，但字段 other 被自动剔除
+// 后端收到的实际请求为 { name: 'xxxxx' }
+callApi('Hello', {
+    name: 'xxxxx',
+    other: 'ooooo'
+}); 
+```
 
-Server 端开启 `jsonEnabled` 选项：
+:::tip
+你也可以使用索引签名来允许任意字段，例如：
+```ts
+export interface ReqHello {
+    name: string,
+    // 如此，上面的 other: 'ooooo' 也将被服务端收到
+    [key: string]: any
+}
+```
+:::
+
+## 二进制传输
+
+TSRPC 同时支持两种传输模式：
+- JSON：更通用，但明文传输存在安全隐患
+- 二进制：包体更小，更易加密，天然防破解
+
+```ts
+let client = new HttpClient(serviceProto, {
+    server: 'http://127.0.0.1:3000',
+    json: true,
+    logger: console
+});
+```
+
+创建客户端时，删去 `json: true` 即可使用二进制传输，此时在 Chrome 开发者工具中查看到的 Network 记录会变成乱码，
+设置 `logger: console` 可以将请求和响应信息打印在控制台中，便于调试。
+
+TSRPC 的二进制编码并非基于 JSON 字符串二次编码，而是基于 TypeScript 类型定义直接进行二进制编码。
+编码效率相当于 Protobuf，包体大小显著低于 JSON。
+
+TSRPC 并未对包体进行加密或压缩，开发者可以自行完成二进制包体的加密和压缩，我们在[后面的章节](../flow/transfer-encryption.md)有所介绍。
+
+## 兼容 Restful API 方式调用
+
+二进制编码能获得更好的传输效能，但考虑到兼容性，TSRPC 也支持 `XMLHttpRequest`、`fetch` 等传统 JSON 方式的调用方法。
+
+Server 端开启 `json` 选项：
 ```ts
 const server = new HttpServer(serviceProto, {
     ...
     // 兼容 JSON 调用（POST）
-    jsonEnabled: true,
+    json: true,
     ...
 });
 ```
@@ -302,8 +347,6 @@ fetch('http://127.0.0.1:3000/Hello', {
 - Method 为 `POST`，body 为 JSON 字符串
 - 需要包含 Header `Content-Type: application/json`
 
-`jsonEnabled` 默认关闭，对安全性要求高的系统，不建议启用（提高协议破解门槛）。
-
 :::tip
-JSON 兼容模式，不影响自动类型检测正常工作，它不但会自动检测已定义的字段，还会将未定义的多余字段自动剔除，确保类型绝对安全。
+JSON 模式默认关闭，对安全性要求高的系统，不建议启用（提高协议破解门槛）。
 :::
