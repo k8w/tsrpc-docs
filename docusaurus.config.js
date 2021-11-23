@@ -38,6 +38,11 @@ module.exports = {
           position: 'left',
           label: '客户端',
         },
+        {
+          href: '/docs/flow/flow',
+          position: 'left',
+          label: '中间件',
+        },
         // {
         //   type: 'doc',
         //   docId: 'api/index',
