@@ -3,7 +3,7 @@ sidebar_position: 3
 description: 使用 TSRPC 快速创建第一个 API 接口。一个 API Service 的实现即是一个异步函数，一个空白的 API 实现函数，模板如下...
 ---
 
-#  API Service
+#  API 接口服务
 
 ## API Service 是什么
 API Service 是基于请求 / 响应模型的服务，即从客户端获取请求参数，经服务端处理后返回响应。

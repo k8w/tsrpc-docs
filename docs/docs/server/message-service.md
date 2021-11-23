@@ -3,7 +3,7 @@ sidebar_position: 4
 description: 使用 TSRPC 快速创建 WebSocket 实时服务。Message Service 是基于发布 / 订阅模型的服务，消息可以在服务端、客户端之间双向发送。更多见于长连接（如 WebSocket）上的实时交互、服务端推送等场景。
 ---
 
-# Message Service
+# 实时消息服务
 
 ## Message Service 是什么
 Message Service 是基于发布 / 订阅模型的服务，消息可以在服务端、客户端之间双向发送。

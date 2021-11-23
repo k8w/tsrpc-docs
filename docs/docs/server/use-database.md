@@ -173,84 +173,27 @@ export class Global {
 
 ![](assets/global-collection.gif)
 
-### 处理 ObjectID
-MongoDB 为所有记录自动创建了一个 `_id` 字段，类型为 `ObjectID`，这个类型引用自 `mongodb` NPM 包。
-所以前端是无法使用 `ObjectID` 类型的，在与前端通讯时需要转为字符串：
+### ObjectId 和 Date
+
+在 TSRPC 下，你可以在协议中直接使用 `ObjectId` 和 `Date` 类型。
+框架会自动完成传输前后的类型转换，所以即便在 JSON 传输模式下，它们也可以被正常使用。
+
+`ObjectId` 是 MongoDB 默认的 `_id` 类型，因为其引用自 `mongodb` NPM 包（前端未安装），所以通常无法在前端通用。
+但通过 [脚手架工具](../get-started/create-tsrpc-app.md) 创建的 TSRPC 全栈项目却做到了这一点，其原理是在前端项目中的 `end.d.ts` 中定义了如下类型：
 
 ```ts
-import { ObjectID } from 'mongodb';
-
-let _id = new ObjectID("60d9f7d32b285522785b3cb5");
-let str = _id.toHexString();
-```
-
-因此，在 `shared` 目录下的所有类型定义和文件，你都不应该使用 `ObjectID`。因为它们要跨项目共享，前端可没有安装 `mongodb`。
-但是你的数据库表结构定义却需要 `_id: ObjectID`，并且前端也需要用到表结构类型，声明两份显然又是在埋坑。（类型冗余）
-
-TSRPC 提供了一个工具类型 `Overwrite` 可以解决这个问题。
-
-#### 1. 在 shared 目录下定义前后端通用的类型
-
-为确保跨项目可用，`_id` 设置为 `string`。
-
-```ts title="shared/protocols/models/Post.ts"
-export interface Post {
-    _id: string,
-    title: string,
-    content: string
+declare module 'mongodb' {
+    export type ObjectId = string;
+    export type ObjectID = string;
+}
+declare module 'bson' {
+    export type ObjectId = string;
+    export type ObjectID = string;
 }
 ```
 
-#### 2. 在后端利用 Overwrite 改写实际数据库存储结构
+因此即便协议定义中包含了 `import { ObjectId } from 'mongodb'`，亦可以在前端通用。`ObjectId` 在前端被解析为普通字符串，但在后端将自动转换为 `ObjectId` 类型。
 
-为避免名称混淆，我们将 `Post` 的数据库表结构定义命名为 `DbPost`：
-
-```ts title="backend/src/models/dbItems/DbPost.ts
-import { ObjectID } from "mongodb";
-import { Overwrite } from "tsrpc";
-import { Post } from "../../shared/protocols/models/Post";
-
-// { _id: ObjectID, title: string, content: string }
-export type DbPost = Overwrite<Post, {
-    _id: ObjectID
-}>
-```
-
-如此，就可以最大限度避免类型冗余，针对后端的单独场景，使用 `Overwrite` 去进行少量字段改写。
-
-### 有坑请注意
-TypeScript 默认工作在严格模式下，`null` 和 `undefined` 是有区别的。
-
-但 MongoDB 此处有坑，例如如果你：
-```ts
-db.collection('Test').insertOne({
-    value: undefined
-})
-```
-
-或者：
-
-```ts
-db.collection('Test').updateOne({ _id: 'xxx' }, {
-    $set: {
-        value: undefined
-    }
-})
-```
-
-以上操作，在 MongoDB 中，只会让 `value` 变成 `null`，而不是 `undefined`。
-你下一次将数据拿回来时，会发现 `value` 变成了 `null`。
-
-TSRPC 的自动类型检测默认跟 TypeScript 的严格模式一样，是区分 `null` 和 `undefined`，这就会造成响应无法正常返回。
-解决办法有两种：
-
-#### 1. 避免上述用法
-TSRPC 是不会编码 undefined 的，即如果你从客户端发送 `{ value: undefined }`，服务端收到的是 `{}`。
-所以大多数问题是在 `update` 的时候人为导致的，记住在 MongoDB 的 `update` 中将字段设为 `undefined` 应该是使用 `$unset: { 字段名: 1 }`，而不是 `$set: { 字段名: undefined }`。
-
-#### 2. 让 TSRPC 非严格校验 `null` 和 `undefined`
-即令 TSRPC 将 `null` 和 `undefined` 视为相同，与 `tsconfig` 中 `strictNullChecks: false` 的表现一致。
-只要你的业务不是将 `null` 和 `undefined` 严格区分对待，这么做是最简单的。
 
 ## 减少类型冗余
 
