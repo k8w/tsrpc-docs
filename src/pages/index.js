@@ -24,8 +24,8 @@ function HomepageHeader() {
           </Link>
           <Link
             className={styles.primary}
-            to="/docs/introduction">
-            快速开始
+            to="/docs/introduction.html">
+            快速入门
           </Link>
         </div>
       </div>

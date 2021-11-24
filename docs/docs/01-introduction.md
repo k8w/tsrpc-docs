@@ -1,20 +1,17 @@
 ---
-sidebar_position: 1
+id: introduction.html
 description: TSRPC 是专为 TypeScript 设计的 RPC 框架，适用于 HTTP API、WebSocket 实时应用、NodeJS 微服务，经千万级用户验证。比 JSON 更强大，类型安全，支持二进制传输。
 keywords:
-  - TSRPC
-  - TS RPC
-  - TS API
-  - TypeScript RPC
-  - openapi
-  - swagger
-  - io-ts
-  - ts websocket
+  - tsrpc
+  - ts-rpc
+  - typescript rpc
   - ts nodejs
-  - TS 类型检测
-  - TS 全栈
+  - typescript nodejs
+  - websocket
   - nestjs
-  - grpc
+  - expressjs
+  - koa
+  - eggjs
 ---
 
 # 介绍
@@ -83,14 +80,14 @@ API 接口本质上是一个服务端实现、客户端调用的异步函数，
 import { ObjectId } from 'mongodb';
 
 // 请求
-export interface ReqSendMsg {
-  msg: { type: '文字', data: string } | { type: '语音', data: Uint8Array };
+export interface ReqSendMessage {
+  message: { type: '文字', data: string } | { type: '语音', data: Uint8Array },
+  time: Date
 }
 
 // 响应
-export interface ResSendMsg {
-  msgId: ObjectId,
-  createTime: Date
+export interface ResSendMessage {
+  msgId: ObjectId
 }
 ```
 
@@ -103,13 +100,11 @@ export interface ResSendMsg {
 ```ts
 export async function ApiSendMsg(call: ApiCall<ReqSendMsg, ResSendMsg>) {
     // 写入数据库
-    let createTime = new Date();
-    let opInsert = await db.collection('Message').insertOne({ ...call.req, createTime: createTime })
+    let opInsert = await db.collection('Message').insertOne(call.req);
 
     // 返回响应
     call.succ({
-        msgId: opInsert.insertedId,
-        createTime: createTime
+        msgId: opInsert.insertedId
     })
 }
 ```
@@ -118,7 +113,7 @@ export async function ApiSendMsg(call: ApiCall<ReqSendMsg, ResSendMsg>) {
 
 客户端调用远端接口，就像调用本地异步函数一样简单，全程享有代码提示和类型检查。
 
-![全程代码提示](get-started/assets/code-hint.gif)
+![全程代码提示](assets/code-hint.gif)
 
 
 ## 开始学习
@@ -128,7 +123,7 @@ export async function ApiSendMsg(call: ApiCall<ReqSendMsg, ResSendMsg>) {
 
 对于这份文档的迟到感到抱歉，希望能对你的工作有所帮助。
 
-[开始学习 TSRPC](get-started/create-tsrpc-app.md)
+[开始学习 TSRPC](get-started/create-tsrpc-app)
 
 :::note 扫码加入微信交流群 （请注明来意）
 ![](assets/wechat.png)

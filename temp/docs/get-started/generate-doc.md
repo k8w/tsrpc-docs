@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4.1
+sidebar_position: 2.1
 description: 使用 TSRPC 生成 Swagger、OpenAPI、Markdown 等多种格式的文档
 keywords:
   - tsrpc
@@ -11,7 +11,7 @@ keywords:
   - 接口文档
 ---
 
-# 生成接口文档
+# 生成 API 文档
 
 ## 合理注释
 

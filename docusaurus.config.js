@@ -24,25 +24,25 @@ module.exports = {
       items: [
         {
           type: 'doc',
-          docId: 'docs/introduction',
+          docId: 'docs/introduction.html',
           position: 'left',
           label: '文档',
         },
-        {
-          href: '/docs/server/structure',
-          position: 'left',
-          label: '服务端',
-        },
-        {
-          href: '/docs/client/install',
-          position: 'left',
-          label: '客户端',
-        },
-        {
-          href: '/docs/flow/flow',
-          position: 'left',
-          label: '中间件',
-        },
+        // {
+        //   href: '/docs/server/structure',
+        //   position: 'left',
+        //   label: '服务端',
+        // },
+        // {
+        //   href: '/docs/client/install',
+        //   position: 'left',
+        //   label: '客户端',
+        // },
+        // {
+        //   href: '/docs/flow/flow',
+        //   position: 'left',
+        //   label: '中间件',
+        // },
         // {
         //   type: 'doc',
         //   docId: 'api/index',

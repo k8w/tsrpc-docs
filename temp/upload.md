@@ -16,6 +16,7 @@ keywords:
   - 上传
   - 文件上传
   - 上传文件
+hidden: true
 ---
 
 # 文件上传
