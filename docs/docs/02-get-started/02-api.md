@@ -41,35 +41,37 @@ yarn create tsrpc-app first-api --presets browser
 
 使用 TSRPC 开发 API 接口前，必须先了解几个重要的概念。
 - **API 接口**
-    - API 接口就相当于一个实现在远端的异步函数，这个函数的输入参数叫做**请求（Request）**，返回值叫做**响应（Response）**。
+    - API 接口就相当于一个实现在远端的异步函数
+    - 这个函数的输入参数叫做 **请求（Request）**，返回值叫做 **响应（Response）**
 - **协议（Protocol）**
-    - 协议就是 API 接口的类型定义，包括它的请求类型和响应类型，也可以包含接口的其它配置信息（例如接口需要的角色权限等）。
-- **实现（Implementation）**
-    - 通常就是一个异步方法，接受请求并返回响应，实现 API 接口的具体功能。
+    - API 接口的类型定义，包括它的请求类型和响应类型
+- **实现函数（Implementation）**
+    - API 接口的功能实现，接收请求并返回响应
 - **服务端（Server）**
-    - API 接口的实现端，NodeJS 12 以上。
+    - API 接口的实现端，NodeJS 12 以上
 - **客户端（Client）**
-    - API 接口的调用端，支持多个平台，既可以是前端 UI 界面（如浏览器，APP，微信小程序），也可以是后端服务（如 NodeJS 微服务互调）。
+    - API 接口的调用端，支持多个平台，如浏览器、小程序前端，或是 NodeJS 后端微服务调用
 
-实现一个后端 API 接口，只需要 3 个步骤：
+实现一个 API 接口，只需要 3 个步骤：
 **定义协议 -> 服务端实现 -> 客户端调用**。
 
 ## 定义协议
 
-定义协议就是定义一个 API 接口的请求（Request）和响应（Response）格式，协议在服务端项目中定义，然后同步至客户端项目。
-TSRPC 按照文件和类型命名来识别协议，具体规则如下：
+1 个接口对应 1 个协议文件，TSRPC 按照命名来识别，规则如下：
 
-- 所有协议定义都放置在 **协议目录** 下 (默认 `src/shared/protocols`)，允许子目录嵌套
-- 协议文件的命名为 `Ptl{接口名}.ts`，内容包含请求类型 `Req{接口名}` 及响应类型 `Res{接口名}`
-- API 接口的实际请求路径为 `{相对路径}/{接口名}`
+- 协议文件命名为 `Ptl{接口名}.ts`，统一放置在 **协议目录** 下
+    - 协议目录默认 `backend/src/shared/protocols`，允许子目录嵌套
+- 协议包含请求类型 `Req{接口名}` 及响应类型 `Res{接口名}`
+    - 通过 TypeScript 的 `interface` 或 `type` 定义
+- API 接口的实际请求路径为 `{协议路径}/{接口名}`
+    - 协议路径：协议文件于协议目录的相对路径
 
 例如我们想要定义一个请求路径为 `message/GetList` 的接口，则：
-1. 在服务端项目下执行 `npm run dev` 启动本地开发服务
-1. 在服务端项目下创建文件 `src/shared/protocols/message/PtlGetList.ts`
-2. 定义请求类型 `ReqGetList`
-3. 定义响应类型 `ResGetList`
+1. 在协议目录下创建子目录 `message`，在其中创建文件 `PtlGetList.ts`
+1. 定义请求类型 `ReqGetList`
+1. 定义响应类型 `ResGetList`
 
-```ts title="src/shared/protocols/message/PtlGetList.ts"
+```ts title="backend/src/shared/protocols/message/PtlGetList.ts"
 // 请求
 export interface ReqGetList {
     page: number,
@@ -87,43 +89,23 @@ export interface ResGetList {
 ```
 
 :::tip
-在 `npm run dev` 期间，在协议目录下创建协议文件后，会自动填充协议内容，提升开发效率。
-协议目录、内容模板均可在 `tsrpc.config.ts` 中配置。
+创建协议文件前，建议总是先运行 `npm run dev` 启动本地开发服务。
+这使得开发期间，协议文件变更时会自动生成和同步相关代码，提高开发效率。
 :::
 
 ## 服务端实现
 
-顾名思义，就是根据上述请求和响应的类型定义，在服务端实现这一一个异步函数，以下称为 **实现函数**。
+1 个接口对应 1 个实现函数文件，TSRPC 按照命名来识别，规则如下：
 
-### 实现函数
+- 实现函数文件命名为 `Api{接口名}.ts`，统一放置在 **实现目录** 下
+    - 实现目录默认 `backend/src/api`
+- 其中包含名为 `Api{接口名}` 的异步函数，通过参数 `call` 来处理请求和响应
+    - 通过 `call.req` 来获取请求参数，即协议中定义的 `ReqGetList`，框架会确保此处类型**一定合法**（非法请求被自动拦截）
+    - 通过 `call.succ(res)` 来返回响应，即协议中定义的 `ResGetList`
+    - 通过 `call.error('错误消息', { ...错误参数 })` 来返回错误
 
-与协议一样，一个 API 接口对应一个实现函数文件，命名为 `Api{接口名}.ts`，放置于 **API 目录** 下（默认为 `src/api`），并与协议文件保持着相同的目录结构。
-例如上面的 `message/GetList` 接口，对应的实现函数文件为 `src/api/message/ApiGetList.ts`。
 
-在后端项目运行 `npm run dev` 期间，当你创建新协议后，会自动在 API 目录下创建对应的实现函数。
-在上一步定义协议的过程中，对应的 API 实现文件已经被自动创建好了：
-
-```
-|- backend/src
-    |- shared/protocols        协议目录
-        |- message
-            |- PtlGetList.ts   协议定义
-    |- api                     API 目录
-        |- message
-            |- ApiGetList.ts   实现函数
-```
-
-:::tip
-自动创建 API 实现函数，不会覆盖或删除已存在的文件。
-:::
-
-### 请求和响应
-API 的实现就是一个异步函数，对客户端的输入输出是通过实现函数的参数 `call` 来实现的。
-- 通过 `call.req` 来获取请求参数，即协议中定义的 `ReqGetList`，框架会确保此处类型**一定合法**。
-- 通过 `call.succ(res)` 来返回响应，即协议中定义的 `ResGetList`。
-- 通过 `call.error('可读的错误信息', { xxx: 'xxx' })` 来返回错误，第二个参数为想返回的额外字段，是选填的。
-
-例如：
+例如上面的 `message/GetList` 接口，对应的实现函数文件如下：
 
 ```ts title="backend/src/api/message/ApiGetList.ts"
 import { ApiCall } from "tsrpc";
@@ -138,6 +120,20 @@ export async function ApiGetList(call: ApiCall<ReqGetList, ResGetList>) {
         total: 3
     });
 }
+```
+
+在后端项目运行 `npm run dev` 期间，当你创建新协议后，会自动在 API 目录下创建对应的实现函数。
+在定义协议的过程中，对应的 API 实现文件已经被自动创建好了。
+实现与协议总是保持着相同的子目录结构：
+
+```
+|- backend/src
+    |- shared/protocols        协议目录
+        |- message
+            |- PtlGetList.ts   协议定义
+    |- api                     API 目录
+        |- message
+            |- ApiGetList.ts   实现目录
 ```
 
 ## 客户端调用

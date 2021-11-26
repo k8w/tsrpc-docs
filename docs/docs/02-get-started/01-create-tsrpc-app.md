@@ -96,5 +96,3 @@ npm run build
 ```
 
 构建完成后的制品将输出到 `dist` 目录下，可直接用于部署。
-- 前端 `frontend/dist` 直接复制到 CDN 或文件服务器即可。
-- 后端 `backend/dist` 可复制到线上机器或 Serverless 云函数平台部署，具体请查阅 [部署指南](/docs/deployment/index) 。
