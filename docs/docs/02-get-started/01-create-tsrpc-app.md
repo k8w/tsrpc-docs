@@ -56,9 +56,9 @@ yarn create tsrpc-app
         |- index.ts
 ```
 
-TSRPC 会在前后端项目中共享一些跨项目复用的代码，例如协议定义、公共类型和业务逻辑等。共享代码统一存放于前后端项目的 `src/shared` 目录下，`shared` 目录下的内容会在前后端项目间自动同步。
-
-`backend/tsrpc.config.ts` 为项目配置文件，可修改相关项目配置。
+- `backend/src/shared`、`frontend/src/shared` 为共享代码目录
+    - TSRPC 会在前后端项目中共享一些跨项目复用的代码，例如协议定义、公共类型和业务逻辑等。共享代码源存放于后端项目的 `src/shared` 目录下，并自动同步到前端项目中。
+- `backend/tsrpc.config.ts` 为项目配置文件，可修改相关项目配置。
 
 ## 运行
 
@@ -95,4 +95,4 @@ cd frontend
 npm run build
 ```
 
-构建完成后的制品将输出到 `dist` 目录下，可直接用于部署。
+构建完成后的制品将输出到 `dist` 目录下，可直接用于 [部署](deployment.html) 。

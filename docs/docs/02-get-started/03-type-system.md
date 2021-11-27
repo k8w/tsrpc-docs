@@ -100,6 +100,7 @@ export interface ReqRegister {
 
 非法字段已被框架预先自动过滤，从而 **规避了安全隐患** 。
 
+:::tip
 凡事总有例外，如果你确实需要动态字段，而不需要自动剔除的话，可利用 TypeScript 的 [索引签名](https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures) 定义如下：
 ```ts
 export interface ReqRegister {
@@ -112,13 +113,14 @@ export interface ReqRegister {
     }
 }
 ```
+:::
 
 ## TypeScript 高级类型
 
 TypeScript 是目前世界上类型系统最强大的语言之一，有许多其它语言不支持的高级类型特性。
 作为专为 TypeScript 设计的 RPC 框架，TSRPC 支持常见的高级类型特性，例如：
 
-1. 逻辑类型：Union、Intersection
+1. 逻辑类型：如 `A & (B | C)`
 2. 工具类型：Pick、Omit、Overwrite、Partial、NonPrimitive
 3. 引用和嵌套等……（[查看完整列表](../inside/types.html)）
 
@@ -146,7 +148,7 @@ import { Article } from './Article';
 
 // 新建文章
 export interface ReqAddArticle {
-    // 不需要填写 `_id` 和服务端维护的字段，故 Omit 剔除之
+    // 不需要填写 `_id` 和服务端维护的字段，用 Omit 剔除之
     article: Omit<Article, '_id' | 'create' | 'update'>;
 }
 
@@ -183,7 +185,7 @@ import { Article } from './Article';
 
 // 修改文章
 export interface ReqUpdateArticle {
-    // _id 必填，仅允许修改 title 或 content，故 Pick 之
+    // _id 必填，仅允许修改 title 或 content
     update: Pick<Article, '_id'> & Partial<Pick<Article, 'title' | 'content'>>;
 }
 

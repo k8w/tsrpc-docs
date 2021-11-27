@@ -57,7 +57,7 @@ yarn create tsrpc-app first-api --presets browser
 
 ## 定义协议
 
-1 个接口对应 1 个协议文件，TSRPC 按照命名来识别，规则如下：
+**1 个接口对应 1 个协议文件**，TSRPC 按照命名来识别，规则如下：
 
 - 协议文件命名为 `Ptl{接口名}.ts`，统一放置在 **协议目录** 下
     - 协议目录默认 `backend/src/shared/protocols`，允许子目录嵌套
@@ -94,7 +94,7 @@ export interface ResLogin {
 
 ## 服务端实现
 
-1 个接口对应 1 个实现函数文件，TSRPC 按照命名来识别，规则如下：
+**1 个接口对应 1 个实现函数文件**，TSRPC 按照命名来识别，规则如下：
 
 - 实现函数文件命名为 `Api{接口名}.ts`，统一放置在 **实现目录** 下
     - 实现目录默认 `backend/src/api`
@@ -153,38 +153,36 @@ export async function ApiLogin(call: ApiCall<ReqLogin, ResLogin>) {
 
 使用的方式很简单：
 1. 根据不同的平台，从 NPM [安装客户端](../client/install.html)
+    ```shell
+    npm install tsrpc-browser
+    # 或者
+    yarn add tsrpc-browser
+    ```
 2. 创建 `HttpClient` 实例，它支持多请求并发，所以你可以只创建一个并全局共享
+    ```ts
+    import { HttpClient } from 'tsrpc-browser';
+    import { serviceProto } from './shared/protocols/serviceProto';
+
+    // 创建 HttpClient 实例，可全局共享
+    export const client = new HttpClient(serviceProto, {
+        server: 'http://127.0.0.1:3000',
+        json: true
+    });
+    ```
 3. 通过 `callApi` 方法，向本地异步函数一样调用远端 API
-
-例如调用上面的 `user/Login` 接口，你可以：
-
-```ts
-import { HttpClient } from 'tsrpc-browser';
-import { serviceProto } from './shared/protocols/serviceProto';
-
-// 创建 HttpClient 实例
-let client = new HttpClient(serviceProto, {
-    server: 'http://127.0.0.1:3000',
-    json: true
-});
-
-async function login(){
-    // 调用接口
+    ```ts
     let ret = await client.callApi('user/Login', {
         username: 'admin',
         password: 'admin'
     })
 
-    // 处理错误
     if(!ret.isSucc){
         console.log('登录失败', ret.err.message);
         return;
     }
 
-    // 成功
     console.log('登录成功', ret.res.user);
-}
-```
+    ```
 
 `callApi` 方法的返回如下：
 
@@ -194,7 +192,6 @@ async function login(){
 - 无论任何情况都 **不会抛出异常**
     - 因此无需对 `callApi` 进行 `catch` 捕获异常
     - 只需统一处理返回的 `err` （包含网络错误、业务错误、代码异常等）
-
 
 ### 手动发送请求
 
@@ -210,10 +207,7 @@ POST /user/Login HTTP/1.1
 Host: 127.0.0.1:3000
 Content-Type: application/json
 
-{
-    "username": "admin",
-    "password": "admin"
-}
+{ "username": "admin", "password": "admin" }
 ```
 
 :::tip
