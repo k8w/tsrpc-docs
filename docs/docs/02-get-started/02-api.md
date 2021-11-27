@@ -125,19 +125,19 @@ export interface ResLogin {
 import { ApiCall } from "tsrpc";
 
 export async function ApiLogin(call: ApiCall<ReqLogin, ResLogin>) {
-    // 返回错误
-    if(call.req.username !== 'admin' || call.req.password !== 'admin'){
-        call.error('用户名或密码错误');
-        return
-    };
+    // 错误
+    if(!(call.req.username === 'admin' && call.req.password === 'admin')){
+      call.error('用户名或密码错误');
+      return;
+    }
 
-    // 返回成功
+    // 成功
     call.succ({
         user: {
-            id: 123,
-            nickname: '测试用户'
+          id: 123,
+          nickname: 'Test'
         }
-    });
+    })
 }
 ```
 

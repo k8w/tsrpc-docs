@@ -3,7 +3,9 @@ sidebar_position: 1
 slug: /docs/inside/types.html
 ---
 
-# 运行时类型系统
+# 支持的 TypeScript 类型
+
+TSRPC 支持的 TypeScript 类型清单如下。
 
 ## 基础类型
 
@@ -47,7 +49,7 @@ type A = string;
 TypeScript 4.3 新增的 [字符串模板](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html#template-string-type-improvements) 特性将在未来支持。
 :::
 
-### ArrayBuffer Type
+### Buffer Type
 ArrayBuffer 和所有 TypedArray
 ```ts
 type A = ArrayBuffer;
@@ -67,7 +69,7 @@ type A = MyEnum;
 ```
 
 :::tip
-你可以放心的将字符串设为枚举值。因为一些奇淫巧技的存在，无论你的字符串设置的多长，都不会影响编码大小（通常就是 1 bit）。
+你可以放心的将字符串设为枚举值。因为一些奇淫巧技的存在，无论你的字符串设置的多长，都不会影响二进制编码大小（通常就是 1 bit）。
 :::
 
 ### Literal Type
@@ -78,7 +80,7 @@ type C = true | null | undefined;
 ```
 
 :::tip
-跟 `enum` 一样，静态文本类型你无论设置的多大多长，都不会影响编码大小（通常就是 1 bit），这绝对可以显著减小包体。
+跟 `enum` 一样，静态文本类型你无论设置的多大多长，都不会影响二进制编码大小（通常就是 1 bit），这绝对可以显著减小包体。
 :::
 
 ### Any Type
@@ -163,6 +165,14 @@ import { A } from './A';
 type B = A;
 ```
 
+也支持 `node_modules` 引用：
+```ts
+// 解析为 node_modules/aaa/index.d.ts
+import { A } from 'aaa';
+
+type B = A;
+```
+
 ### 字段引用
 ```ts
 type A = {
@@ -197,14 +207,8 @@ type X = A & B & C;
 
 ## 工具类型
 
-### Non Primitive Type
-同 TypeScript 自带的 `NonPrimitive<T>`
-```ts
-type A = NonPrimitive<B>;
-```
-
 ### Pick Type
-同 TypeScript 自带的 `Pick<T>`
+同 TypeScript 自带的 `Pick<T, K>`
 ```ts
 interface A {
     a: string,
@@ -217,7 +221,7 @@ type B = Pick<A, 'a' | 'b'>
 ```
 
 ### Omit Type
-同 TypeScript 自带的 `Omit<T>`
+同 TypeScript 自带的 `Omit<T, K>`
 ```ts
 interface A {
     a: string,
@@ -245,6 +249,25 @@ type B = Overwrite<A, {
     c: number,
     d: number
 }>
+```
+
+### Partial Type
+同 TypeScript 自带的 `Partial<T>`
+```ts
+interface A {
+    a: string,
+    b: number,
+    c: boolean[]
+}
+
+// { a?: string, b?: number, c?: boolean[] }
+type B = Partial<A>
+```
+
+### Non Primitive Type
+同 TypeScript 自带的 `NonPrimitive<T>`
+```ts
+type A = NonPrimitive<B>;
 ```
 
 ## 组合嵌套

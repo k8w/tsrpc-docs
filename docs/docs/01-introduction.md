@@ -77,17 +77,18 @@ API 接口本质上是一个服务端实现、客户端调用的异步函数，
 接口的输入参数叫做 **请求**，返回值叫做 **响应**，定义协议就是定义这两个数据类型。
 
 ```ts
-import { ObjectId } from 'mongodb';
-
 // 请求
-export interface ReqSendMessage {
-  message: { type: '文字', data: string } | { type: '语音', data: Uint8Array },
-  time: Date
+export interface ReqLogin {
+  username: string,
+  password: string
 }
 
 // 响应
-export interface ResSendMessage {
-  msgId: ObjectId
+export interface ResLogin {
+  user: {
+    id: number,
+    nickname: string
+  }
 }
 ```
 
@@ -98,13 +99,13 @@ export interface ResSendMessage {
 服务端的实现就是一个简单的异步函数，框架会确保输入和输出的类型安全，非法请求将被自动拦截。
 
 ```ts
-export async function ApiSendMsg(call: ApiCall<ReqSendMsg, ResSendMsg>) {
-    // 写入数据库
-    let opInsert = await db.collection('Message').insertOne(call.req);
-
+export async function ApiLogin(call: ApiCall<ReqLogin, ResLogin>) {
     // 返回响应
     call.succ({
-        msgId: opInsert.insertedId
+        user: {
+          id: 123,
+          nickname: 'Test'
+        }
     })
 }
 ```
@@ -123,7 +124,7 @@ export async function ApiSendMsg(call: ApiCall<ReqSendMsg, ResSendMsg>) {
 
 对于这份文档的迟到感到抱歉，希望能对你的工作有所帮助。
 
-[开始学习 TSRPC](get-started/create-tsrpc-app)
+[开始学习 TSRPC](get-started/create-tsrpc-app.html)
 
 :::note 扫码加入微信交流群 （请注明来意）
 ![](assets/wechat.png)
