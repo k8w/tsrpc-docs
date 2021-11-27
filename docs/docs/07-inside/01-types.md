@@ -9,6 +9,10 @@ TSRPC 支持的 TypeScript 类型清单如下。
 
 ## 基础类型
 
+:::info 重要
+TSRPC 支持 TypeScript 的所有基础类型。
+:::
+
 ### Boolean Type
 ```ts
 type A = boolean;
@@ -234,14 +238,17 @@ type B = Omit<A, 'b' | 'c'>
 ```
 
 ### Overwrite Type
-这个是 TSBuffer 自行定义的工具类型，用于对 `interface` 的部分改写，需要从 `tsrpc-proto` 引入，例如：
+
+这是 [TSBuffer](https://github.com/k8w/tsbuffer) 的自定义类型，需要从 `tsrpc-proto` 自行导入。
+可以用于改写一个 `interface` 的部分字段：
+
 ```ts
 import { Overwrite } from 'tsrpc-proto';
 
 interface A {
     a: string,
-    b: number,
-    c: boolean[]
+    b: string,
+    c: string[]
 }
 
 // { a: string, b: number, c: number, d: number }
@@ -267,7 +274,10 @@ type B = Partial<A>
 ### Non Primitive Type
 同 TypeScript 自带的 `NonPrimitive<T>`
 ```ts
-type A = NonPrimitive<B>;
+type A = string | null | undefined;
+
+// string
+type B = NonPrimitive<A>;
 ```
 
 ## 组合嵌套
@@ -297,4 +307,4 @@ type X1 = {
 
 二进制编码不是 `JSON.stringify`，而是效率相当于 ProtoBuf 的真真的二进制编码。
 
-有兴趣可以了解我的另一个独立开源项目 [TSBuffer](https://github.com/k8w/tsbuffer)。
+有兴趣可以了解另一个独立开源项目 [TSBuffer](https://github.com/k8w/tsbuffer) 。

@@ -51,21 +51,9 @@ TSRPC 支持多种平台的部署，本节仅做简单介绍，欲了解更多�
 Serverless 云函数是流行的部署方案，具有运维简单，价格低廉等优点。
 主流的云厂商如阿里云、腾讯云都已经提供了云函数平台，但各自标准不一，难以兼容。
 
-TSRPC 服务端只需简单修改入口点 `index.ts` 就可兼容适配至各个平台，部分平台适配示例如下。
+TSRPC 服务端可快速兼容适配至各个云函数平台，一套代码可以同时兼容云函数、Docker 容器的部署。
 
-:::note
 欲了解更多，参见 [部署到 Serverless 云函数](../server/deployment/serverless.html) 。
-:::
-
-### 阿里云
-```ts title="backend/src/index.ts"
-// TODO
-```
-
-### 腾讯云
-```ts title="backend/src/index.ts"
-// TODO
-```
 
 ## 更多部署指南
 

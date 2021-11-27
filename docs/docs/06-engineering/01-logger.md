@@ -3,7 +3,7 @@ sidebar_position: 1
 slug: /docs/engineering/logger.html
 ---
 
-# Logger 日志管理
+# 日志管理
 
 ## 概述
 
