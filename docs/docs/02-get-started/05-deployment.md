@@ -1,5 +1,17 @@
 ---
 id: deployment.html
+description: TSRPC 支持部署到云主机、Serverless 云函数、Docker 容器和 Kubernetes 集群等多种平台。针对不同云函数平台的标准差异，TSRPC提供了简单快速的兼容适配方案。
+keywords:
+- tsrpc
+- serverless
+- midway
+- 云函数
+- 函数计算
+- faas
+- scf
+- tsrpc 部署
+- tsrpc serverless
+- tsrpc 云函数
 ---
 
 # 部署
