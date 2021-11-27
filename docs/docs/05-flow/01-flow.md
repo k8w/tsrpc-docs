@@ -8,11 +8,15 @@ slug: /docs/flow/flow.html
 ## Flow 是什么？
 
 任何一种框架，想要适应更多的业务场景，就离不开良好的可扩展性。
-`Flow` 就是 TSRPC 为此设计的一种全新概念。
+`Flow` 就是 TSRPC 为此设计的一种中间件模型。
 
-`Flow` 与管线和中间件类似，它由一组输入输出类型都相同的函数组成，同步或异步皆可。
+:::info 重要
+TSRPC 的中间件 `Flow` 在服务端和客户端是通用的。这意味着你可以跨端复用中间件逻辑，如鉴权、传输加密等。
+:::
+
+`Flow` 与管线类似，由一组输入输出类型都相同的函数组成，同步或异步皆可。
 我们把其中的每个函数称为 `FlowNode`。
-与管线有一点区别的是，`FlowNode` 可以返回 `null | undefined` 来代表**中断流程**。
+与管线有一点区别的是，`FlowNode` 可以返回 `null | undefined` 来代表 **中断流程**。
 
 ![](assets/flow.svg)
 
@@ -53,8 +57,10 @@ server.flows.preApiCallFlow.push(call => {
 ### Pre Flow 和 Post Flow
 根据名称前缀，TSRPC 内置的 `Flow` 分为两类，`Pre Flow` 和 `Post Flow`。当它们的 `FlowNode` 中途返回了 `null | undefined` 时，都会中断 `Flow` 后续节点的执行。但对于 TSRPC 工作流的影响，有所区别：
 
-- 所有 `Pre Flow` 的中断，**会**中断后续的 TSRPC 工作流，例如 Client `preCallApiFlow` 中断，则会阻止 `callApi`。
-- 所有 `Post Flow` 的中断，**不会**中断后续的 TSRPC 工作流，例如 Server `postConnectFlow` 中断，**不会**阻止连接建立和后续的消息接收。
+- 所有 `Pre Flow` 的中断，**会中断** 后续的 TSRPC 工作流
+    - 例如 Client `preCallApiFlow` 中断，则会阻止 `callApi`。
+- 所有 `Post Flow` 的中断，**不会中断** 后续的 TSRPC 工作流
+    - 例如 Server `postConnectFlow` 中断，**不会阻止** 连接建立和后续的消息接收。
 
 
 ### 服务端 Flows
