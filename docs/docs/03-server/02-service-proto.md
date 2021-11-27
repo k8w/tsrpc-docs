@@ -65,9 +65,9 @@ export const conf = {
 众所周知，TypeScript 的类型信息（如 `type`、`interface`）会在编译后被抹除，TSRPC 是如何在运行时也知道这些信息，进而实现类型检测和二进制序列化呢？
 
 这得益于我们遵循 TypeScript 类型标准，全新实现了一套独立、轻量的运行时类型系统。
-TSRPC 会自动解析 TypeScript 源码，转换成运行时类型系统需要的格式 —— ServiceProto。
+TSRPC 会自动解析 TypeScript 源码，转换成运行时类型系统需要的格式 —— `ServiceProto`。
 
-ServiceProto 是何时被生成的呢？有几种方式。
+`ServiceProto` 是何时被生成的呢？有几种方式。
 
 - `npm run dev` 本地开发服务运行期间，当协议文件变更，会自动重新生成
 - `npm run build` 构建前，会自动重新生成
