@@ -143,4 +143,4 @@ ServiceProto 在服务端和客户端项目中都需要用到，
 通常情况，你只需要关注新旧协议在类型定义层面是否兼容即可 ——
 **类型兼容的新旧协议可以无缝切换** 。
 
-欲了解更多可参考 [处理协议变更](advanced/proto-change.html) 。
+欲了解更多可参考 [协议变更和蓝绿发布](deployment/proto-change.html) 。
