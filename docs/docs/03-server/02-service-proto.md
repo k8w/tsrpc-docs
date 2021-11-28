@@ -1,6 +1,6 @@
 ---
 id: service-proto.html
-description: 使用 create-tsrpc-app 工具，可以快速创建 TSRPC 项目。创建过程是交互式的，在菜单上选择相应的配置，即可轻松创建包含前后端的 TSRPC 全栈应用项目。
+description: TSRPC 同时支持请求/响应模型的 API 接口服务，和发布/订阅模型的实时消息服务。本节内容介绍如何用 TSRPC 来定义以上两种服务的协议，以及它们是如何工作的。
 keywords:
   - tsrpc service
   - tsrpc proto
