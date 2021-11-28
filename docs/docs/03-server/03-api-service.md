@@ -24,33 +24,31 @@ API Service 是基于 **请求 / 响应** 模型的服务，即从客户端获�
 
 ### 实现函数
 
-一个 API Service 的实现即是一个异步函数，一个空白的 API 实现函数，模板如下：
+一个 API Service 的实现即是一个异步函数，一个空白的 API 实现函数。
+
+- 1 个接口对应 1 个实现文件，命名为 `Api{接口名}.ts`，位于 API 实现目录下，默认是 `backend/src/api`。
+- 实现函数有一个参数 `call: ApiCall<ReqXXX, ResXXX>`，我们通过该参数来获取请求参数和返回响应。
+
+模板如下：
 
 ```ts
+import { ApiCall } from 'tsrpc';
+
 export async function ApiXXX(call: ApiCall<ReqXXX, ResXXX>) {
 
 }
 ```
 
-- 1 个接口对应 1 个实现文件，命名为 `Api{接口名}.ts`，位于 API 实现目录下，默认是 `backend/src/api`。
-- 实现函数有一个参数 `call: ApiCall<ReqXXX, ResXXX>`，我们通过该参数来获取请求参数和返回响应。
 
-### 获取请求
+### 请求和响应
 
-`call.req` 即为客户端发送来的请求参数，它对应协议中名为 `Req{接口名}` 的类型。
-一个 `ApiCall` 被解析出来后，`Server` 会立即对其执行自动类型检测。
-所以无论实现函数还是 [Flow](../flow/flow) 中，`call.req` **一定是类型安全** 的。
+- 通过 `call.req` 来获取请求参数，即协议中定义的 `Req{接口名}`，框架会确保请求类型 **一定合法**（非法请求被自动拦截）
+- 通过 `call.succ(res)` 来返回成功响应，即协议中定义的 `Res{接口名}`
+- 通过 `call.error('错误消息', { ...错误参数 })` 来返回错误
+    - 第 1 个参数为可读的错误信息，例如 “余额不足”、“密码错误” 等
+    - 第 2 个参数选填，为错误的额外信息，可以传入任意字段（例如错误码、错误类型）
 
-### 返回响应
-
-API 接口对客户端的返回也是通过 `call` 来实现的，分为成功和错误两种情况。
-
-- 通过 `call.succ(res)` 来返回成功的响应，`res` 即对应协议中定义的 `Res{接口名}` 类型。
-- 通过 `call.error(message, data?)` 来返回错误，
-    - 第 1 个参数 `message` 应当为人类可读的错误信息，例如 “余额不足”、“密码错误” 等。
-    - 第 2 个参数选填，为错误的额外信息，可以传入任意字段（例如错误码），这些信息都可以在客户端被获取到。
-
-所有返回给客户端的错误，都被封装为一个 [TsrpcError](../engineering/error.html#TsrpcError) 对象。
+定义响应类型只需考虑成功的情况，TSRPC 提供统一范式来处理所有类型的错误。欲了解更多，请参考 [错误处理](../engineering/error.html#TsrpcError) 。
 
 ### 注意事项
 `call.succ()` 和 `call.error()` 是两个函数调用，**不等于** `return`，实现函数将继续向后执行。
@@ -187,7 +185,3 @@ TSRPC 约定，API 接口实现函数执行过程中如果遇到异常：
 - 如果不是，则视为服务端内部错误，会返回一个 `type` 为 `ServerError` 的错误给客户端，错误信息默认为 `"Server Internal Error"`。
 
 因此，在业务代码被拆分至 API 实现函数以外时，`throw new TsrpcError` 是一种无视调用层级向客户端直接返回错误的简便方式。
-
-:::note
-`TsrpcError` 继承自 `Error`
-:::

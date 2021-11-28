@@ -16,17 +16,13 @@ export class TsrpcError {
     type: TsrpcErrorType;
     // 错误码
     code?: string | int;
-
     // 可以传入任意字段
     [key: string]: any;
-
-    // 两种构造函数，跟 call.error() 一致
-    constructor(data: TsrpcErrorData);
-    constructor(message: string, data?: Partial<TsrpcErrorData>);
+    // ...
 }
 ```
 
-不难发现，它的构造函数参数和 `call.error` 一致。因为 `call.error` 其实就相当于构造了一个 `TsrpcError` 对象，然后返回给前端。
+`call.error` 其实就相当于构造了一个 `TsrpcError` 对象，然后返回给客户端。
 
 ### 错误类型
 
@@ -68,3 +64,36 @@ call.error('您还未登录', {
     code: 'NEED_LOGIN'
 })
 ```
+
+## 客户端错误处理
+
+`callApi` 不总是成功的，可能出现一些错误，例如网络错误、业务错误等。
+很多经验不足的程序员总是不记得处理错误，经常导致很多 “卡死” 的问题，例如：
+
+```js
+showLoading(); 
+let res = await fetch( ... );
+hideLoading();
+```
+
+`fetch` 后忘记 `catch`，一旦遇到网络错误抛出异常，则 `hideLoading` 不会执行，Loading 永远不消失，表现为 “卡死”。
+
+#### TSRPC 的解决之道
+1. 所有方法都 **不会抛出异常**，所有错误都通过 `return` 返回
+    - 因此总是 **无需** 捕获异常，规避了新手总是忘记 `catch` 的坑。
+2. 所有错误都 **只需在一处处理**
+    - 根据 `ret.isSucc` 判断成功与否，成功则取响应 `ret.res`，失败则取错误 `ret.err`（包含了错误类型和详情信息）。
+3. 通过 TypeScript 类型系统，巧妙的使你 **必须做错误检测**，例如：
+    ```ts
+    let ret = await client.callApi('Hello', {
+        name: 'World'
+    });
+
+    if (ret.isSucc) {
+        // 做了错误检测，不会报错
+        console.log('Success', ret.res.reply);
+    }
+
+    // 未做错误检测，会报错
+    console.log('Success', ret.res.reply);
+    ```
