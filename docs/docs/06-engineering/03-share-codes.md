@@ -1,10 +1,37 @@
 ---
-sidebar_position: 3
-slug: /docs/engineering/share-codes.html
+id: share-codes.html
 ---
 
-# 跨项目共享代码
+# 共享代码
 
-:::danger WIP
-此文档还在编写中…… 敬请期待。
+使用 TypeScript 全栈开发，你可以跨前后端项目复用代码和类型定义。
+TSRPC 已经内置了跨项目共享代码的方案和工具。
+
+## 配置
+在 `tsrpc.config.ts` 中可配置需要跨项目共享的代码目录（ `sync` ），有两种共享方式可选：
+- 软链接（默认） `type: 'symlink'`，类似 Windows 中的快捷方式，实际只有一个目录，所以是双向同步
+    - 执行同步过程，只是创建 Symlink 软链接，不涉及文件复制
+- 复制文件 `type: 'copy'`，存在多个文件副本，所以是从源目录到目标位置的单向同步
+    - 执行同步过程，即从源目录以覆盖方式复制到目标位置，根据 `clean` 选项决定复制前是否先清空目标位置
+    - 复制完成后，将目标位置设为只读 （因为是单向同步，以此避免反向修改）
+
+:::info 重要
+推荐使用 Symlink 软链接方式同步。
+:::
+
+## 同步
+
+在 `tsrpc.config.ts` 中配置好共享代码目录后，有几种方式可以完成同步。
+
+1. 开发时自动同步
+    - `npm run dev` 前，会自动初始化 Symlink 软链接
+    - `npm run dev` 期间，对于 `type: 'copy'` 的共享目录，任何源目录下的变更都会自动同步到目标位置
+2. 构建前自动同步
+    - `npm run build` 构建前，会自动执行一次同步
+3. 手动同步
+    - `npm run sync`，可以执行一次性手动同步
+
+:::tip
+如果你是 Windows + Git 的开发环境，当你克隆一个带 Symlink 的项目到本地后，Symlink 可能会变成一个文件。
+所以建议你总是先启动后端 `npm run dev` 再启动前端，因为这会重新创建本地 Symlink。
 :::

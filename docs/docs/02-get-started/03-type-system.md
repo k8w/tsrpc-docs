@@ -262,9 +262,11 @@ JSON 字符串是目前最普遍的 HTTP API 传输格式，但支持的数据�
 1. `ObjectId`
     - 在 MongoDB 中大量存在，为和前端交互不得不手动处理类型转换
 
-**在 TSRPC 中不存在此问题！**
+我们不得不手动处理各种类型转换，这距离 “像本地函数一样调用远程 API” 还有一些距离。
 
-使用 TSRPC 客户端，即可直接使用上述所有类型，而无需考虑传输类型转换。
+**但在 TSRPC 中不存在此问题！**
+
+使用 TSRPC 客户端，即可 **直接使用** 上述所有类型，而无需考虑传输类型转换。
 TSRPC 会在传输阶段自动进行编解码和类型转换。
 例如实现文件上传，只需像调用本地函数那样直接发送 `Uint8Array` 即可：
 
@@ -280,7 +282,7 @@ TSRPC 会在传输阶段自动进行编解码和类型转换。
 ```ts
 export interface ReqUpload {
     fileName: string,
-    fileData: Uint8Array
+    fileData: Uint8Array  // 可直接使用 Uint8Array
 }
 
 export interface ResUpload {
@@ -314,7 +316,7 @@ export async function ApiUpload(call: ApiCall<ReqUpload, ResUpload>) {
 async function upload(fileData: Uint8Array, fileName: string) {
     // 像普通接口一样调用
     let ret = await client.callApi('Upload', {
-        fileData: fileData,
+        fileData: fileData,  // 可直接发送 Uint8Array
         fileName: fileName
     });
     
@@ -326,24 +328,25 @@ async function upload(fileData: Uint8Array, fileName: string) {
 </Tabs>
 
 :::tip
-更推荐使用 `Uint8Array` 来代替 `ArrayBuffer`，它更易操作，且跨平台兼容性更好。
+协议中更推荐使用 `Uint8Array` 来代替 `ArrayBuffer`，它更易操作，且跨平台兼容性更好。
 :::
 
 ## 二进制序列化
 
 TSRPC 同时支持 JSON 格式传输和二进制格式传输。
 
-- JSON 更佳通用，但包体较大，且明文容易被抓包破解
-- 二进制包体显著减小，天然防破解，且更易于二次加密
+- JSON 格式：更佳通用，包体较大，明文容易被抓包破解
+- 二进制格式：包体显著减小，天然防破解，更易于二次加密
 
 TSRPC 的二进制传输并非将 JSON 字符串二次编码，而是基于 TypeScript 类型定义**直接编码到二进制**，编码的时间和空间效率与 Protobuf 相当，
 具体编码细节可以了解另一个开源项目 [TSBuffer](https://github.com/k8w/tsbuffer) 。
 
-使用二进制传输的方式非常简单：
+项目模板默认使用 JSON 格式传输，改用二进制传输也非常简单：
 
 - 服务端
-    - 无需任何配置，默认支持二进制传输
-    - `new HttpServer` 时的 `json: true` 将同时允许二进制和 JSON 传输（通过请求头的 `Content-type` 判断）
+    - 无需任何配置，天然支持二进制传输
+    - 开启 `new HttpServer()` 时的 `json: true` 配置，允许 JSON 格式的请求
+        - 根据请求头自动判断：`Content-Type: application/json`
     - 安全性要求高的服务，建议关闭 `json: true`，仅允许二进制传输
 - 客户端
     - 关闭 `new HttpClient()` 时的 `json: true` 配置，即可切换到二进制传输

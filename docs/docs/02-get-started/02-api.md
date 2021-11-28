@@ -59,8 +59,7 @@ yarn create tsrpc-app first-api --presets browser
 
 **1 个接口对应 1 个协议文件**，TSRPC 按照命名来识别，规则如下：
 
-- 协议文件命名为 `Ptl{接口名}.ts`，统一放置在 **协议目录** 下
-    - 协议目录默认 `backend/src/shared/protocols`，允许子目录嵌套
+- 协议文件命名为 `Ptl{接口名}.ts`，统一放置在 `backend/src/shared/protocols` 下，允许子目录嵌套
 - 协议包含请求类型 `Req{接口名}` 及响应类型 `Res{接口名}`
     - 通过 TypeScript 的 `interface` 或 `type` 定义
 - API 接口的实际请求路径为 `{协议路径}/{接口名}`

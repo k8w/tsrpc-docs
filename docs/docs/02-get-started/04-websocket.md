@@ -73,7 +73,7 @@ async function test(){
   </TabItem>
 </Tabs>
 
-:::tip
+:::info 重要
 由于 WebSocket 是长连接，所以使用前需要先 `connect` 连接，你可以通过 `client.flows.postDisconnectFlow` 来监听连接断开事件。
 :::
 
