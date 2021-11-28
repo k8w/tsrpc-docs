@@ -1,6 +1,5 @@
 ---
-sidebar_position: 4
-slug: /docs/engineering/cli-tools.html
+id: cli-tools.html
 ---
 
 # 命令行工具
