@@ -2,9 +2,11 @@
 id: websocket.html
 ---
 
-# 收发实时消息
+# WebSocket
 
+:::info 重要
 实时消息服务（Message Service）仅限 WebSocket 等长连接使用。
+:::
 
 ## 连接
 
@@ -23,45 +25,11 @@ if(!result.isSucc){
 client.disconnect();
 ```
 
-## 断线重连
-网络的小状况，总是可能时有发生。让你的应用更健壮，你可以通过 [Flow](../flow/flow) 来实现断线重连机制。
+## 调用 API 接口
 
-在客户端，`postDisconnectFlow` 触发于从连接状态变为断开之后（仅 WebSocket），其类型为：
-```ts
-Flow<{
-    /** Server 端 `conn.close(reason)` 时传来的关闭原因 */
-    reason?: string,
-    /**
-     * 是否是通过 `client.disconnect()` 手动断开连接的的。
-     * 如果为 `false`，说明连接非客户端主动断开（例如网络错误、服务端断开了连接等）。
-     */
-    isManual?: boolean
-}>(),
-```
+WebSocket 客户端调用 API 接口的方式与 HTTP 客户端完全一致，参考 [调用 API 接口](api.html) 。
 
-通过 `isManual` 可以判断连接是否客户端主动断开，如果不是，则可以等待一小段时间后自动重连。例如：
-```ts
-client.flows.postDisconnectFlow.push(v=>{
-    if(!v.isManual){
-        // 等待 2 秒后自动重连
-        setTimeout(async ()=>{
-            let res = await client.connect();
-            // 重连也错误，弹出错误提示
-            if(!res.isSucc){
-                alert('网络错误，连接已断开');
-            }
-        }, 2000)
-    }
-
-    return v;
-})
-```
-
-:::tip
-`postDisconnectFlow` 仅当客户端从连接状态变为断开状态时触发。在已断开状态下调用 `client.connect()` 连接失败时会返回错误，但不会触发该 Flow。所以 `client.connect()` 后也有必要进行必要的错误处理机制。
-:::
-
-## sendMsg
+## 发送消息
 
 通过 `sendMsg` 向后端发送实时消息，常见于 WebSocket 客户端。
 由于跨传输协议的实现，在 `HttpClient` 下也可以调用 `sendMsg`，但由于它是短连接的，只能单方向向服务端发送，无法收到服务器推送的消息。
@@ -115,4 +83,42 @@ client.unlistenMsg(/^game\//, handler);
 
 :::tip
 `listenMsg` 方法会返回你传入的监听函数。
+:::
+
+## 断线重连
+网络的小状况，总是可能时有发生。让你的应用更健壮，你可以通过 [Flow](../flow/flow) 来实现断线重连机制。
+
+在客户端，`postDisconnectFlow` 触发于从连接状态变为断开之后（仅 WebSocket），其类型为：
+```ts
+Flow<{
+    /** Server 端 `conn.close(reason)` 时传来的关闭原因 */
+    reason?: string,
+    /**
+     * 是否是通过 `client.disconnect()` 手动断开连接的的。
+     * 如果为 `false`，说明连接非客户端主动断开（例如网络错误、服务端断开了连接等）。
+     */
+    isManual?: boolean
+}>(),
+```
+
+通过 `isManual` 可以判断连接是否客户端主动断开，如果不是，则可以等待一小段时间后自动重连。例如：
+```ts
+client.flows.postDisconnectFlow.push(v=>{
+    if(!v.isManual){
+        // 等待 2 秒后自动重连
+        setTimeout(async ()=>{
+            let res = await client.connect();
+            // 重连也错误，弹出错误提示
+            if(!res.isSucc){
+                alert('网络错误，连接已断开');
+            }
+        }, 2000)
+    }
+
+    return v;
+})
+```
+
+:::tip
+`postDisconnectFlow` 仅当客户端从连接状态变为断开状态时触发。在已断开状态下调用 `client.connect()` 连接失败时会返回错误，但不会触发该 Flow。所以 `client.connect()` 后也有必要进行必要的错误处理机制。
 :::
