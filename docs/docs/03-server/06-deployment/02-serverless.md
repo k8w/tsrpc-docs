@@ -1,8 +1,12 @@
 ---
-title: 部署到 Serverless 云函数
-slug: /docs/server/deployment/serverless.html
-sidebar_position: 3
+id: serverless.html
 ---
+
+# 部署到 Serverless 云函数
+
+:::danger
+此文档还在编写中…… 敬请期待。
+:::
 
 **TSRPC 提供了简单的办法快速适配兼容各个云函数平台**，修改入口点 `index.ts`：
 

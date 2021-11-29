@@ -1,5 +1,15 @@
 ---
 id: use-db.html
+description: 在 TSRPC 中使用 MongoDB、MySQL 等数据库，利用 TypeScript 类型定义自动映射表名和表结构，避免低级错误。
+keywords:
+  - tsrpc
+  - mongodb
+  - mysql
+  - lowdb
+  - 增删改查
+  - nosql
+  - mongo
+  - mongod
 ---
 
 # 使用数据库
@@ -7,9 +17,9 @@ id: use-db.html
 ## 数据库的选择
 
 根据实际情况，有很多数据库可以选择，
-但我们强烈推荐你使用 **支持 JSON 嵌套结构** 的 NoSQL 数据库，原因有二。
+但我们强烈推荐你使用 **支持 JSON 嵌套结构** 的 NoSQL 数据库，因为：
 
-1. 更利于发挥 TypeScript 类型特性，参考 [类型设计](../../engineering/type-design.html)
+1. JSON 嵌套结构更利于发挥 TypeScript 类型特性，参考 [类型设计](../../engineering/type-design.html)
 2. 大幅简化关系型表结构设计，降低维护成本
 3. 无需学习 SQL，纯 API 式调用更容易上手，也规避了 SQL 注入等安全风险
 
