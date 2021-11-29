@@ -30,7 +30,7 @@ yarn create tsrpc-app
 
 1. 安装 `tsrpc`
     ```shell
-    npm install tsrpc --save
+    npm install tsrpc
     # 或者
     yarn add tsrpc
     ```
