@@ -24,7 +24,7 @@ TSRPC 从一开始就被设计为 **二进制** 和 **传输协议无关** 的�
     - 基类 `ApiCall` 代表对 `ApiService` 的调用，通过该对象来获取请求和返回响应。根据实际传输协议派生出 `ApiCallHttp`、`ApiCallWs` 等。
     - 基类 `MsgCall` 代表对 `MsgService` 的调用，通过该对象来获取 Message 内容。根据实际传输协议派生出 `MsgCallHttp`、`MsgCallWs` 等。
 
-了解它们的基类有助于你实现[类型扩展](../flow/flow#类型扩展)，你对基类扩展的所有类型，会对子类也生效。
+了解它们的基类有助于你实现[类型扩展](../flow/flow.html#类型扩展)，你对基类扩展的所有类型，会对子类也生效。
 
 通常，我们希望实现的 API 接口及其它功能是跨协议的，即又能运行在 HTTP 协议，也能运行在 WebSocket 协议。
 所以在 API 实现中，引用的不是 `ApiCallHttp` 或 `ApiCallWs`，而是它们协议无关的基类 `ApiCall`。

@@ -86,7 +86,7 @@ client.unlistenMsg(/^game\//, handler);
 :::
 
 ## 断线重连
-网络的小状况，总是可能时有发生。让你的应用更健壮，你可以通过 [Flow](../flow/flow) 来实现断线重连机制。
+网络的小状况，总是可能时有发生。让你的应用更健壮，你可以通过 [Flow](../flow/flow.html) 来实现断线重连机制。
 
 在客户端，`postDisconnectFlow` 触发于从连接状态变为断开之后（仅 WebSocket），其类型为：
 ```ts

@@ -33,11 +33,11 @@ Message Service 是基于发布 / 订阅模型的服务，消息可以在服务�
 使用 `listenMsg` 和 `unlistenMsg`，就可以像监听事件那样来接收和处理消息。
 
 跟 API 接口一样，消息的传输也会经过运行时的类型检测和二进制序列化，
-所以消息定义也会作为协议的一部分存储在 [ServiceProto](service-proto#serviceproto) 中, 所以我们要先定义它。
+所以消息定义也会作为协议的一部分存储在 [ServiceProto](service-proto.html#serviceproto) 中, 所以我们要先定义它。
 
 ## 定义消息
 跟 API Service 一样，消息的定义也是通过 **名称** 来识别的。
-命名规则在 [之前的文章](service-proto#定义规则) 中已有介绍，即：
+命名规则在 [之前的文章](service-proto.html#定义规则) 中已有介绍，即：
 
 - 文件名为：`Msg{消息名}.ts`，下面的几项都定义于此文件内
 - 消息类型名为：`Msg{消息名}`
@@ -58,7 +58,7 @@ client.sendMsg('Msg名称', {
 ### 服务端发送
 
 服务端同时会存在多个客户端连接，所以要发送消息，首先要决定发送给谁。
-一个客户端，即指 TSRPC [三层结构](structure#协议无关的三层架构) 中的一个 Connection。
+一个客户端，即指 TSRPC [三层结构](../inside/structure.html) 中的一个 Connection。
 向 Connection 发送消息，有两种形式可以实现。
 
 #### 向指定客户端发送

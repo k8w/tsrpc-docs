@@ -37,7 +37,7 @@ export interface ResSubmit {
 ```
 
 - 新协议的请求虽然多了一个 `age` 字段，但由于是可选的，所以旧版协议的请求也能够兼容
-- 新协议的响应虽然多了一个 `time` 字段，对于旧版协议它是一个多余字段，会被[自动剔除](../get-started/type-system.html#字段剔除)
+- 新协议的响应虽然多了一个 `time` 字段，对于旧版协议它是一个多余字段，会被[自动剔除](../../get-started/type-system.html#字段剔除)
 
 ## 类型不兼容的情况
 

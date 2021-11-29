@@ -88,7 +88,7 @@ call.logger.log('xxxxx');
 
 ![](assets/log.png)
 
-如果你希望修改这些前缀，例如在一个前置的 [Flow](../flow/flow) 中解析了登录态，希望在每一条请求日志的前缀中，都增加已登录的用户 ID。
+如果你希望修改这些前缀，例如在一个前置的 [Flow](../flow/flow.html) 中解析了登录态，希望在每一条请求日志的前缀中，都增加已登录的用户 ID。
 可以通过 `call.logger.prefixs` 来修改，例如：
 ```ts
 call.logger.prefixs.push('UserID=123456');

@@ -28,21 +28,21 @@ module.exports = {
           position: 'left',
           label: '文档',
         },
-        // {
-        //   href: '/docs/server/structure',
-        //   position: 'left',
-        //   label: '服务端',
-        // },
-        // {
-        //   href: '/docs/client/install',
-        //   position: 'left',
-        //   label: '客户端',
-        // },
-        // {
-        //   href: '/docs/flow/flow',
-        //   position: 'left',
-        //   label: '中间件',
-        // },
+        {
+          href: '/docs/server/install.html',
+          position: 'left',
+          label: '服务端',
+        },
+        {
+          href: '/docs/client/install.html',
+          position: 'left',
+          label: '客户端',
+        },
+        {
+          href: '/docs/flow/flow.html',
+          position: 'left',
+          label: '中间件',
+        },
         // {
         //   type: 'doc',
         //   docId: 'api/index',

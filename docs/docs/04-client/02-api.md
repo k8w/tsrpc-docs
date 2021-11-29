@@ -115,4 +115,4 @@ client.abortAll();
 
 ## 自定义工作流
 
-你可以通过 [Flow](../flow/flow) 来自定义客户端工作流程，实现诸如 [Session 和 Cookie](../flow/session-and-cookie)、[客户端权限验证](../flow/user-authentication)、[Mock](../flow/mock) 等特性。
+你可以通过 [Flow](../flow/flow.html) 来自定义客户端工作流程，实现诸如 [Session 和 Cookie](../flow/session-and-cookie.html)、[登录态和鉴权](../flow/access.html)、[Mock](../flow/mock.html) 等特性。

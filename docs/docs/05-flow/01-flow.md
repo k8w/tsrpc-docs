@@ -214,11 +214,11 @@ server.flows.preApiCallFlow.push((call: MyCall) => {
 
 ## 例子
 通过灵活的 `Flow`，开发者可以实现很多特性，我们整理了一些常见的场景：
-- [实现 Session 和 Cookie 特性](./session-and-cookie.md)
-- [用户登录和权限验证](./user-authentication.md)
-- [基于二进制的传输加密](./transfer-encryption.md)
-- [前端本地 Mock 测试](./mock.md)
-- [GET 接口、静态页面等自定义 HTTP 响应](./custom-http-response.md)
+- [实现 Session 和 Cookie](./session-and-cookie.html)
+- [登录态和鉴权](./access.html)
+- [二进制传输加密](./encryption.html)
+- [前端本地 Mock 测试](./mock.html)
+- [GET 接口、静态页面等自定义 HTTP 响应](./custom-res.html)
 
 <!-- - 触发事件：例如监听接收到 API 请求的事件，以便统计访问 QPS。
 - 转换数据：例如在发送二进制数据前加密，接收数据前解密。

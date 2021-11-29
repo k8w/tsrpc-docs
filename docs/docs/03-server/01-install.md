@@ -57,7 +57,8 @@ npx tsrpc init
 - dev：本地开发服务相关配置
 - build：构建相关的配置
 
-欲了解更多配置细节，参见 [配置参数说明](xxx) 。
+<!-- TODO -->
+<!-- 欲了解更多配置细节，参见 [配置参数说明](xxx) 。 -->
 
 ## 入口文件
 
@@ -98,7 +99,7 @@ main();
 ```
 
 如果你需要多平台部署，例如同时兼容 Serverless 云函数和 Docker 容器的部署，你可以针对不同平台编写多个入口文件。
-云函数平台的入口文件可参考 [部署到 Serverless 云函数](advanced/serverless.html) 。
+云函数平台的入口文件可参考 [部署到 Serverless 云函数](deployment/serverless.html) 。
 
 ## 命令行工具
 
@@ -114,4 +115,4 @@ main();
 - `npm run sync`：立即同步共享目录
 - `npm run link`：立即创建共享目录的 Symlink
 
-欲了解更多，可参考 [tsrpc-cli 使用说明](TODO) 。
+欲了解更多，可参考 [tsrpc-cli 使用说明](../engineering/tsrpc-cli.html) 。

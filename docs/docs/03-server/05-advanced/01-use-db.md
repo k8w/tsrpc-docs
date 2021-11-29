@@ -144,7 +144,7 @@ export class Global {
 在 TSRPC 下，你可以在协议中直接使用 `ObjectId` 类型，框架会自动完成传输前后的类型转换。
 
 `ObjectId` 是 MongoDB 默认的 `_id` 类型，因为其引用自 `mongodb` NPM 包（前端未安装），所以通常无法在前端通用。
-但通过 [脚手架工具](../get-started/create-tsrpc-app.md) 创建的 TSRPC 全栈项目却做到了这一点，其原理是在前端项目中的 `end.d.ts` 中定义了如下类型：
+但通过 [脚手架工具](../../get-started/create-tsrpc-app.html) 创建的 TSRPC 全栈项目却做到了这一点，其原理是在前端项目中的 `end.d.ts` 中定义了如下类型：
 
 ```ts
 declare module 'mongodb' {
