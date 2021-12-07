@@ -55,7 +55,7 @@ module.exports = {
         //   position: 'left',
         //   label: '示例',
         // },
-        // { to: '/blog', label: 'Blog', position: 'left' },
+        // { to: '/blog', label: '博客', position: 'left' },
         {
           label: 'v3.2', // by default, show active/latest version label
           position: 'right'
@@ -130,12 +130,9 @@ module.exports = {
           //   'https://github.com/k8w/tsrpc-docs/blob/main/',
           routeBasePath: '/'
         },
-        // blog: {
-        //   showReadingTime: true,
-        //   // Please change this to your repo.
-        //   // editUrl:
-        //   //   'https://github.com/k8w/tsrpc-docs/blob/main/',
-        // },
+        blog: {
+          include: ['**/*.{md,mdx}'],
+        },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
