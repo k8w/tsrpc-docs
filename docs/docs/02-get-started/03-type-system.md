@@ -61,10 +61,10 @@ TSRPC 会在 API 接口函数的 **请求输入和响应输出前** 自动进行
 - 在 **请求输入和响应输出前**，将协议中未定义的多余字段自动剔除
 - 剔除后的剩余字段如与协议匹配，则正常执行后续请求和响应流程，不会报错
 
-例如有一个更新用户信息的接口 `user/Register`，其请求格式定义为：
+例如有一个更新用户信息的接口 `user/Update`，其请求格式定义为：
 
 ```ts
-export interface ReqRegister {
+export interface ReqUpdate {
     id: number,
     update: {
         nickname?: string,
