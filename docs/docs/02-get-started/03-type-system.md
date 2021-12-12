@@ -49,7 +49,8 @@ TSRPC 会在 API 接口函数的 **请求输入和响应输出前** 自动进行
 {
     "isSucc": "false",
     "err": {
-        // TODO
+        "message": "Property `password`: Expected to be 'string', actually be 'number'",
+        // ...
     }
 }
 ```
