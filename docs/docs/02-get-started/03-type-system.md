@@ -346,9 +346,9 @@ TSRPC 的二进制传输并非将 JSON 字符串二次编码，而是基于 Type
 
 - 服务端
     - 无需任何配置，天然支持二进制传输
-    - 开启 `new HttpServer()` 时的 `json: true` 配置，允许 JSON 格式的请求
+    - 开启 `new HttpServer()` 时的 `json: true` 配置，将同时允许 JSON 格式和二进制格式的请求
         - 根据请求头自动判断：`Content-Type: application/json`
-    - 安全性要求高的服务，建议关闭 `json: true`，仅允许二进制传输
+    - 安全性要求高的服务，可关闭 `json: true`，仅允许二进制格式传输
 - 客户端
     - 关闭 `new HttpClient()` 时的 `json: true` 配置，即可切换到二进制传输
     - 此时包体将变成乱码，为便于调试你可以增加 `logger: console` 的配置，这将把请求和响应日志打印在控制台上
