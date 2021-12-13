@@ -39,9 +39,10 @@ module.exports = {
           label: '客户端',
         },
         {
-          href: '/docs/flow/flow.html',
+          href: 'https://github.com/k8w/tsrpc-examples',
+          target: '_blank',
           position: 'left',
-          label: '中间件',
+          label: '示例',
         },
         // {
         //   type: 'doc',
