@@ -55,7 +55,7 @@ module.exports = {
         //   position: 'left',
         //   label: '示例',
         // },
-        // { to: '/blog', label: '博客', position: 'left' },
+        { to: '/blog', label: '博客', position: 'left' },
         {
           label: 'v3.2', // by default, show active/latest version label
           position: 'right'
@@ -110,7 +110,7 @@ module.exports = {
       //     ],
       //   },
       // ],
-      copyright: `欢迎加群交流（微信 <b style="color: orange">LoyalSun</b>，请注明来意） <br/>遵循 MIT 开源协议 &nbsp;&nbsp; Copyright © 2016-${new Date().getFullYear()} King Wang &nbsp;&nbsp; <a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备17160324号</a>`,
+      copyright: `<img src="/img/wechat.png" /><p>遵循 MIT 开源协议 &nbsp;&nbsp; Copyright © 2016-${new Date().getFullYear()} King Wang &nbsp;&nbsp; <a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备17160324号</a></p>`,
     },
     gtag: {
       // You can also use your "G-" Measurement ID here.
@@ -164,5 +164,9 @@ module.exports = {
         },
       };
     }
-  ]
+  ],
+  i18n: {
+    defaultLocale: 'zh-Hans',
+    locales: ['zh-Hans'],
+  }
 };

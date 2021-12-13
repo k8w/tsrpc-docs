@@ -1,0 +1,34 @@
+{
+  "title": {
+    "message": "TSRPC",
+    "description": "The title in the navbar"
+  },
+  "item.label.文档": {
+    "message": "文档",
+    "description": "Navbar item with label 文档"
+  },
+  "item.label.服务端": {
+    "message": "服务端",
+    "description": "Navbar item with label 服务端"
+  },
+  "item.label.客户端": {
+    "message": "客户端",
+    "description": "Navbar item with label 客户端"
+  },
+  "item.label.中间件": {
+    "message": "中间件",
+    "description": "Navbar item with label 中间件"
+  },
+  "item.label.博客": {
+    "message": "博客",
+    "description": "Navbar item with label 博客"
+  },
+  "item.label.v3.2": {
+    "message": "v3.2",
+    "description": "Navbar item with label v3.2"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

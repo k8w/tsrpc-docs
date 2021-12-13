@@ -1,0 +1,38 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.docsSidebar.category.快速入门": {
+    "message": "快速入门",
+    "description": "The label for category 快速入门 in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.服务端": {
+    "message": "服务端",
+    "description": "The label for category 服务端 in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.开发进阶": {
+    "message": "开发进阶",
+    "description": "The label for category 开发进阶 in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.部署": {
+    "message": "部署",
+    "description": "The label for category 部署 in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.客户端": {
+    "message": "客户端",
+    "description": "The label for category 客户端 in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.中间件": {
+    "message": "中间件",
+    "description": "The label for category 中间件 in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.全栈工程化": {
+    "message": "全栈工程化",
+    "description": "The label for category 全栈工程化 in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.TSRPC 内部设计": {
+    "message": "TSRPC 内部设计",
+    "description": "The label for category TSRPC 内部设计 in sidebar docsSidebar"
+  }
+}
