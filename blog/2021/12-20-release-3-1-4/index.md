@@ -1,5 +1,5 @@
 ---
-slug: cocos-mutiplayer.html
+slug: release-3-1-4.html
 title: TSRPC 3.1.4 和 tsrpc-cli 2.3.0 更新
 author: k8w
 author_url: https://github.com/k8w
@@ -19,11 +19,11 @@ tags: [TSRPC, 版本更新]
 
 ## tsrpc-cli 2.3.0
 ### 新特性
-- 为避免混淆，默认命令 `tsrpc` 更名为 `tsrpc-cli`
-- 
-- `dev` 命令新增 `--entry` 选项来指定程序入口文件，例如 `tsrpc-cli dev --entry src/xxx.ts`
+- `dev` 命令新增 `--entry` 选项来指定程序入口文件，例如 `tsrpc-cli dev --entry src/xxx.ts` （感谢 @雄贰 的建议）
 
 - `doc` 命令现在支持多级目录嵌套分组了（感谢 @喵喵 的建议）
 - 在 `doc` 命令生成的 Markdown 文档中加入 API 接口目录
+- 为避免混淆，默认命令 `tsrpc` 更名为 `tsrpc-cli`
+
 ### Bug 修复
 - 当使用 `type` 别名定义请求、响应类型时，注释没有生效的 Bug（感谢 @喵喵 提交此问题）
