@@ -9,6 +9,16 @@ tags: [TSRPC, 版本更新]
 
 # TSRPC 3.1.4 和命令行工具更新
 
+`tsrpc` 和 `tsrpc-cli` 迎来例行更新。
+
+所有更新均向后兼容，您可以根据项目需要选择升级与否。
+
+升级方式：
+
+```
+npm i tsrpc@latest tsrpc-cli@latest
+```
+
 ## TSRPC 3.1.4
 ### 新特性
 - `WsServer` 自动检测传输格式是 JSON 还是二进制，Server 端设置 `json: true` 将可以同时兼容二进制和 JSON 传输格式
