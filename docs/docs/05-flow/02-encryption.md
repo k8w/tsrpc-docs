@@ -10,8 +10,8 @@ slug: /docs/flow/encryption.html
 TSRPC 的传输是二进制的，因此加解密算法应当也是基于二进制（`Uint8Array`）的。
 已经有很多成熟算法可以直接使用（如 `RC4`、`AES`、`RES` 等），当然你也可以实现自己的私有算法。
 
-在服务端和客户端，均有 `preSendBufferFlow` 和 `preRecvBufferFlow` 可以让你在发送和接收二进制前做处理。
-所以只需要在 `preSendBufferFlow` 将 Buffer 加密，在 `preRecvBufferFlow` 将 Buffer 解密，即可实现传输加密。
+在服务端和客户端，均有 `preSendDataFlow` 和 `preRecvDataFlow` 可以让你在发送和接收二进制前做处理。
+所以只需要在 `preSendDataFlow` 将 Buffer 加密，在 `preRecvDataFlow` 将 Buffer 解密，即可实现传输加密。
 
 如果加解密逻辑在前后端相同，你也可以把这部分代码放在 `shared` 目录共享。
 ## 实现
@@ -58,13 +58,17 @@ export class EncryptUtil {
 
 ```ts
 // 发送前加密
-server.flows.preSendBufferFlow.push(v => {
-    v.buf = EncryptUtil.encrypt(v.buf);
+server.flows.preSendDataFlow.push(v => {
+    if(v.data instanceof Uint8Array){
+        v.data = EncryptUtil.encrypt(v.data);
+    }
     return v;
 });
 // 接收前解密
-server.flows.preRecvBufferFlow.push(v => {
-    v.buf = EncryptUtil.decrypt(v.buf);
+server.flows.preRecvDataFlow.push(v => {
+    if(v.data instanceof Uint8Array){
+        v.data = EncryptUtil.decrypt(v.data);
+    }    
     return v;
 })
 ```
@@ -73,13 +77,17 @@ server.flows.preRecvBufferFlow.push(v => {
 
 ```ts
 // 发送前加密
-client.flows.preSendBufferFlow.push(v => {
-    v.buf = EncryptUtil.encrypt(v.buf);
+client.flows.preSendDataFlow.push(v => {
+    if(v.data instanceof Uint8Array){
+        v.data = EncryptUtil.encrypt(v.data);
+    }    
     return v;
 });
 // 接收前解密
-client.flows.preRecvBufferFlow.push(v => {
-    v.buf = EncryptUtil.decrypt(v.buf);
+client.flows.preRecvDataFlow.push(v => {
+    if(v.data instanceof Uint8Array){
+        v.data = EncryptUtil.decrypt(v.data);
+    } 
     return v;
 })
 ```

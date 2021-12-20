@@ -10,6 +10,12 @@ module.exports = {
   organizationName: 'k8w', // Usually your GitHub org/user name.
   projectName: 'tsrpc', // Usually your repo name.
   themeConfig: {
+    algolia: {
+      appId: 'NOAY1RDDDM',
+      apiKey: '27d8b5642756e4dd9ea5f2f3ebfde8c6',
+      indexName: 'tsrpc_cn',
+      contextualSearch: true
+    },
     colorMode: {
       defaultMode: 'light',
       disableSwitch: true,
@@ -58,7 +64,7 @@ module.exports = {
         // },
         { to: '/blog', label: '博客', position: 'left' },
         {
-          label: 'v3.2', // by default, show active/latest version label
+          label: 'v3.1.4', // by default, show active/latest version label
           position: 'right'
         },
         {

@@ -17,7 +17,7 @@ slug: /docs/flow/custom-res.html
 
 ## 实现
 
-在 `server.flows.preRecvBufferFlow` 的节点函数中，有一个参数字段为 `conn`，
+在 `server.flows.preRecvDataFlow` 的节点函数中，有一个参数字段为 `conn`，
 它即是实际传输协议的 `Connection`。
 由于 TSRPC 实现为跨传输协议的，所以你直接取到的 `conn` 是 `BaseConnection` 类型。
 
@@ -31,7 +31,7 @@ slug: /docs/flow/custom-res.html
 例如：
 ```ts
 // Custom HTTP Reponse
-server.flows.preRecvBufferFlow.push(v => {
+server.flows.preRecvDataFlow.push(v => {
     let conn = v.conn as HttpConnection;
 
     if (conn.httpReq.method === 'GET') {
@@ -51,7 +51,7 @@ server.flows.preRecvBufferFlow.push(v => {
 
 ```ts
 // Custom HTTP Reponse
-server.flows.preRecvBufferFlow.push(async v => {
+server.flows.preRecvDataFlow.push(async v => {
     let conn = v.conn as HttpConnection;
 
     if (conn.httpReq.method === 'GET') {
