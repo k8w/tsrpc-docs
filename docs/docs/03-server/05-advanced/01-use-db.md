@@ -120,14 +120,14 @@ export interface DbCollectionType {
 
 然后，自行实现一个 `.collection` 方法，利用 TS 的泛型，自动关联表名和类型名：
 ```ts
-import { Collection, Db, MongoClient } from "mongodb";
+import { Collection, Db, MongoClient, OptionalId } from "mongodb";
 
 export class Global {
 
     static db: Db;
     static async initDb() { ... }
 
-    static collection<T extends keyof DbCollectionType>(col: T): Collection<DbCollectionType[T]> {
+    static collection<T extends keyof DbCollectionType>(col: T): Collection<OptionalId<DbCollectionType[T]>> {
         return this.db.collection(col);
     }
 }
