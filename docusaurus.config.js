@@ -64,7 +64,7 @@ module.exports = {
         // },
         { to: '/blog', label: '博客', position: 'left' },
         {
-          label: 'v3.1.4', // by default, show active/latest version label
+          label: 'v3.2.0', // by default, show active/latest version label
           position: 'right'
         },
         {
