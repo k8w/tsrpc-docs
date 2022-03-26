@@ -64,7 +64,7 @@ export const conf = {
 **服务端：**
 
 ```ts
-server.flows.preApiCallFlow.push(v => {
+server.flows.preApiCallFlow.push(call => {
     // 解析登录态
     call.currentUser = await UserUtil.parseSSO(req.__ssoToken);
     // 获取协议配置

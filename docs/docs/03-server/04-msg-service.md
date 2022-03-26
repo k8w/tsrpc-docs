@@ -102,7 +102,7 @@ server.broadcastMsg('消息名', {
 第 1 个参数传入消息名，可以监听指定的消息，例如监听 `MsgChat` 消息：
 
 ```ts
-let handler = server.listenMsg('Chat', (call: MsgChat) => {
+let handler = server.listenMsg('Chat', call => {
     // call.msg 即为 MsgChat
     console.log(call.msg);
 });
@@ -222,7 +222,7 @@ export class Room {
 当用户在房间内发送消息时，即可根据 `roomId` 找到对应的 `Room` 对象，然后调用 `room.sendRoomMsg` 来发送房间内消息。
 
 ```ts
-server.listen('Chat', (call: MsgChat)=>{
+server.listen('Chat', call => {
     if(call.conn.roomId){
         let room = Room.rooms[call.conn.roomId];
         room.sendRoomMsg(call.msg);
