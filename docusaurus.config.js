@@ -14,7 +14,9 @@ module.exports = {
       appId: 'O9NZ2BV6UU',
       apiKey: 'f771c1e8c0ef34dbb75a314d822707ff',
       indexName: 'tsrpc',
-      contextualSearch: true
+      contextualSearch: false,
+      searchParameters: {},
+      searchPagePath: 'search'
     },
     colorMode: {
       defaultMode: 'light',
@@ -65,7 +67,8 @@ module.exports = {
         { to: '/blog', label: '博客', position: 'left' },
         {
           label: 'v3.2.3', // by default, show active/latest version label
-          position: 'right'
+          position: 'right',
+          to: '/blog/tags/版本更新'
         },
         {
           href: 'https://github.com/k8w/tsrpc',
@@ -119,12 +122,6 @@ module.exports = {
       // ],
       copyright: `<img src="/img/wechat.png" /><p>遵循 MIT 开源协议 &nbsp;&nbsp; Copyright © 2016-${new Date().getFullYear()} King Wang &nbsp;&nbsp; <a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备17160324号</a></p>`,
     },
-    gtag: {
-      // You can also use your "G-" Measurement ID here.
-      trackingID: 'G-D8LMPPSZ18',
-      // Optional fields.
-      anonymizeIP: false, // Should IPs be anonymized?
-    },
   },
   presets: [
     [
@@ -142,6 +139,12 @@ module.exports = {
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
+        },
+        gtag: {
+          // You can also use your "G-" Measurement ID here.
+          trackingID: 'G-D8LMPPSZ18',
+          // Optional fields.
+          anonymizeIP: false, // Should IPs be anonymized?
         },
       },
     ],
