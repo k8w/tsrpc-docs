@@ -11,9 +11,9 @@ module.exports = {
   projectName: 'tsrpc', // Usually your repo name.
   themeConfig: {
     algolia: {
-      appId: 'NOAY1RDDDM',
-      apiKey: '27d8b5642756e4dd9ea5f2f3ebfde8c6',
-      indexName: 'tsrpc_cn',
+      appId: 'O9NZ2BV6UU',
+      apiKey: 'f771c1e8c0ef34dbb75a314d822707ff',
+      indexName: 'tsrpc',
       contextualSearch: true
     },
     colorMode: {
