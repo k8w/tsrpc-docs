@@ -45,7 +45,7 @@ https://github.com/k8w/tsrpc-examples/tree/main/examples/serverless-faas
 阿里云函数计算入口点：
 ```ts title="aliyun-fc.ts"
 // 阿里云 - 函数计算：FC
-// https://cloud.tencent.com/product/scf
+// https://www.aliyun.com/product/fc/
 
 import { init, server } from "./models/server";
 
