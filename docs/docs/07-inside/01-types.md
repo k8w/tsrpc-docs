@@ -233,7 +233,7 @@ interface A {
     c: boolean[]
 }
 
-// { c: boolean[] }
+// { a: string }
 type B = Omit<A, 'b' | 'c'>
 ```
 
