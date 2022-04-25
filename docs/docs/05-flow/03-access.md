@@ -68,7 +68,7 @@ server.flows.preApiCallFlow.push(call => {
     // 解析登录态
     call.currentUser = await UserUtil.parseSSO(req.__ssoToken);
     // 获取协议配置
-    let conf = v.service.conf;
+    let conf = call.service.conf;
     // 若协议配置为需要登录，则阻止未登录的请求
     if (conf?.needLogin && !call.currentUser) {
         call.error('您还未登录', { code: 'NEED_LOGIN' });
