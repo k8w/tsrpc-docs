@@ -129,7 +129,7 @@ pm2 start index.js -i max
 首先，根据你的业务、组织结构，运行时的资源规划考量，设计好你要拆分出哪几个服务。
 然后，有两种方式可以选择：
 
-- 拆分为不同的项目
+- 拆分为不同的独立项目
 - 在同一项目下拆分入口点
 
 一般来说，项目跟项目之间不是完全独立的。会有相当一部分代码可以共用，例如数据库表结构定义、登录态鉴权逻辑、公共业务逻辑等等。
@@ -142,28 +142,81 @@ pm2 start index.js -i max
 
 当然，无论上述哪个方式都会引入额外的学习和维护成本。如果你的情况允许，我们更推荐你 **在同一项目下拆分入口点**。
 
-<!-- 对于无状态服务而言（例如增删改查的 HTTP API），有时候拆分服务，通常仅仅是为了方便团队的分工协作和项目模块解耦，比如现在流行的微服务架构。
-但对于运行时和水平扩展来说，其实没所谓。因为反正可以通过加机器来无脑扩展，那么 1 个服务跑 200 个接口和 10 个服务各跑 20 个接口其实并没有啥区别。
+1. 首先根据不同项目拆分协议和 API 实现目录
+    ![图]()
+2. 将原入口点 `index.ts` 拆分为多个
+3. 开发时，独立运行各个服务，有两种方式可选：
+    - 拆分为多个 `tsrpc.config.ts`，在 `npx tsrpc-cli dev --config xxx.config.ts` 时指定
+    - 只保留单个 `tsrpc.config.ts`，通过 `entry` 参数指定启动入口：`npx tsrpc-cli dev --entry src/xxx.ts`
 
-所以无状态服务的拆分，有时更多取决于你的业务和组织架构。
-有状态服务则不然。 -->
+在同一项目下拆分服务，有几点好处：
 
+1. 天然跨项目复用代码
+2. 运维部署成本更低，例如只需要构建一份容器镜像，只需在部署时修改入口点，即可完成各个服务的部署
 
-<!-- - 为什么要拆分服务？
-- 如何拆分服务？（在同一项目下，按部署拆分，按性能瓶颈拆分）
-- 拆分后的目录结构
-    - 运行
-    - 配置 -->
+最后，你可以通过环境变量来控制一些配置（例如运行端口号等），来实现多份服务的灵活部署。
 
-#### 房间服务
+```ts
+// 通过环境变量 PORT 来控制配置
+const port = parseInt(process.env['PORT'] || '3000');
+```
+
+运行时设置环境变量，可以借助跨平台的 `cross-env`：
+```shell
+npm i -g cross-env
+
+# 开发
+cross-env FIRST_ENV=one SECOND_ENV=two npx tsrpc-cli dev --entry src/xxx.ts
+
+# 部署
+cross-env FIRST_ENV=one SECOND_ENV=two node xxx.js
+```
+
+如果你使用 PM2，也可以借助其 `ecosystem.config.js` 来完成配置：
+```js title=ecosystem.config.js
+module.exports = {
+  /**
+   * Application configuration section
+   * http://pm2.keymetrics.io/docs/usage/application-declaration/
+   */
+  apps : [
+    {
+      name      : 'ServerA',
+      script    : 'a.js',
+      env: {
+        PORT: '3000',
+        FIRST_ENV: 'One',
+        SECOND_ENV: 'Two'
+      }
+    },
+    {
+      name      : 'ServerB',
+      script    : 'b.js',
+      env: {
+        PORT: '3001',
+        FIRST_ENV: 'One',
+        SECOND_ENV: 'Two'
+      }
+    }
+  ]
+};
+```
+
+```shell
+# 启动
+pm2 start ecosystem.config.js
+```
+
+## 核心架构
+
+### 房间服务
 - 封装为单独的 Class
 - 房间 = 一堆连接的聚合
 
-#### 匹配服务
+### 匹配服务
 - 能获取所有待匹配房间、用户的实时状态
 - 定时运行匹配逻辑，将匹配用户分配给房间
 
-## 核心架构
 <!-- - 非标准答案，前沿方案
     - 一组服务：MatchServer : RoomServer = 1 : N
     - 部署多组服务，MatchServers 为无状态服务 --> -->
