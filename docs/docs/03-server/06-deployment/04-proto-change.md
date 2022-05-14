@@ -83,3 +83,33 @@ export interface ResSubmit {
 2. 再发布客户端，客户端切换到新版 URL
 3. 发布完成后，等待一段时间，再弃用旧版接口
     - 因为可能仍有部分用户停留在旧版应用中没有刷新
+
+:::note 已知问题
+如果你新增的字段中包含了索引签名，例如：
+
+```ts
+// 旧协议
+export interface ResXXX { 
+    a: string
+}
+
+// 新协议
+export interface ResXXX { 
+    a: string,
+    b: { [key: string]: number } 
+}
+```
+
+此时可能由于编码机制原因，导致旧协议的客户端无法兼容，这个问题会在 TSRPC 4.0 中解决。
+目前，你可以通过把新字段类型改为 `any` 临时解决：
+
+```ts
+// 新协议
+export interface ResXXX { 
+    a: string,
+    b: any
+}
+
+当然，还是更推荐使用 **万能的蓝绿发布**。
+```
+:::
