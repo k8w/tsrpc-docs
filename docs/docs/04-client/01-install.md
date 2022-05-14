@@ -111,3 +111,26 @@ export const client = 是微信小程序 ?
 
 由于 Cocos Creator 天然就是 NPM 支持良好，所以无需额外配置，参照上述例子 `npm install` 安装和 `import` 使用即可。
 如果你的项目是跨平台的，那么也需要像上面的例子那样，根据运行平台来创建对应的客户端。
+
+## 在 Laya 中使用
+
+Laya 默认不支持引用 NPM，你只需稍稍做一些修改即可使 Laya 支持 NPM，方法如下。
+
+在命令行中执行：
+
+```shell
+npm i rollup-plugin-node-resolve rollup-plugin-commonjs -D
+```
+
+修改 `.laya/compile.js`，加入：
+
+```js
+const resolve = require('rollup-plugin-node-resolve');
+const commonjs = require('rollup-plugin-commonjs')
+```
+
+搜索 `plugins` 部分，修改以下 3 处：
+
+![](./assets/laya.png)
+
+之后，直接按上述方式，`npm install` 和 `import` 使用 TSRPC 客户端即可。
