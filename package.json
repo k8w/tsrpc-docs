@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider docusaurus start -p 4000",
-    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider docusaurus build",
+    "start": "docusaurus start -p 4000",
+    "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
