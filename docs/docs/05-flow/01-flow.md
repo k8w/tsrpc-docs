@@ -103,6 +103,8 @@ client.flows.preCallApiFlow.push(v=>{
 | postApiReturnFlow | 将 `callApi` 的结果返回给调用方之后 |
 | preSendMsgFlow | 执行 `sendMsg` 之前 |
 | postSendMsgFlow | 执行 `sendMsg` 之后 |
+| preRecvMsgFlow | 接收服务端发送的 Message 之前 |
+| postRecvMsgFlow | 接收服务端发送的 Message 之后 |
 | preSendDataFlow | 向服务端发送任何数据之前 |
 | preRecvDataFlow | 处理服务端发来的任何数据之前 |
 | preConnectFlow | 连接到服务端之前（仅 WebSocket） |
