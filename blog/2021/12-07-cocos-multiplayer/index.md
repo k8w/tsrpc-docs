@@ -1,5 +1,4 @@
 ---
-slug: cocos-mutiplayer.html
 title: TSRPC + Cocos，多人实时对战 So Easy！
 author: k8w
 author_url: https://github.com/k8w

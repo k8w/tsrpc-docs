@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'TSRPC - 专为 TypeScript 设计的 RPC 框架',
-  tagline: '专为 TypeScript 设计的 RPC 框架，经千万级用户验证\n适用于 HTTP API、WebSocket 实时应用、NodeJS 微服务等',
+  title: 'TSRPC - 专为 TypeScript 设计的全栈 RPC 框架',
+  tagline: '专为 TypeScript 设计的全栈 RPC 框架，经千万级用户验证\n适用于 HTTP API、WebSocket 实时应用、NodeJS 微服务等',
   url: 'https://tsrpc.cn',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -10,6 +10,7 @@ module.exports = {
   organizationName: 'k8w', // Usually your GitHub org/user name.
   projectName: 'tsrpc', // Usually your repo name.
   themeConfig: {
+    metadata: [{ name: 'keywords', content: 'tsrpc,typescript,全栈,rpc,websocket,nodejs,微服务,nodejs框架,typescript框架,全栈框架,rpc框架,k8w,kingworks,tsbuffer' }],
     algolia: {
       appId: 'O9NZ2BV6UU',
       apiKey: 'f771c1e8c0ef34dbb75a314d822707ff',
@@ -66,7 +67,7 @@ module.exports = {
         // },
         { to: '/blog', label: '博客', position: 'left' },
         {
-          label: 'v3.4.0', // by default, show active/latest version label
+          label: 'v3.4.1', // by default, show active/latest version label
           position: 'right',
           to: '/blog/tags/版本更新'
         },

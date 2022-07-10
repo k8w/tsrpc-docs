@@ -1,5 +1,4 @@
 ---
-slug: room-management.html
 author: k8w
 author_url: https://github.com/k8w
 author_image_url: https://avatars.githubusercontent.com/u/1681689?v=4
@@ -13,11 +12,11 @@ tags: [TSRPC, Cocos, 多人游戏, 架构]
     - 同步策略
     - 问题：分房间，能撑多少用户 -->
 
-去年年底，在 [《TSRPC + Cocos，多人实时对战 So Easy！》](cocos-mutiplayer.html) 中我们分享了如何使用 TSRPC + Cocos 开发多人实时对战游戏，收到不少开发者的反馈。很多朋友都在问，[上次的案例](https://tsrpc.cn/fight/) 怎么才能改成支持多房间的，性能怎么样，能支持多少用户同时在线等等。
+去年年底，在 [《TSRPC + Cocos，多人实时对战 So Easy！》](../../2021/12-07-cocos-multiplayer/index.md) 中我们分享了如何使用 TSRPC + Cocos 开发多人实时对战游戏，收到不少开发者的反馈。很多朋友都在问，[上次的案例](https://tsrpc.cn/fight/) 怎么才能改成支持多房间的，性能怎么样，能支持多少用户同时在线等等。
 
 3 月底，腾讯云发布公告 [MGOBE 将于 2022 年 6 月 1 日正式下线](https://cloud.tencent.com/document/product/1038/71494)，也给不少开发者带来一些困扰。没有了 MGOBE，还有哪些替代方案？
 
-本篇文章，将在 [上次的分享](cocos-mutiplayer.html) 基础上介绍，如何利用 TSRPC 实现 MGOBE 同款的房间系统和匹配系统，并利用分布式架构轻松支持十万人同时在线。
+本篇文章，将在 [上次的分享]((../../2021/12-07-cocos-multiplayer/index.md)) 基础上介绍，如何利用 TSRPC 实现 MGOBE 同款的房间系统和匹配系统，并利用分布式架构轻松支持十万人同时在线。
 
 ## 需求
 

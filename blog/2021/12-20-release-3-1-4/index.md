@@ -1,5 +1,4 @@
 ---
-slug: release-3-1-4.html
 title: TSRPC 3.1.4 和 tsrpc-cli 2.3.0 更新
 author: k8w
 author_url: https://github.com/k8w

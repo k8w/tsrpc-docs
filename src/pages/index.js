@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <Layout
       // title={`Hello from ${siteConfig.title}`}
-      description="TSRPC 是专为 TypeScript 设计的 RPC 框架，适用于 HTTP API、WebSocket 实时应用、NodeJS 微服务，经千万级用户验证。比 JSON 更强大，类型安全，支持二进制传输。"
+      description="TSRPC 是专为 TypeScript 设计的全栈 RPC 框架，适用于 HTTP API、WebSocket 实时应用、NodeJS 微服务，经千万级用户验证。比 JSON 更强大，类型安全，支持二进制传输。"
       keywords='TSRPC,TypeScript,WebSocket,OpenAPI,Swagger,TypeScript RPC,NodeJS,Node,NodeJS框架,gRPC,NestJS,Thrift,socketIO,protobuf,后端框架,后台框架,TypeScript序列化,TypeScript运行时,k8w'
     >
       <HomepageHeader />
