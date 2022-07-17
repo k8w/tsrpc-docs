@@ -13,15 +13,10 @@ function HomepageHeader() {
       <div className="container">
         <h1 className={"hero__title " + styles.title}>
           {/* <img src="/img/logo.svg" className={styles.logo} /> */}
-          <img src="/img/text_logo.svg" className={styles.textLogo} />
+          <img src="img/text_logo.svg" className={styles.textLogo} />
         </h1>
         <p className={"hero__subtitle " + styles.subTitle}>{siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <Link
-            className={styles.normal}
-            to="https://github.com/k8w/tsrpc">
-            GitHub
-          </Link>
           <Link
             className={styles.primary}
             to="/docs/introduction.html">

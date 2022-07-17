@@ -2,8 +2,8 @@
 module.exports = {
   title: 'TSRPC - 专为 TypeScript 设计的全栈 RPC 框架',
   tagline: '专为 TypeScript 设计的全栈 RPC 框架，经千万级用户验证\n适用于 HTTP API、WebSocket 实时应用、NodeJS 微服务等',
-  url: 'https://tsrpc.cn',
-  baseUrl: '/',
+  url: 'https://tsrpc.cn/',
+  baseUrl: '/baiduapp/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -47,12 +47,12 @@ module.exports = {
           position: 'left',
           label: '客户端',
         },
-        {
-          href: 'https://github.com/k8w/tsrpc-examples',
-          target: '_blank',
-          position: 'left',
-          label: '示例',
-        },
+        // {
+        //   href: 'https://github.com/k8w/tsrpc-examples',
+        //   target: '_blank',
+        //   position: 'left',
+        //   label: '示例',
+        // },
         // {
         //   type: 'doc',
         //   docId: 'api/index',
@@ -71,11 +71,11 @@ module.exports = {
           position: 'right',
           to: '/blog/tags/版本更新'
         },
-        {
-          href: 'https://github.com/k8w/tsrpc',
-          label: 'GitHub',
-          position: 'right',
-        },
+        // {
+        //   href: 'https://github.com/k8w/tsrpc',
+        //   label: 'GitHub',
+        //   position: 'right',
+        // },
       ],
     },
     footer: {
@@ -121,7 +121,7 @@ module.exports = {
       //     ],
       //   },
       // ],
-      copyright: `<img src="/img/wechat.png" /><p>遵循 MIT 开源协议 &nbsp;&nbsp; Copyright © 2016-${new Date().getFullYear()} King Wang &nbsp;&nbsp; <a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备17160324号</a></p>`,
+      copyright: `遵循 MIT 开源协议 &nbsp;&nbsp; Copyright © 2016-${new Date().getFullYear()} King Wang`,
     },
   },
   presets: [
