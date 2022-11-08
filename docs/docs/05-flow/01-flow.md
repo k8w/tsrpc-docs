@@ -126,7 +126,11 @@ TSRPC 支持以如下的方式进行类型扩展：
 
 在 `declare module 'tsrpc'` 中直接扩展现有的类型：
 
-```ts
+:::info 重要
+类型扩展应当写在任意被引用的 `.ts` 文件中，而不是 `.d.ts` 中。
+:::
+
+```ts title=index.ts
 declare module 'tsrpc' {
     export interface BaseConnection {
         // 自定义的新字段
