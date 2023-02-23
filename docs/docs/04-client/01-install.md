@@ -153,3 +153,8 @@ let client = new WsClient(serviceProto, {
   server: 'ws://127.0.0.1:3000',
 });
 ```
+
+:::info 注意
+不要按 Laya 的文档从相对路径引用，例如 `import { WsClient } from '../node_modules/tsrpc-browser/index'`，这会导致类型错误。
+应当按上述指引，修改 `tsconfig.json`，然后直接从 `'tsrpc-browser'` 引用。
+:::
